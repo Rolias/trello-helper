@@ -1,0 +1,7 @@
+node_modules
+*.log
+.environment
+_local/
+!.eslintrc
+!.travis.yml
+!.gitignore

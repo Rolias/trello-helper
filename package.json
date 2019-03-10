@@ -1,0 +1,52 @@
+{
+  "name": "trello-helper",
+  "private": true,
+  "version": "1.0.0",
+  "engines": {
+    "node": ">10.0.0"
+  },
+  "description": "A basic project for running some node.js code with tests",
+  "main": "index.js",
+  "scripts": {
+    "start": "run-s start:src",
+    "start:all": "run-p security-check start:src lint:watch test:watch",
+    "start:src": "node src/index.js",
+    "start:loop": "nodemon src/index.js",
+    "security-check": "npm audit",
+    "lint": "esw src src buildScripts --color",
+    "lint:watch": "npm run lint -- --watch",
+    "test": "mocha --reporter progress \"src/**/*.test.js\"",
+    "test:watch": "npm run test -- --watch",
+    "test:cov": "nyc mocha \"src/**/*.test.js\"",
+    "watch": "run-p lint:watch test:watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Rolias/trello-helper.git"
+  },
+  "keywords": [
+    "trello",
+    "api"
+  ],
+  "author": "Tod Gentille",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rolias/trello-helper/issues"
+  },
+  "homepage": "https://github.com/Rolias/trello-helper#readme",
+  "dependencies": {
+    "winston": "x"
+  },
+  "devDependencies": {
+    "@types/node": "x",
+    "chai": "x",
+    "eslint": "x",
+    "eslint-watch": "x",
+    "jsdoc": "^3.5.5",
+    "mocha": "x",
+    "nodemon": "^1.18.10",
+    "npm-run-all": "x",
+    "nyc": "x",
+    "sinon": "x"
+  }
+}

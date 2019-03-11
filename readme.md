@@ -1,27 +1,28 @@
-# Bare Bones Starter Kit
+# Trello Helper
 
-This is a pretty bare bones starter kit. It does have support for mocha and linting. None of the linting or testing is run automatically. While there is a .travis.yml file it doesn't have to do anything. See the alm-starter-kit (Application Life Cycle management) for a more comprehensive Continuous Deployment approach.
+This project is designed to make using the Trello API a little easier. It wraps the `get`, `put` and `post`
+commands. It also exposes higher level common commands needed for working with lists and cards.  
 
-## Basic Git Stuff
+## Installation
 
-After cloning delete the .git folder from the Finder
-Then create a new repo up in GitHub (don't create the readme)
-At the command line
+`npm install trello-helper`
 
-```bash
-git init
-#update the readme and commit locally in vscode
-#change basic-starter-kit.git to the name of the new github repo
-git remote add origin git@github.com:Rolias/new-github-name-goes-here.git
-git push -u origin master
+## Authorization
+
+When you require this package you should immediately call the `auth` routine and pass in the path to your json file that contains your credentials. If you store those at the root level of the project and name it .env.json you can just call `auth()` with no parameter. The structure of the JSON file is as follows:
+
+```JSON
+{
+  "trelloHelper": {
+    "appKey": "your app key",
+    "token": "your token value"
+  }
+}
 ```
 
-After those two commands are run, VScode can do push and pull
-
-Don't forget to `npm install`
-to install all the packages in the package.json
+You can have other items in this file but `trelloHelper` must be a top-level object in the file with the indicated property names. Of course you must put in a valid app key and token for both properties.  
 
 ## Dependencies
 
-The only dependency for the non-development side is winston for logging.  
-Packages all use "x" for the semver flag so on a new project the latest versions will get pulled in.
+`node-trello` 
+`winston` logging tool

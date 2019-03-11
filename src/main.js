@@ -1,2 +1,13 @@
+const envCreate = require("env-create")
 const logger = require("./util/logger")
-logger.info("hello node world!") 
+const trello = require("./trello")
+logger.info("hello trello world!")
+
+
+const auth = (path) => {
+  envCreate.load({path})
+}
+module.exports = {
+  auth,
+  trello,
+}

@@ -1,14 +1,10 @@
-
 require("env-create").load({
   path: "/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json",
   debug: "true",
 })
 const NodeTrello = require("node-trello")
-const creds = require("../_local/trello-credentials")
 const util = require("util")
 const logger = require("./util/logger")
-//const nodeTrello = new NodeTrello(creds.appKey, creds.token)
-
 
 
 let getP

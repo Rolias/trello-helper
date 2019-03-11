@@ -3,6 +3,7 @@ chai.should()
 // const sandbox = require('sinon').createSandbox()
 const trello = require('./trello')
 const FAKE_ID = '12345'
+const FAKE_COMMENT = 'Message for Comment'
 const rejectTrello = {
 
   get(cmd, cb) {cb('get rejected', null)},
@@ -12,6 +13,8 @@ const rejectTrello = {
 
 const fakeTrello = {
   get(cmd, cb) {cb('', {cmd})},
+  put(cmd, params, cb) {cb('', {type: 'put', cmd, params})},
+  post(cmd, params, cb) {cb('', {type: 'post', cmd, params})},
 }
 
 describe('trello ', () => {})
@@ -47,9 +50,17 @@ describe('trello ', () => {})
     before(() => {
       trello.init(fakeTrello)
     })
-    it('should...', async () => {
+    it('getListCards() should return id', async () => {
       const result = await trello.getListCards(FAKE_ID)
       result.cmd.should.contain(FAKE_ID)
+    })
+
+    it('setComment() should return something', async () => {
+      const cardParams = {card: {id: FAKE_ID}, text: FAKE_COMMENT}
+      const result = await trello.setComment(cardParams)
+      result.type.should.equal('post')
+      result.cmd.should.contain(FAKE_ID)
+      result.params.text.should.contain(FAKE_COMMENT)
     })
   })
 }

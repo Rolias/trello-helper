@@ -1,3 +1,4 @@
+// @ts-check
 const chai = require('chai')
 chai.should()
 const trello = require('./trello')
@@ -19,7 +20,7 @@ describe.only('trello module', () => {
       .catch(err => {
         console.log('INT TEST THROW:', err)
       })
-    console.log(result)
+    // @ts-ignore
     result.length.should.be.gt(3)
   })
 })

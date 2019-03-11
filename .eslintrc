@@ -1,0 +1,116 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+  "rules": {
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "prefer-arrow-callback": "error",
+    "no-confusing-arrow": "error",
+    "arrow-spacing": "error",
+    "arrow-parens": [
+      "off",
+      "always",
+      {
+        "requireForBlockBody": true
+      }
+    ],
+    "arrow-body-style": "error",
+    "no-console": "off",
+    "max-len": [
+      1,
+      {
+        "code": 132,
+        "ignoreStrings": true
+      }
+    ],
+    "no-new-object": "error",
+    "object-shorthand": "error",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "no-prototype-builtins": "error",
+    "no-array-constructor": "error",
+    "array-callback-return": "error",
+    "prefer-destructuring": "error",
+    "prefer-template": "error",
+    "template-curly-spacing": [
+      "error",
+      "never"
+    ],
+    "no-eval": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-const-assign": "error",
+    "func-style": "error",
+    "wrap-iife": "error",
+    "no-loop-func": "error",
+    "prefer-rest-params": "error",
+    "spaced-comment": "error",
+    "space-before-blocks": "error",
+    "keyword-spacing": "error",
+    "space-infix-ops": "error",
+    "newline-per-chained-call": "error",
+    "no-whitespace-before-property": "error",
+    "padded-blocks": [
+      "warn",
+      "never",
+      {
+        "classes": "always"
+      }
+    ],
+    "space-in-parens": "error",
+    "array-bracket-spacing": "error",
+    "block-spacing": [
+      "error",
+      "never"
+    ],
+    "comma-spacing": "error",
+    "func-call-spacing": "error",
+    "object-curly-spacing": "error",
+    "no-multiple-empty-lines": "error",
+    "comma-style": "error",
+    "comma-dangle": [
+      "warn",
+      {
+        "arrays": "never",
+        "objects": "always-multiline",
+        "imports": "never",
+        "exports": "always",
+        "functions": "ignore"
+      }
+    ],
+    "semi": [
+      "warn",
+      "never",
+      {
+        "beforeStatementContinuationChars": "always"
+      }
+    ],
+    "no-new-wrappers": "error",
+    "radix": "error",
+    "id-length": [
+      "warn",
+      {
+        "min": 1,
+        "max": 28
+      }
+    ],
+    "camelcase": "error",
+    "new-cap": "error",
+    "no-restricted-globals": "error",
+    "eol-last": "off"
+  }
+}

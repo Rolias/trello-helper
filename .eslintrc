@@ -14,7 +14,7 @@
   "rules": {
     "quotes": [
       "error",
-      "double"
+      "single"
     ],
     "prefer-arrow-callback": "error",
     "no-confusing-arrow": "error",

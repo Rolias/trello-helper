@@ -1,7 +1,7 @@
 # Trello Helper
 
 This project is designed to make using the Trello API a little easier. It wraps the `get`, `put` and `post`
-commands. It also exposes higher level common commands needed for working with lists and cards.  
+commands. It also exposes higher level common commands needed for working with lists and cards. All functions are asynchronous and can use the `async/await` syntax.
 
 ## Installation
 

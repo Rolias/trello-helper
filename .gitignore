@@ -2,6 +2,7 @@ node_modules
 *.log
 .environment
 _local/
+/out
 !.eslintrc
 !.travis.yml
 !.gitignore

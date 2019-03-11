@@ -1,4 +1,4 @@
-const {createLogger, format, transports} = require("winston")
+const {createLogger, format, transports} = require('winston')
 
 // const levels = { 
 //   error: 0, 
@@ -10,7 +10,7 @@ const {createLogger, format, transports} = require("winston")
 // };
 
 const logger = createLogger({
-  level: "debug",
+  level: 'info',
   format: format.combine(
     format.colorize(),
     format.simple()

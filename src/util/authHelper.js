@@ -10,7 +10,7 @@ let trelloAuth
 */
 const init = () => {
   if (process.env.trelloHelper === undefined) {
-    throw ("FATAL ERROR: environment variable with credentials is missing")
+    throw ('FATAL ERROR: environment variable with credentials is missing')
   }
   trelloAuth = JSON.parse(process.env.trelloHelper)
   initialized = true

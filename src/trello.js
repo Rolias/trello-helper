@@ -1,46 +1,64 @@
-require("env-create").load({
-  path: "/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json",
-  debug: "true",
-})
-const NodeTrello = require("node-trello")
-const util = require("util")
-const logger = require("./util/logger")
+const NodeTrello = require('node-trello')
+const logger = require('./util/logger')
+const authHelper = require('./util/authHelper')
 
-
-let getP
-let putP
-let postP
+// let getP
 let trello_
-const appKey = JSON.parse(process.env.appKey)
-const token = JSON.parse(process.env.token)
-
+let appKey
+let token
 
 const init = (nodeTrelloParam = null) => {
   if (trello_ === undefined && nodeTrelloParam === null) {
-    logger.debug("Normal Trello init")
+    logger.debug('Normal Trello init')
+    appKey = authHelper.getAppKey()
+    token = authHelper.getToken()
     trello_ = new NodeTrello(appKey, token)
-    getP = util.promisify(trello_.get)
-    putP = util.promisify(trello_.put)
-    postP = util.promisify(trello_.post)
   } else if (nodeTrelloParam != null) {
-    logger.debug("Test Trello init")
+    logger.debug('Test Trello init')
     trello_ = nodeTrelloParam
-    // assume andy trello fake we pass in uses promises
-    getP = trello_.get
-    putP = trello_.put
-    postP = trello.post
   }
 }
 
-const get = async (cmd) => await getP(cmd)
-const put = async (cmd, params) => await putP(cmd, params)
-const post = async (cmd, params) => await postP(cmd, params)
-const getCardsFromListIdCmd = listId => `/1/lists/${listId}/cards`
+const get = (cmd) => new Promise((resolve, reject) => {
+  trello_.get(cmd, (err, response) => {
+    if (err) {return reject(err)}
+    return resolve(response)
+  })
+})
+
+const put = (cmd) => new Promise((resolve, reject) => {
+  trello_.put(cmd, (err, response) => {
+    if (err) {return reject(err)}
+    return resolve(response)
+  })
+})
+
+const post = (cmd) => new Promise((resolve, reject) => {
+  trello_.post(cmd, (err, response) => {
+    if (err) {return reject(err)}
+    return resolve(response)
+  })
+})
+
+/**
+ * Get all the cards on the list with passed id
+ * @param {string} listId 
+ * @example getListCardsFrom('8378400348')
+ */
+const getListCards = (listId) => {
+  const cmd = getListCmd(listId)
+  return get(cmd)
+}
+
+/** Destructure the listId object property */
+/** @protected  */
+const getListCmd = (listId) => `/1/lists/${listId}/cards`
 
 module.exports = {
   init,
   get,
   put,
   post,
-  getCardsFromListIdCmd,
+  getListCards,
+
 }

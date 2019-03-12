@@ -15,7 +15,7 @@
     "lint": "esw src  --color",
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --use_strict --reporter spec \"src/**/*.test.js\"",
-    "test:int": "mocha --use_strict \"src/**/*.test.int.js\"",
+    "test:int": "mocha  \"src/**/*.test.int.js\"",
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc mocha \"src/**/*.test.js\"",
     "watch": "run-p lint:watch test:watch",

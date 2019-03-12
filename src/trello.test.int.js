@@ -1,7 +1,9 @@
 // @ts-check
 const chai = require('chai')
 chai.should()
-const trello = require('./trello_old')
+const trelloOld = require('./trello_old')
+const Trello = require('./trello')
+
 const moment = require('moment')
 require('env-create').load({
   path: '/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json',
@@ -14,11 +16,11 @@ const TOD_TEST_CARD_ID = '5c86f7cd9a1aae62ca63fb54'
 
 describe.only('trello module', () => {
   before(() => {
-    trello.init()
+    trelloOld.init()
   })
 
   it('getListCardsFrom() should return at least three cards when using the ABOUT list', async () => {
-    const result = await trello.getListCards(ABOUT_LIST_ID)
+    const result = await trelloOld.getListCards(ABOUT_LIST_ID)
       .catch(err => {
         console.log('INT TEST THROW:', err)
       })
@@ -26,7 +28,7 @@ describe.only('trello module', () => {
     result.length.should.be.gt(3)
   })
   it('setDueDate() should set a date two days from now', async () => {
-    const result = await trello.setDueDate({
+    const result = await trelloOld.setDueDate({
       card: {id: TOD_TEST_CARD_ID},
       delay: {count: 2, unit: 'days'},
     })
@@ -34,11 +36,13 @@ describe.only('trello module', () => {
   })
 
   it.only('getCardActions() should return some actions', async () => {
-    const result = await trello.getCardActions({id: TOD_TEST_CARD_ID})
+    const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
+
+    const result = await trello.getAllActionsOnCard(TOD_TEST_CARD_ID)
       .catch(err => {
         console.log('OOOPSSIE', err)
       })
-    console.log(result.length, result)
+    console.log(result.length)
   })
 })
 

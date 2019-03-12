@@ -5,7 +5,7 @@
     "node": ">10.0.0"
   },
   "description": "A basic project for running some node.js code with tests",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "run-s start:src",
     "start:all": "run-p security-check start:src lint:watch test:watch",

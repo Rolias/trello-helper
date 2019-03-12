@@ -80,12 +80,17 @@ const setDueComplete = (card) => {
 
 const setDueDate = (cardParams) => {
   const cardCmd = getCardCommand(cardParams.card)
-  console.log(cardParams)
   const dueDate = moment().add(cardParams.delay.count, cardParams.delay.unit)
   const params = {
     due: dueDate,
   }
   return put(cardCmd, params)
+}
+
+const getCardActions = (card) => {
+  const cmd = `${getCardCommand(card)}/actions?limit=1000&filter=updateCard`
+  console.log(cmd)
+  return get(cmd)
 }
 
 /** Take the passed id and return a valid command for getting all cards on the list 
@@ -98,9 +103,12 @@ const getListCmd = (listId) => `/1/lists/${listId}/cards`
 /** @protected */
 const getCmdToSetCommentOnCard = partialCardCmd => `${getCardCommand(partialCardCmd)}/actions/comments`
 
+
+
 /** @protected 
  * @param {Object} card - typically a Trello card but anything with id property works
 */
+// const getCardCommand = card => `/1/cards/${card.id}`
 const getCardCommand = card => `/1/cards/${card.id}`
 
 module.exports = {
@@ -109,6 +117,7 @@ module.exports = {
   put,
   post,
   getListCards,
+  getCardActions,
   setComment,
   setDueComplete,
   setDueDate,

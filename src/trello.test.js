@@ -4,7 +4,7 @@ const moment = require('moment')
 
 
 // const sandbox = require('sinon').createSandbox()
-const trello = require('./trello')
+const trello = require('./trello_old')
 const FAKE_ID = '12345'
 const FAKE_COMMENT = 'Message for Comment'
 const rejectTrello = {

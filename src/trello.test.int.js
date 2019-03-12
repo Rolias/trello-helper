@@ -1,7 +1,7 @@
 // @ts-check
 const chai = require('chai')
 chai.should()
-const trello = require('./trello')
+const trello = require('./trello_old')
 const moment = require('moment')
 require('env-create').load({
   path: '/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json',
@@ -25,12 +25,20 @@ describe.only('trello module', () => {
     // @ts-ignore
     result.length.should.be.gt(3)
   })
-  it.only('setDueDate() should set a date two days from now', async () => {
+  it('setDueDate() should set a date two days from now', async () => {
     const result = await trello.setDueDate({
       card: {id: TOD_TEST_CARD_ID},
       delay: {count: 2, unit: 'days'},
     })
     moment(result.due).isAfter()
+  })
+
+  it.only('getCardActions() should return some actions', async () => {
+    const result = await trello.getCardActions({id: TOD_TEST_CARD_ID})
+      .catch(err => {
+        console.log('OOOPSSIE', err)
+      })
+    console.log(result.length, result)
   })
 })
 

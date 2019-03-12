@@ -2,6 +2,7 @@
 const NodeTrello = require('node-trello')
 const logger = require('./util/logger')
 const authHelper = require('./util/authHelper')
+const moment = require('moment')
 
 let trello_
 let appKey
@@ -69,6 +70,24 @@ const setComment = (cardParams) => {
   return post(commentCmd, params)
 }
 
+const setDueComplete = (card) => {
+  const cardCmd = getCardCommand(card)
+  const params = {
+    dueComplete: true,
+  }
+  return put(cardCmd, params)
+}
+
+const setDueDate = (cardParams) => {
+  const cardCmd = getCardCommand(cardParams.card)
+  console.log(cardParams)
+  const dueDate = moment().add(cardParams.delay.count, cardParams.delay.unit)
+  const params = {
+    due: dueDate,
+  }
+  return put(cardCmd, params)
+}
+
 /** Take the passed id and return a valid command for getting all cards on the list 
 /** @protected  
  * @param {string} listId trello list id
@@ -91,5 +110,7 @@ module.exports = {
   post,
   getListCards,
   setComment,
+  setDueComplete,
+  setDueDate,
 
 }

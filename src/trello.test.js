@@ -1,5 +1,8 @@
 const chai = require('chai')
 chai.should()
+const moment = require('moment')
+
+
 // const sandbox = require('sinon').createSandbox()
 const trello = require('./trello')
 const FAKE_ID = '12345'
@@ -61,6 +64,13 @@ describe('trello ', () => {})
       result.type.should.equal('post')
       result.cmd.should.contain(FAKE_ID)
       result.params.text.should.contain(FAKE_COMMENT)
+    })
+    it('setDueDate() should create due date with time specified', async () => {
+      const cardParams = {card: {id: FAKE_ID}, time: {count: 2, units: 'days'}}
+      const result = await trello.setDueDate(cardParams)
+      result.type.should.equal('put')
+      result.cmd.should.contain(FAKE_ID)
+      moment.isMoment(result.params.due).should.be.true
     })
   })
 }

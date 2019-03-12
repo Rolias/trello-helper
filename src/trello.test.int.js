@@ -2,6 +2,7 @@
 const chai = require('chai')
 chai.should()
 const trello = require('./trello')
+const moment = require('moment')
 require('env-create').load({
   path: '/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json',
   debug: 'true',
@@ -9,6 +10,7 @@ require('env-create').load({
 
 // const GREENLIGHT_LIST_ID = '55c3cdfb267cd03b23d104c6'
 const ABOUT_LIST_ID = '546e5dde53994b64db614cd1'
+const TOD_TEST_CARD_ID = '5c86f7cd9a1aae62ca63fb54'
 
 describe.only('trello module', () => {
   before(() => {
@@ -22,6 +24,13 @@ describe.only('trello module', () => {
       })
     // @ts-ignore
     result.length.should.be.gt(3)
+  })
+  it.only('setDueDate() should set a date two days from now', async () => {
+    const result = await trello.setDueDate({
+      card: {id: TOD_TEST_CARD_ID},
+      delay: {count: 2, unit: 'days'},
+    })
+    moment(result.due).isAfter()
   })
 })
 

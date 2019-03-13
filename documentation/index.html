@@ -43,28 +43,40 @@
 
 
     <section>
-        <article><h1>Trello Helper</h1><p>This project is designed to make using the Trello API a little easier. It wraps the <code>get</code>, <code>put</code> and <code>post</code>
-commands. It also exposes higher level common commands needed for working with lists and cards. All functions are asynchronous and can use the <code>async/await</code> syntax.</p>
+        <article><h1>Trello Helper</h1><p>This project is designed to make using the Trello API a little easier. It extends the <code>trello</code> package and wraps many calls to use a different calling syntax. For example there is one function for <code>getCardsOnList()</code>which takes a single parameter with object property names that fully describe what the function is doing.</p>
+<pre class="prettyprint source lang-javascript"><code>getCardsOnlist({fromId:'123', withOptions:{limit:10}})
+// or
+getCardsOnList({fromId:'123'})</code></pre><p>Additionaly tt wraps the <code>get</code>, <code>put</code> and <code>post</code> commands. It also exposes several higher level common commands needed for working with boards, lists, cards, and actions. The wrappers all use Promises (no callback syntax support) and the <code>async/await</code> syntax.</p>
 <h2>Installation</h2><p><code>npm install trello-helper</code></p>
 <h2>Example Usage Authorization</h2><pre class="prettyprint source lang-javascript"><code>const Trello = require('trello-helper')
 
 const trello = new Trello('/Users/ENV_VARS/trello.en.json') 
-const cardsOnList = trello.getCardsOnList(LIST_ID)</code></pre><p>If you pass an empty string to the <code>Trello</code> constructor it will look for your credentials in the root folder of the project in a file named .env.json. If you don't want to store your credentials there just pass the path to where they are. The credentials JSON file needs to have the following form:</p>
+const cardsOnList = trello.getCardsOnList({fromId:'123', withOptions{}})</code></pre><p>If you pass an empty string to the <code>Trello</code> constructor it will look for your credentials in the root folder of the project in a file named .env.json. If you don't want to store your credentials there, just pass the path to where they are. The credentials JSON file needs to have the following form:</p>
 <pre class="prettyprint source lang-JSON"><code>{
   &quot;trelloHelper&quot;: {
     &quot;appKey&quot;: &quot;your app key&quot;,
     &quot;token&quot;: &quot;your token value&quot;
   }
 }</code></pre><p>You can have other items in this file but <code>trelloHelper</code> must be a top-level object in the file with the indicated property names. Of course you must put in a valid app key and token for both properties.  </p>
-<h2>Dependencies</h2><p><a href="https://www.npmjs.com/package/trello"><code>trello</code></a> 
-<a href="https://www.npmjs.com/package/winston"><code>winston</code> logging tool</a></p>
-<p>This library wraps the functionality of the <code>trello</code> package with added functions</p>
+<h2>Tests</h2><p>There are files that end with <code>test.int.js</code> that do integration testing. These are useful for seeing example calls for the commands. They are fragile in that they rely on specific ids that won't exist on your system. </p>
+<h2>Dependencies</h2><p><a href="https://www.npmjs.com/package/trello"><code>trello</code></a><br><a href="https://www.npmjs.com/package/winston"><code>winston</code> logging tool</a>  </p>
+<p>This library wraps the functionality of the <code>trello</code> package with added functions. In most cases where an underlying <code>trello</code> method requires multiple parameters, this wrapper takes a single object with descriptive property names.</p>
 <ul>
 <li><code>getAllActionsOnCard(cardId)</code> - returns the array of actions</li>
 <li><code>getCardsOnListWith(param)</code> </li>
-<li><code>getArchivedCards(param)</code> - get all the archived cards for the passed board that belong to the passed id</li>
-<li><code>wasOnList</code> - takes an array of actions and returns the ones that have a listBefore property that matches the passed listName</li>
-</ul></article>
+<li><code>getArchivedCards(param)</code> - get all the archived cards for the passed board that belong to the passed id  </li>
+<li><code>wasOnList</code> - takes an array of actions and returns the ones that have a listBefore property that matches the passed listName </li>
+<li><code>get(path,options)</code></li>
+<li><code>put(path,options)</code></li>
+<li><code>post(path,options)</code></li>
+<li><code>getMoveCardToBoardInfo(actions)</code></li>
+<li><code>setDueComplete(param)</code></li>
+<li><code>addCard(param)</code></li>
+</ul>
+<h2>Acknowledegment</h2><p>This package relies <strong>heavily</strong> on the <code>trello</code> package. It adds some additional calls but it also wraps some existing functions that take multiple parameters to take an object. That allows for a syntax I like where it's clear what every parameter does. I also tend to favor a naming stlye where the method and parameter property names more fully describe what is happening e.g.  </p>
+<pre class="prettyprint source lang-javascript"><code>const result = await trello.getCardsOnListWith({
+  id:'123',
+  options{fields:'name,id'},})</code></pre></article>
     </section>
 
 
@@ -81,7 +93,7 @@ const cardsOnList = trello.getCardsOnList(LIST_ID)</code></pre><p>If you pass an
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 13 2019 00:35:27 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 13 2019 10:38:38 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

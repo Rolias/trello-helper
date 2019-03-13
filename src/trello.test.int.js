@@ -3,11 +3,20 @@
 const chai = require('chai')
 const should = chai.should()
 const Trello = require('./trello')
-
-const BOARD_ID = '54662dcf4218ed197f490560'
-const ABOUT_LIST_ID = '546e5dde53994b64db614cd1'
-const TOD_TEST_CARD_ID = '5b18626142a8d79aaafab7c6'
+const logger = require('./util/logger')
+// @ts-ignore
+const testData = require('./test-data/integration.json')
+const BOARD_ID = testData.ids.board
+const LIST_ID = testData.ids.list
+const CARD_ID = testData.ids.card
 const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
+
+before(() => {
+  logger.level = 'info'
+})
+after(() => {
+  logger.level = 'debug'
+})
 
 describe('trello module', function () {
   this.timeout(10000)
@@ -17,39 +26,49 @@ describe('trello module', function () {
   })
 
   it('getAllActionsOnCard() should return some actions', async () => {
-    const result = await trello.getAllActionsOnCard(TOD_TEST_CARD_ID)
-      .catch(err => {
-        console.log('OOOPSSIE', err)
-      })
+    const result = await trello.getAllActionsOnCard(CARD_ID)
     result.length.should.be.gt(0)
   })
 
   it('should be able to call base class method getCardsForList()', async () => {
-    const result = await trello.getCardsForList(ABOUT_LIST_ID)
+    const result = await trello.getCardsForList(LIST_ID)
     result.length.should.be.gt(0)
-    console.log(result.length)
+    logger.debug(result.length)
+  })
+  describe('getCardsOnList() should', () => {
+    it('process withOptions{} object', async () => {
+      const result = await trello.getCardsOnList({
+        fromId: LIST_ID,
+        withOptions: {
+          fields: 'name,id',
+          limit: 1,
+        },
+      })
+      result.length.should.equal(1)
+      Object.keys(result[0]).length.should.equal(2)
+    })
+
+    it('work with empty options', async () => {
+      // will also work if withOptions is missing - but ts lint checker won't be happy
+      const result = await trello.getCardsOnList({
+        fromId: LIST_ID,
+        withOptions: {},
+      })
+      result.length.should.be.gt(1)
+      Object.keys(result[0]).length.should.be.gt(2)
+    })
   })
 
-  it('getCardsOnListWith() should process options', async () => {
-    const result = await trello.getCardsOnListWith({
-      id: ABOUT_LIST_ID, options: {
-        fields: 'name,id',
-        limit: 1,
-      },
-    })
-    result.length.should.equal(1)
-    Object.keys(result[0]).length.should.equal(2)
-  })
 
   it('getArchivedCards() should return only archived cards from list', async () => {
     const result = await trello.getArchivedCards({
-      forBoardId: BOARD_ID, onListId: ABOUT_LIST_ID,
+      forBoardId: BOARD_ID, onListId: LIST_ID,
     })
-    console.log(result[0])
+    logger.debug(result[0])
     result.every(e => e.closed).should.be.true
   })
   it('getMoveToBoardInfo() should find any action indicating card was move to board', async () => {
-    const actions = await trello.getAllActionsOnCard(TOD_TEST_CARD_ID)
+    const actions = await trello.getAllActionsOnCard(CARD_ID)
     const result = await trello.getMoveCardToBoardInfo(actions)
     result.status.should.equal(1)
   })
@@ -62,15 +81,14 @@ describe('trello module', function () {
     result.dueComplete.should.be.true
   })
 
-  it.only('addCard() should add a card', async () => {
+  it('addCard() should add a card', async () => {
     const param = {
       name: 'Remotely Added Card', description: 'test',
-      idList: ABOUT_LIST_ID,
+      idList: LIST_ID,
     }
     const result = await trello.addCard(param)
     should.exist(result.id)
-    const res = await trello.deleteCard(result.id)
-    console.log(res)
+    await trello.deleteCard(result.id)
   })
 })
 

@@ -4,7 +4,7 @@
   "engines": {
     "node": ">10.0.0"
   },
-  "description": "A basic project for running some node.js code with tests",
+  "description": "Simpler interface for setting and retrieving data using the Trello API",
   "main": "main.js",
   "scripts": {
     "start": "run-s start:src",
@@ -14,7 +14,7 @@
     "security-check": "npm audit",
     "lint": "esw src  --color",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha --use_strict --reporter spec \"src/**/*.test.js\"",
+    "test": "mocha  --reporter spec \"src/**/*.test.js\"",
     "test:int": "mocha  \"src/**/*.test.int.js\"",
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc mocha \"src/**/*.test.js\"",

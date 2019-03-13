@@ -2,6 +2,7 @@
 /** @module */
 const Trello = require('trello')
 const envCreate = require('env-create')
+const logger = require('./util/logger')
 
 /**
  * @extends Trello
@@ -12,7 +13,10 @@ class TrelloPlus extends Trello {
    * @param {string} pathString path to the trello JSON credentials file
    */
   constructor(pathString) {
-    envCreate.load({path: pathString})
+    const result = envCreate.load({path: pathString})
+    if (result.status === false) {
+      logger.error(`FATAL ERROR reading credentials. ${JSON.stringify(result, null, 2)}`)
+    }
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
   }
@@ -54,14 +58,14 @@ class TrelloPlus extends Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options}} listParam 
-   * @returns {Promise<Array.<{}>>} returns Promise that resolves to array of cards
+   * @param {{fromId:string, withOptions}} listParam 
+    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{limit:10}})
    */
-  getCardsOnListWith(listParam) {
-    const path = `${this.getListCardCmd(listParam.id)}`
-    const {options} = listParam
-    return this.get(path, options)
+  getCardsOnList(listParam) {
+    const path = `${this.getListCardCmd(listParam.fromId)}`
+    const {withOptions} = listParam
+    return this.get(path, withOptions)
   }
   /**
    * Get all cards that are archived for the specified list
@@ -90,7 +94,7 @@ class TrelloPlus extends Trello {
    * Find any actions that are of type 'moveCardToBoard' and capture
    * the number found and the date of the first one found
    * @param {Array.<Object>} actions the action objects 
-   * @returns {{status,date}} object withe status and date properties status 
+   * @returns {{status:number,date:any}} object withe status and date properties status 
    * will have count of number of actions found. Date has date of first object found
    * @example getMoveCardToBoardInfo([{actionObjects}])
    */
@@ -104,8 +108,10 @@ class TrelloPlus extends Trello {
   }
 
   /**
-   * Set the due date as complete isComplete:true or clear it isComplete:false
+   * Set the due date as complete when isComplete:true or clear it if 
+   * isComplete:false
    * @param {{id,isComplete:boolean}} param 
+   * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example setDueComplete({id:'123', isComplete:true})
    */
   setDueComplete(param) {
@@ -116,11 +122,17 @@ class TrelloPlus extends Trello {
   /**
    * Add the card to the specified list. Use name and optional description
    * @param {{name:string, description:string, idList:string}} param 
-   * @return {Promise<{}>} resolves to card created
+   * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
   addCard(param) {
     return this.post(this.getBaseCardCmd(), param)
+  }
+
+  addCommentOnCard(param) {
+    const cmd = getCardPrefixWithId(param.id) + '/actions/comments'
+    return post(cmd, param.options)
+    return super.addCommentToCard(param.id, param.text)
   }
 }
 

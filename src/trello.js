@@ -1,13 +1,7 @@
+// @ts-check
 /** @module */
 const Trello = require('trello')
 const envCreate = require('env-create')
-
-const getCardPrefixWithId = cardId => `/1/cards/${cardId}`
-const getListPrefixWithId = listId => `/1/list/${listId}`
-const getListCardCmd = listId => `${getListPrefixWithId(listId)}/cards`
-const getBoardPrefixWithId = boardId => `1/board/${boardId}`
-const getBoardCardCmd = boardId => `${getBoardPrefixWithId(boardId)}/cards/closed`
-
 
 /**   @class */
 class TrelloPlus extends Trello {
@@ -16,6 +10,12 @@ class TrelloPlus extends Trello {
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
   }
+  getBaseCardCmd() {return '/1/cards'}
+  getCardPrefixWithId(cardId) {return `${this.getBaseCardCmd()}/${cardId}`}
+  getListPrefixWithId(listId) {return `/1/list/${listId}`}
+  getListCardCmd(listId) {return `${this.getListPrefixWithId(listId)}/cards`}
+  getBoardPrefixWithId(boardId) {return `1/board/${boardId}`}
+
 
   get(path, options) {
     return this.makeRequest('get', path, options)
@@ -34,19 +34,19 @@ class TrelloPlus extends Trello {
    * @param {string} cardId
    */
   getAllActionsOnCard(cardId) {
-    const path = `${getCardPrefixWithId(cardId)}/actions`
+    const path = `${this.getCardPrefixWithId(cardId)}/actions`
     const options = {filter: 'all'}
     return this.get(path, options)
   }
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id, options}} listParam 
-   * @returns {Promise<Array.<{}}>>}
+   * @param {{id:string, options}} listParam 
+   * @returns {Promise<Array.<{}>>}>>}
    * @example 
    */
   getCardsOnListWith(listParam) {
-    const path = `${getListCardCmd(listParam.id)}`
+    const path = `${this.getListCardCmd(listParam.id)}`
     const {options} = listParam
     return this.get(path, options)
   }
@@ -73,6 +73,22 @@ class TrelloPlus extends Trello {
       moveInfo.date = result[0].date
     }
     return moveInfo
+  }
+
+  /**
+   * @param {{id,isComplete:boolean}} params
+   */
+  setDueComplete(params) {
+    const cmd = this.getCardPrefixWithId(params.id)
+    const options = {dueComplete: params.isComplete}
+    return this.put(cmd, options)
+  }
+  /**
+   * Add the card to the specified list. Use name and optional description
+   * @param {{name:string, description:string,listId:string}} param 
+   */
+  addCard(param) {
+    return this.post(this.getBaseCardCmd(), param)
   }
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
 // @ts-check
 const chai = require('chai')
-chai.should()
+const should = chai.should()
 const Trello = require('./trello')
 
 const BOARD_ID = '54662dcf4218ed197f490560'
@@ -49,10 +49,28 @@ describe('trello module', function () {
     result.every(e => e.closed).should.be.true
   })
   it('getMoveToBoardInfo() should find any action indicating card was move to board', async () => {
-
     const actions = await trello.getAllActionsOnCard(TOD_TEST_CARD_ID)
     const result = await trello.getMoveCardToBoardInfo(actions)
     result.status.should.equal(1)
+  })
+
+  it('setDueComplete works', async () => {
+    const testCardId = '5c8891992a649d6fc0d6c598'
+    let result = await trello.setDueComplete({id: testCardId, isComplete: false})
+    result.dueComplete.should.be.false
+    result = await trello.setDueComplete({id: testCardId, isComplete: true})
+    result.dueComplete.should.be.true
+  })
+
+  it.only('addCard() should add a card', async () => {
+    const param = {
+      name: 'Remotely Added Card', description: 'test',
+      idList: ABOUT_LIST_ID,
+    }
+    const result = await trello.addCard(param)
+    should.exist(result.id)
+    const res = await trello.deleteCard(result.id)
+    console.log(res)
   })
 })
 

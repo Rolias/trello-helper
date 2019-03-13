@@ -86,6 +86,8 @@ class TrelloPlus extends Trello {
   /**
    * Add the card to the specified list. Use name and optional description
    * @param {{name:string, description:string, idList:string}} param 
+   * @return {Promise<{}>} resolves to card created
+   * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
   addCard(param) {
     return this.post(this.getBaseCardCmd(), param)

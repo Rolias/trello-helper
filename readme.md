@@ -29,12 +29,19 @@ You can have other items in this file but `trelloHelper` must be a top-level obj
 
 ## Dependencies
 
-[`trello`](https://www.npmjs.com/package/trello) 
-[`winston` logging tool](https://www.npmjs.com/package/winston)
+[`trello`](https://www.npmjs.com/package/trello)  
+[`winston` logging tool](https://www.npmjs.com/package/winston)  
 
-This library wraps the functionality of the `trello` package with added functions
+This library wraps the functionality of the `trello` package with added functions. In most cases where an underlying `trello` method requires multiple parameters, this wrapper takes a single object with descriptive property names. For example `getCardsOnListWith(param)` looks like  
+`getCardsOnListWith({id:'123', options:{fields:'name,id'}})`  
 
 - `getAllActionsOnCard(cardId)` - returns the array of actions
 - `getCardsOnListWith(param)` 
-- `getArchivedCards(param)` - get all the archived cards for the passed board that belong to the passed id
-- `wasOnList` - takes an array of actions and returns the ones that have a listBefore property that matches the passed listName
+- `getArchivedCards(param)` - get all the archived cards for the passed board that belong to the passed id  
+- `wasOnList` - takes an array of actions and returns the ones that have a listBefore property that matches the passed listName 
+- `get(path,options)`
+- `put(path,options)`
+- `post(path,options)`
+- `getMoveCardToBoardInfo(actions)`
+- `setDueComplete(param)`
+- `addCard(param)`

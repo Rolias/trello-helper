@@ -105,12 +105,12 @@ class TrelloPlus extends Trello {
 
   /**
    * Set the due date as complete isComplete:true or clear it isComplete:false
-   * @param {{id,isComplete:boolean}} params 
+   * @param {{id,isComplete:boolean}} param 
    * @example setDueComplete({id:'123', isComplete:true})
    */
-  setDueComplete(params) {
-    const cmd = this.getCardPrefixWithId(params.id)
-    const options = {dueComplete: params.isComplete}
+  setDueComplete(param) {
+    const cmd = this.getCardPrefixWithId(param.id)
+    const options = {dueComplete: param.isComplete}
     return this.put(cmd, options)
   }
   /**

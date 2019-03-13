@@ -1,48 +1,58 @@
+/* eslint-disable prefer-arrow-callback */
 // @ts-check
 const chai = require('chai')
 chai.should()
-const trelloOld = require('./trello_old')
 const Trello = require('./trello')
 
-const moment = require('moment')
-require('env-create').load({
-  path: '/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json',
-  debug: 'true',
-})
-
-// const GREENLIGHT_LIST_ID = '55c3cdfb267cd03b23d104c6'
+const BOARD_ID = '54662dcf4218ed197f490560'
 const ABOUT_LIST_ID = '546e5dde53994b64db614cd1'
-const TOD_TEST_CARD_ID = '5c86f7cd9a1aae62ca63fb54'
+const TOD_TEST_CARD_ID = '5b18626142a8d79aaafab7c6'
+const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
 
-describe.only('trello module', () => {
+describe('trello module', function () {
+  this.timeout(10000)
   before(() => {
-    trelloOld.init()
+
+    // trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
   })
 
-  it('getListCardsFrom() should return at least three cards when using the ABOUT list', async () => {
-    const result = await trelloOld.getListCards(ABOUT_LIST_ID)
-      .catch(err => {
-        console.log('INT TEST THROW:', err)
-      })
-    // @ts-ignore
-    result.length.should.be.gt(3)
-  })
-  it('setDueDate() should set a date two days from now', async () => {
-    const result = await trelloOld.setDueDate({
-      card: {id: TOD_TEST_CARD_ID},
-      delay: {count: 2, unit: 'days'},
-    })
-    moment(result.due).isAfter()
-  })
-
-  it.only('getCardActions() should return some actions', async () => {
-    const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
-
+  it('getAllActionsOnCard() should return some actions', async () => {
     const result = await trello.getAllActionsOnCard(TOD_TEST_CARD_ID)
       .catch(err => {
         console.log('OOOPSSIE', err)
       })
+    result.length.should.be.gt(0)
+  })
+
+  it('should be able to call base class method getCardsForList()', async () => {
+    const result = await trello.getCardsForList(ABOUT_LIST_ID)
+    result.length.should.be.gt(0)
     console.log(result.length)
+  })
+
+  it('getCardsOnListWith() should process options', async () => {
+    const result = await trello.getCardsOnListWith({
+      id: ABOUT_LIST_ID, options: {
+        fields: 'name,id',
+        limit: 1,
+      },
+    })
+    result.length.should.equal(1)
+    Object.keys(result[0]).length.should.equal(2)
+  })
+
+  it('getArchivedCards() should return only archived cards from list', async () => {
+    const result = await trello.getArchivedCards({
+      forBoardId: BOARD_ID, onListId: ABOUT_LIST_ID,
+    })
+    console.log(result[0])
+    result.every(e => e.closed).should.be.true
+  })
+  it('getMoveToBoardInfo() should find any action indicating card was move to board', async () => {
+
+    const actions = await trello.getAllActionsOnCard(TOD_TEST_CARD_ID)
+    const result = await trello.getMoveCardToBoardInfo(actions)
+    result.status.should.equal(1)
   })
 })
 

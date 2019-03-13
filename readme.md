@@ -7,9 +7,14 @@ commands. It also exposes higher level common commands needed for working with l
 
 `npm install trello-helper`
 
-## Authorization
+## Example Usage Authorization
+```javascript
+const Trello = require('trello-helper')
 
-When you require this package you should immediately call the `auth` routine and pass in the path to your json file that contains your credentials. If you store those at the root level of the project and name it .env.json you can just call `auth()` with no parameter. The structure of the JSON file is as follows:
+const trello = new Trello('/Users/ENV_VARS/trello.en.json') 
+const cardsOnList = trello.getCardsOnList(LIST_ID)
+```
+If you pass an empty string to the `Trello` constructor it will look for your credentials in the root folder of the project in a file named .env.json. If you don't want to store your credentials there just pass the path to where they are. The credentials JSON file needs to have the following form:
 
 ```JSON
 {
@@ -24,5 +29,12 @@ You can have other items in this file but `trelloHelper` must be a top-level obj
 
 ## Dependencies
 
-`node-trello` 
-`winston` logging tool
+[`trello`](https://www.npmjs.com/package/trello) 
+[`winston` logging tool](https://www.npmjs.com/package/winston)
+
+This library wraps the functionality of the `trello` package with added functions
+
+- `getAllActionsOnCard(cardId)` - returns the array of actions
+- `getCardsOnListWith(param)` 
+- `getArchivedCards(param)` - get all the archived cards for the passed board that belong to the passed id
+- `wasOnList` - takes an array of actions and returns the ones that have a listBefore property that matches the passed listName

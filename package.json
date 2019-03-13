@@ -19,7 +19,7 @@
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc mocha \"src/**/*.test.js\"",
     "watch": "run-p lint:watch test:watch",
-    "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js  ./ReadMe.md"
+    "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md"
   },
   "repository": {
     "type": "git",

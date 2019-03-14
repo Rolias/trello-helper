@@ -23,7 +23,9 @@
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
     "version": "npm version patch",
     "publish": "npm publish",
-    "build": "run-s lint test:cov security-check doc version publish"
+    "build:commit": "git commit --all -m 'build commit'",
+    "build:push": "git push",
+    "build": "run-s lint test:cov security-check doc build:commit build:push version publish"
   },
   "repository": {
     "type": "git",

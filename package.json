@@ -20,7 +20,10 @@
     "test:cov": "nyc mocha \"src/**/*.test.js\"",
     "test:all": "nyc run-p test test:int",
     "watch": "run-p lint:watch test:watch",
-    "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md"
+    "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
+    "version": "npm version patch",
+    "publish": "npm publish",
+    "build": "run-s lint test:cov security-check doc version publish"
   },
   "repository": {
     "type": "git",

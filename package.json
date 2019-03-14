@@ -21,11 +21,11 @@
     "test:all": "nyc run-p test test:int",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
-    "version": "npm version patch  ",
-    "publish": "npm publish ",
+    "build:ver": "npm version patch  ",
+    "build:pub": "npm publish ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
-    "build": "run-s lint test:cov security-check doc  build:commit version  "
+    "build": "run-s lint test:cov security-check doc  build:commit build:ver build:pub "
   },
   "repository": {
     "type": "git",

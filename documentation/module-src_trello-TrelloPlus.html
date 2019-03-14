@@ -143,7 +143,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line9">line 9</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -201,6 +201,163 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="actionWasOnList"><span class="type-signature"></span>actionWasOnList<span class="signature">(params)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Find actions that indicate card was previously on the specified list name</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line103">line 103</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the array of actions that fit the criteria</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 
         
             
@@ -309,7 +466,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line124">line 124</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -370,7 +527,487 @@
     
 
     
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    <h4 class="name" id="addCommentOnCard"><span class="type-signature"></span>addCommentOnCard<span class="signature">(param)</span><span class="type-signature"> &rarr; {Promise.&lt;Object.&lt;string, any>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Add a comment to the card</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>id of the card and text for the comment</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line156">line 156</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a Promise of a card object</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Object.&lt;string, any>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>addCommentOnCard({id:'123',text:"message for comment"})</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addDueDateToCardRelative"><span class="type-signature"></span>addDueDateToCardRelative<span class="signature">(param)</span><span class="type-signature"> &rarr; {Promise.&lt;Object.&lt;string, any>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Add due date to a card using a relative offset
+the offset object has a count property (a number) and a units property 
+ <code>days, months, years, quarters, hours, minutes</code></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line169">line 169</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a Promise of a card object - card will updated due date</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Object.&lt;string, any>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="filterActionsByType"><span class="type-signature"></span>filterActionsByType<span class="signature">(param)</span><span class="type-signature"> &rarr; {Array.&lt;Object.&lt;string, any>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Find actions in array whose <code>type</code> field matches the passed type property</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line112">line 112</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>array of matching actions</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object.&lt;string, any>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
     
 
     
@@ -494,7 +1131,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line33">line 33</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -528,7 +1165,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;Object></span>
+<span class="param-type">Promise.&lt;any></span>
 
 
     </dd>
@@ -551,7 +1188,7 @@
     
 
     
-    <h4 class="name" id="getAllActionsOnCard"><span class="type-signature"></span>getAllActionsOnCard<span class="signature">(cardId)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getAllActionsOnCard"><span class="type-signature"></span>getAllActionsOnCard<span class="signature">(cardId)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object.&lt;string, any>>>}</span></h4>
     
 
     
@@ -652,7 +1289,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line49">line 49</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -675,6 +1312,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;Object.&lt;string, any>>></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -787,7 +1442,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line72">line 72</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line90">line 90</a>
     </li></ul></dd>
     
 
@@ -838,7 +1493,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>getArchivedCards({forBoardId:'123',onListId'456'})</code></pre>
+    <pre class="prettyprint"><code>getArchivedCards({forBoardId:'123',listId'456'})</code></pre>
 
 
 
@@ -896,7 +1551,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line20">line 20</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -1041,7 +1696,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line61">line 61</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -1102,7 +1757,7 @@
     
 
     
-    <h4 class="name" id="getMoveCardToBoardInfo"><span class="type-signature"></span>getMoveCardToBoardInfo<span class="signature">(actions)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="getMoveCardToBoardActions"><span class="type-signature"></span>getMoveCardToBoardActions<span class="signature">(actions)</span><span class="type-signature"> &rarr; {Array.&lt;Object.&lt;string, any>>}</span></h4>
     
 
     
@@ -1153,7 +1808,7 @@ the number found and the date of the first one found</p>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;Object></span>
+<span class="param-type">Array.&lt;Object.&lt;string, any>></span>
 
 
             
@@ -1204,7 +1859,7 @@ the number found and the date of the first one found</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line97">line 97</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -1231,7 +1886,7 @@ the number found and the date of the first one found</p>
 
         
 <div class="param-desc">
-    <p>object withe status and date properties status 
+    <p>array of actions of the moveCardToBoardType 
 will have count of number of actions found. Date has date of first object found</p>
 </div>
 
@@ -1243,7 +1898,7 @@ will have count of number of actions found. Date has date of first object found<
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">Array.&lt;Object.&lt;string, any>></span>
 
 
     </dd>
@@ -1266,7 +1921,7 @@ will have count of number of actions found. Date has date of first object found<
     
 
     
-    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
     
 
     
@@ -1274,7 +1929,7 @@ will have count of number of actions found. Date has date of first object found<
 
 
 <div class="description">
-    <p>wrap the underlying makeRequest for post</p>
+    <p>Wrap the underlying makeRequest for post</p>
 </div>
 
 
@@ -1283,6 +1938,78 @@ will have count of number of actions found. Date has date of first object found<
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1318,7 +2045,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line41">line 41</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -1341,6 +2068,24 @@ will have count of number of actions found. Date has date of first object found<
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1352,7 +2097,7 @@ will have count of number of actions found. Date has date of first object found<
     
 
     
-    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
     
 
     
@@ -1360,7 +2105,7 @@ will have count of number of actions found. Date has date of first object found<
 
 
 <div class="description">
-    <p>wrap the underlying makeRequest for put @see get()</p>
+    <p>wrap the underlying makeRequest for put</p>
 </div>
 
 
@@ -1369,6 +2114,78 @@ will have count of number of actions found. Date has date of first object found<
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1404,7 +2221,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line37">line 37</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -1427,6 +2244,24 @@ will have count of number of actions found. Date has date of first object found<
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1540,7 +2375,7 @@ isComplete:false</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line113">line 113</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line135">line 135</a>
     </li></ul></dd>
     
 
@@ -1596,186 +2431,6 @@ isComplete:false</p>
 
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="wasOnList"><span class="type-signature"></span>wasOnList<span class="signature">(actions, listName)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Find actions that indicate card was previously on the specified list name</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>actions</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;Object></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>listName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>name that card was on before</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line85">line 85</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the array of actions that fit the criteria</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;Object></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
     
 
     
@@ -1797,7 +2452,7 @@ isComplete:false</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 13 2019 10:38:38 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 13 2019 22:13:35 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

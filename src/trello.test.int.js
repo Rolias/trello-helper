@@ -35,11 +35,14 @@ describe('trello module', function () {
     result.length.should.be.gt(0)
     logger.debug(result.length)
   })
+
+
   describe('getCardsOnList() should', () => {
+
     it('process withOptions{} object', async () => {
       const result = await trello.getCardsOnList({
-        fromId: LIST_ID,
-        withOptions: {
+        id: LIST_ID,
+        options: {
           fields: 'name,id',
           limit: 1,
         },
@@ -51,8 +54,8 @@ describe('trello module', function () {
     it('work with empty options', async () => {
       // will also work if withOptions is missing - but ts lint checker won't be happy
       const result = await trello.getCardsOnList({
-        fromId: LIST_ID,
-        withOptions: {},
+        id: LIST_ID,
+        options: {},
       })
       result.length.should.be.gt(1)
       Object.keys(result[0]).length.should.be.gt(2)
@@ -62,15 +65,16 @@ describe('trello module', function () {
 
   it('getArchivedCards() should return only archived cards from list', async () => {
     const result = await trello.getArchivedCards({
-      forBoardId: BOARD_ID, onListId: LIST_ID,
+      boardId: BOARD_ID, listId: LIST_ID,
     })
     logger.debug(result[0])
     result.every(e => e.closed).should.be.true
   })
+
   it('getMoveToBoardInfo() should find any action indicating card was move to board', async () => {
     const actions = await trello.getAllActionsOnCard(CARD_ID)
-    const result = await trello.getMoveCardToBoardInfo(actions)
-    result.status.should.equal(1)
+    const result = await trello.getMoveCardToBoardActions(actions)
+    result.length.should.equal(1)
   })
 
   it('setDueComplete works', async () => {
@@ -90,5 +94,6 @@ describe('trello module', function () {
     should.exist(result.id)
     await trello.deleteCard(result.id)
   })
+
 })
 

@@ -18,6 +18,7 @@
     "test:int": "mocha  \"src/**/*.test.int.js\"",
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc mocha \"src/**/*.test.js\"",
+    "test:all": "nyc run-p test test:int",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md"
   },

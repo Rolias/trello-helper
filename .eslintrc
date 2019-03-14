@@ -65,7 +65,7 @@
     "newline-per-chained-call": "error",
     "no-whitespace-before-property": "error",
     "padded-blocks": [
-      "warn",
+      "off",
       "never",
       {
         "classes": "always"

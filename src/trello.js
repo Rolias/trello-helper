@@ -3,6 +3,7 @@
 const Trello = require('trello')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
+const moment = require('moment')
 
 /**
  * @extends Trello
@@ -15,33 +16,45 @@ class TrelloPlus extends Trello {
   constructor(pathString) {
     const result = envCreate.load({path: pathString})
     if (result.status === false) {
-      logger.error(`FATAL ERROR reading credentials. ${JSON.stringify(result, null, 2)}`)
+      const errorMsg = `FATAL ERROR reading credentials. ${JSON.stringify(result, null, 2)}`
+      logger.error(errorMsg)
+      throw (errorMsg)
     }
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
   }
   /** @return the '/1/cards'   DRY */
   getBaseCardCmd() {return '/1/cards'}
+  getCardDueCmd(cardId) {return `${this.getCardPrefixWithId(cardId)}/due`}
   getCardPrefixWithId(cardId) {return `${this.getBaseCardCmd()}/${cardId}`}
   getListPrefixWithId(listId) {return `/1/list/${listId}`}
   getListCardCmd(listId) {return `${this.getListPrefixWithId(listId)}/cards`}
-  getBoardPrefixWithId(boardId) {return `1/board/${boardId}`}
+  getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
   /**
  * Wrap the underlying makeRequest for get
  * @param {string} path 
  * @param {Object} options  
- * @return {Promise<Object>}
+ * @return {Promise<any>}
  * @example get(this.getListCardCmd('123'), {limit:10})
  */
   get(path, options) {
     return this.makeRequest('get', path, options)
   }
-  /** wrap the underlying makeRequest for put @see get()   */
+  /** wrap the underlying makeRequest for put 
+   * @param {string} path 
+   * @param {Object} options  
+   * @return {Promise<any>}
+  */
   put(path, options) {
     return this.makeRequest('put', path, options)
   }
-  /** wrap the underlying makeRequest for post */
+  /**
+  * Wrap the underlying makeRequest for post
+  * @param {string} path 
+  * @param {Object} options  
+  * @return {Promise<any>}
+  */
   post(path, options) {
     return this.makeRequest('post', path, options)
   }
@@ -49,6 +62,7 @@ class TrelloPlus extends Trello {
 
   /** Get all the actions on the card
    * @param {string} cardId
+   * @returns {Promise<Array.<Object<string,any>>>}
    */
   getAllActionsOnCard(cardId) {
     const path = `${this.getCardPrefixWithId(cardId)}/actions`
@@ -58,53 +72,57 @@ class TrelloPlus extends Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{fromId:string, withOptions}} listParam 
-    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
+   * @param {{id:string, options}} listParam 
+   * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{limit:10}})
    */
   getCardsOnList(listParam) {
-    const path = `${this.getListCardCmd(listParam.fromId)}`
-    const {withOptions} = listParam
-    return this.get(path, withOptions)
+    const path = `${this.getListCardCmd(listParam.id)}`
+    const {options} = listParam
+    return this.get(path, options)
   }
   /**
    * Get all cards that are archived for the specified list
-   * @param {{forBoardId,onListId}} param 
+   * @param {{boardId,listId}} param 
    * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-   * @example getArchivedCards({forBoardId:'123',onListId'456'})
+   * @example getArchivedCards({forBoardId:'123',listId'456'})
    */
   async getArchivedCards(param) {
     const options = {filter: 'closed'}
-    const list = param.onListId
-    const archivedCards = await this.getCardsOnBoardWithExtraParams(param.forBoardId, options)
+    const list = param.listId
+    const path = `${this.getBoardPrefixWithId(param.boardId)}/cards`
+    const archivedCards = await this.get(path, options)
     const archivedOnList = archivedCards.filter(e => e.idList === list)
     return archivedOnList
   }
   /**
    * Find actions that indicate card was previously on the specified list name
-   * @param {Array.<Object>} actions 
-   * @param {string} listName  name that card was on before
+   * @param {{actions,filterList}} params 
    * @return {Array<Object>} the array of actions that fit the criteria
    */
-  wasOnList(actions, listName) {
-    return actions.filter(e => e.data.listBefore === listName)
+  actionWasOnList(params) {
+    return params.actions.filter(e => e.data.listBefore === params.filterList)
+  }
+  /**
+   * Find actions in array whose `type` field matches the passed type property
+   * @param {{actions:Array,filterType:string }} param 
+   * @returns {Array<Object<string,any>>} - array of matching actions
+   * @usage filterActionsByType({actions:[], type:'updateCard'})
+   */
+  filterActionsByType(param) {
+    return param.actions.filter(e => e.type === param.filterType)
   }
 
   /**
    * Find any actions that are of type 'moveCardToBoard' and capture
    * the number found and the date of the first one found
-   * @param {Array.<Object>} actions the action objects 
-   * @returns {{status:number,date:any}} object withe status and date properties status 
+   * @param {Array.<Object<string,any>>} actions the action objects 
+   * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType 
    * will have count of number of actions found. Date has date of first object found
    * @example getMoveCardToBoardInfo([{actionObjects}])
    */
-  getMoveCardToBoardInfo(actions) {
-    const result = actions.filter(e => e.type === 'moveCardToBoard')
-    const moveInfo = {status: result.length, date: ''}
-    if (result.length > 0) {
-      moveInfo.date = result[0].date
-    }
-    return moveInfo
+  getMoveCardToBoardActions(actions) {
+    return this.filterActionsByType({actions, filterType: 'moveCardToBoard'})
   }
 
   /**
@@ -129,10 +147,29 @@ class TrelloPlus extends Trello {
     return this.post(this.getBaseCardCmd(), param)
   }
 
+  /**
+   * Add a comment to the card
+   * @param {{id,text}} param id of the card and text for the comment
+   * @returns {Promise<Object<string,any>>} a Promise of a card object
+   * @example addCommentOnCard({id:'123',text:"message for comment"})
+   */
   addCommentOnCard(param) {
-    const cmd = getCardPrefixWithId(param.id) + '/actions/comments'
-    return post(cmd, param.options)
-    return super.addCommentToCard(param.id, param.text)
+    const cmd = `${this.getCardPrefixWithId(param.id)}/actions/comments`
+    const {text} = param
+    return this.post(cmd, {text})
+  }
+
+  /**
+   * Add due date to a card using a relative offset
+   * the offset object has a count property (a number) and a units property 
+   *  `days, months, years, quarters, hours, minutes`  
+   * @param {{id,offset:{count:Number,units:string}}} param 
+   * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
+   */
+  addDueDateToCardRelative(param) {
+    // @ts-ignore
+    const dueDate = moment().add(param.offset.count, param.offset.units)
+    return this.put(this.getCardDueCmd(param.id), {value: dueDate.format()})
   }
 }
 

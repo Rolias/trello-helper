@@ -14,18 +14,24 @@ const trello = new Trello('./src/test-data/unit-test-fake-credentials.json')
 const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
-const resolveArray = [{id: '123'}]
-let myStub
-const stubPathParam = () => myStub.getCall(0).args[1]
-const stubOptionParam = () => myStub.getCall(0).args[2]
-describe('trello ', () => {})
+const resolveArray = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
+let makeRequestStub
+const makeRequestStubType = () => makeRequestStub.getCall(0).args[0]
+const makeRequestStubPathParam = () => makeRequestStub.getCall(0).args[1]
+const makeRequestStubOptionParam = () => makeRequestStub.getCall(0).args[2]
+describe('trello class', () => {})
 {
-  xit('should ...', () => {
-    sandbox.stub(baseTrello.prototype, 'makeRequest').returns(Promise.resolve())
-    // actual test goes here
-    sandbox.restore()
+  it('construcctor should throw with bad path to creds', () => {
+    try {
+      new Trello()
+      true.should.be.false  // error if we get here  
+    } catch (error) {
+      error.should.contain('FATAL ERROR')
+    }
   })
-  describe('trello using reject ', () => {
+
+
+  describe('using reject ', () => {
     beforeEach(() => {
       sandbox.stub(baseTrello.prototype, 'makeRequest').returns(Promise.reject(rejectMsg))
     })
@@ -49,9 +55,36 @@ describe('trello ', () => {})
     })
   })
 
-  describe('trello with fake', () => {
+
+  describe('trello functions that return card object resolve', () => {
     beforeEach(() => {
-      myStub = sandbox.stub(baseTrello.prototype, 'makeRequest')
+      makeRequestStub = sandbox.stub(baseTrello.prototype, 'makeRequest')
+        .returns(Promise.resolve(resolveObj))
+    })
+
+    afterEach(() => {
+      sandbox.restore()
+    })
+
+    describe('addCard() should', () => {
+      beforeEach(async () => {
+        await trello.addCard({name: 'Test', description: 'Something', idList: FAKE_ID})
+      })
+      it('create expected path parameter', () => {
+        makeRequestStubPathParam().should.equal('/1/cards')
+      })
+      it('do a post', () => {
+        makeRequestStubType().should.equal('post')
+      })
+      it('have an  options argument with three properties', () => {
+        Object.keys(makeRequestStubOptionParam()).length.should.equal(3)
+      })
+    })
+  })
+
+  describe('trello functions that return array handles resolve', () => {
+    beforeEach(() => {
+      makeRequestStub = sandbox.stub(baseTrello.prototype, 'makeRequest')
         .returns(Promise.resolve(resolveArray))
     })
 
@@ -59,25 +92,114 @@ describe('trello ', () => {})
       sandbox.restore()
     })
 
-    it.only('getListCards() should return id', async () => {
-      const result = await trello.getCardsOnList({fromId: FAKE_ID})
-      result[0].id.should.equal('123')
-      stubPathParam().should.contain(FAKE_ID)
-      should.not.exist(stubOptionParam())
+    it('getCardsOnList() should get proper path and return id', async () => {
+      await trello.getCardsOnList({id: FAKE_ID})
+      makeRequestStubPathParam().should.equal(`/1/list/${FAKE_ID}/cards`)
+      should.not.exist(makeRequestStubOptionParam())
+      makeRequestStubType().should.equal('get')
     })
 
-    it.only('setComment() should return something', async () => {
-      const cardParams = {card: {id: FAKE_ID}, text: FAKE_COMMENT}
+    it('addCommentOnCard() should get expected path and option object ', async () => {
+      const cardParams = {id: FAKE_ID, text: FAKE_COMMENT}
       await trello.addCommentOnCard(cardParams)
-      stubPathParam().should.contain(FAKE_ID)
-      stubOptionParam().should.contain(FAKE_COMMENT)
+      makeRequestStubPathParam().should.equal(`/1/cards/${FAKE_ID}/actions/comments`)
+      makeRequestStubOptionParam().text.should.equal(FAKE_COMMENT)
     })
-    it('setDueDate() should create due date with time specified', async () => {
-      const cardParams = {card: {id: FAKE_ID}, time: {count: 2, units: 'days'}}
-      const result = await Trello.setDueDate(cardParams)
-      result.type.should.equal('put')
-      result.cmd.should.contain(FAKE_ID)
-      moment.isMoment(result.params.due).should.be.true
+
+    it('addDueDateToCardRelative constructs expected path and date', async () => {
+      await trello.addDueDateToCardRelative({
+        id: FAKE_ID,
+        offset: {count: 7, unit: 'days'},
+      })
+      makeRequestStubPathParam().should.equal('/1/cards/12345/due')
+      const dueDate = makeRequestStubOptionParam().value
+      moment(dueDate).isSame(moment().add(7, 'days'), 'day')
+    })
+
+    describe('setDueComplete() should', () => {
+      beforeEach(async () => {
+        await trello.setDueComplete({id: FAKE_ID, isComplete: true})
+      })
+      it('have the  done a put()', async () => {
+        makeRequestStubType().should.equal('put')
+      })
+      it('have the expected path', async () => {
+        makeRequestStubPathParam().should.equal('/1/cards/12345')
+      })
+      it('have an object of {filter:"all"}', async () => {
+        makeRequestStubOptionParam().dueComplete.should.be.true
+      })
+    })
+
+    describe('getAllActionsOnCard() should', () => {
+      beforeEach(async () => {
+        await trello.getAllActionsOnCard(FAKE_ID)
+      })
+      it('have done a get()', async () => {
+        makeRequestStubType().should.equal('get')
+      })
+      it('have the expected path', async () => {
+        makeRequestStubPathParam().should.equal('/1/cards/12345/actions')
+      })
+      it('have an object of {filter:"all"}', async () => {
+        makeRequestStubOptionParam().filter.should.equal('all')
+      })
+    })
+
+    describe('getArchivedCards(param) should', () => {
+      let result
+      beforeEach(async () => {
+        result = await trello.getArchivedCards({boardId: FAKE_ID, listId: FAKE_ID})
+      })
+      it('have the expected path', () => {
+        makeRequestStubType().should.equal('get')
+      })
+      it('have the expected path', () => {
+        makeRequestStubPathParam().should.equal('/1/board/12345/cards')
+      })
+      it('have an object of {filter:"closed"}', () => {
+        makeRequestStubOptionParam().filter.should.equal('closed')
+      })
+      it('should return the action with the FAKE_ID idList ', () => {
+        result.length.should.equal(1)
+        result[0].idList.should.equal(FAKE_ID)
+      })
+    })
+
+
+  })
+  describe('action functions', () => {
+    const listToFind = 'listOfInterest'
+    const desiredType = 'commentAdded'
+    const moveCardToBoardType = 'moveCardToBoard'
+    const actions = [
+      {
+        type: moveCardToBoardType,
+        data: {listBefore: 'notThisOne'},
+      },
+      {
+        type: desiredType,
+        data: {listBefore: listToFind},
+      }]
+
+    it('actionWasOnList() should find action on the desired list', async () => {
+      const result = await trello.actionWasOnList({actions, filterList: listToFind})
+      result.length.should.equal(1)
+      result[0].data.listBefore.should.equal(listToFind)
+    })
+
+    it('filterActionsByType() should find desired type.', async () => {
+      const result = await trello.filterActionsByType({actions, filterType: desiredType})
+      console.log(result)
+      result.length.should.equal(1)
+      result[0].type.should.equal(desiredType)
+    })
+
+    it('getMoveCardBoardToBoardActions() should return expected action', async () => {
+      const result = await trello.getMoveCardToBoardActions(actions)
+      result.length.should.equal(1)
+      result[0].type.should.equal(moveCardToBoardType)
     })
   })
+
 }

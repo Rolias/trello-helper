@@ -25,6 +25,7 @@
     "publish": "npm publish ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
+    "build:verpub": "run-s version publish"
     "build": "run-s lint test:cov security-check doc  build:commit version  "
   },
   "repository": {

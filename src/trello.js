@@ -85,7 +85,7 @@ class TrelloPlus extends Trello {
    * Get all cards that are archived for the specified list
    * @param {{boardId,listId}} param 
    * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-   * @example getArchivedCards({forBoardId:'123',listId'456'})
+   * @example getArchivedCards({boardId:'123',listId'456'})
    */
   async getArchivedCards(param) {
     const options = {filter: 'closed'}
@@ -99,6 +99,7 @@ class TrelloPlus extends Trello {
    * Find actions that indicate card was previously on the specified list name
    * @param {{actions,filterList}} params 
    * @return {Array<Object>} the array of actions that fit the criteria
+   * @example actionWasOnList({actions,filterList:'idOfList'})
    */
   actionWasOnList(params) {
     return params.actions.filter(e => e.data.listBefore === params.filterList)

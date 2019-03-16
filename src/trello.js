@@ -78,7 +78,7 @@ class TrelloPlus extends Trello {
    * Get all archived cards from the board that match the passed list id
    * @param {{id:string, options?}} listParam 
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
-   * @example getCardsOnListWith({id:'123',options:{limit:10}})
+   * @example getCardsOnListWith({id:'123',options:{limit:11}})
    */
   getCardsOnList(listParam) {
     const path = `${this.getListCardCmd(listParam.id)}`

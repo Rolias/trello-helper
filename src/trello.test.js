@@ -93,7 +93,7 @@ describe('trello class', () => {})
       sandbox.restore()
     })
 
-    describe.only('getCardsOnList() with id only', () => {
+    describe('getCardsOnList() with id only', () => {
       beforeEach(async () => {
         await trello.getCardsOnList({id: FAKE_ID})
       })
@@ -108,7 +108,7 @@ describe('trello class', () => {})
       })
     })
 
-    describe.only('getCardsOnList() with id and option properties', () => {
+    describe('getCardsOnList() with id and option properties', () => {
       beforeEach(async () => {
         await trello.getCardsOnList({id: FAKE_ID, options: {limit: 10}})
       })

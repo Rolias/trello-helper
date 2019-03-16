@@ -22,10 +22,10 @@
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
     "build:ver": "npm version patch  ",
-    "build:pub": "npm publish --dry-run ",
+    "build:pub": "npm publish ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
-    "build": "npm-run-all --parallel lint test:all security-check doc --serial build:commit build:ver build:pub "
+    "build": "npm-run-all --parallel lint test:all security-check   --serial build:commit build:ver build:pub "
   },
   "repository": {
     "type": "git",

@@ -11,10 +11,14 @@ const moment = require('moment')
 class TrelloPlus extends Trello {
   /**
    * Create the TrelloPLus class to add more trello functions
-   * @param {string} pathString path to the trello JSON credentials file
+   * @param {?string} pathString path to the trello JSON credentials file
    */
   constructor(pathString) {
-    const result = envCreate.load({path: pathString})
+    const param = {}
+    if (pathString !== undefined) {
+      param.path = pathString
+    }
+    const result = envCreate.load(param)
     if (result.status === false) {
       const errorMsg = `FATAL ERROR reading credentials. ${JSON.stringify(result, null, 2)}`
       logger.error(errorMsg)
@@ -72,7 +76,7 @@ class TrelloPlus extends Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options}} listParam 
+   * @param {{id:string, options?}} listParam 
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{limit:10}})
    */

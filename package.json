@@ -18,14 +18,14 @@
     "test:int": "mocha  \"src/**/*.test.int.js\"",
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc mocha \"src/**/*.test.js\"",
-    "test:all": "nyc run-p test test:int",
+    "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
     "build:ver": "npm version patch  ",
-    "build:pub": "npm publish ",
+    "build:pub": "npm publish --dry-run ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
-    "build": "run-s lint test:cov security-check doc  build:commit build:ver build:pub "
+    "build": "npm-run-all --parallel lint test:all security-check doc --serial build:commit build:ver build:pub "
   },
   "repository": {
     "type": "git",

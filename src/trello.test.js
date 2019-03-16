@@ -1,3 +1,4 @@
+// @ts-check
 const chai = require('chai')
 const should = chai.should()
 const moment = require('moment')
@@ -21,7 +22,7 @@ const makeRequestStubPathParam = () => makeRequestStub.getCall(0).args[1]
 const makeRequestStubOptionParam = () => makeRequestStub.getCall(0).args[2]
 describe('trello class', () => {})
 {
-  it('construcctor should throw with bad path to creds', () => {
+  it('constructor should throw with no parameter and no local .env.json file', () => {
     try {
       new Trello()
       true.should.be.false  // error if we get here  
@@ -82,7 +83,7 @@ describe('trello class', () => {})
     })
   })
 
-  describe('trello functions that return array handles resolve', () => {
+  describe('trello functions that resolve and return an array', () => {
     beforeEach(() => {
       makeRequestStub = sandbox.stub(baseTrello.prototype, 'makeRequest')
         .returns(Promise.resolve(resolveArray))
@@ -92,11 +93,31 @@ describe('trello class', () => {})
       sandbox.restore()
     })
 
-    it('getCardsOnList() should get proper path and return id', async () => {
-      await trello.getCardsOnList({id: FAKE_ID})
-      makeRequestStubPathParam().should.equal(`/1/list/${FAKE_ID}/cards`)
-      should.not.exist(makeRequestStubOptionParam())
-      makeRequestStubType().should.equal('get')
+    describe.only('getCardsOnList() with id only', () => {
+      beforeEach(async () => {
+        await trello.getCardsOnList({id: FAKE_ID})
+      })
+      it('should get a proper path ', async () => {
+        makeRequestStubPathParam().should.equal(`/1/list/${FAKE_ID}/cards`)
+      })
+      it('should not have an option parameter', async () => {
+        should.not.exist(makeRequestStubOptionParam())
+      })
+      it('should do a get', async () => {
+        makeRequestStubType().should.equal('get')
+      })
+    })
+
+    describe.only('getCardsOnList() with id and option properties', () => {
+      beforeEach(async () => {
+        await trello.getCardsOnList({id: FAKE_ID, options: {limit: 10}})
+      })
+      it('should get a proper path ', async () => {
+        makeRequestStubPathParam().should.equal(`/1/list/${FAKE_ID}/cards`)
+      })
+      it('should have an option parameter equal to 10', async () => {
+        makeRequestStubOptionParam().limit.should.equal(10)
+      })
     })
 
     it('addCommentOnCard() should get expected path and option object ', async () => {
@@ -109,7 +130,7 @@ describe('trello class', () => {})
     it('addDueDateToCardRelative constructs expected path and date', async () => {
       await trello.addDueDateToCardRelative({
         id: FAKE_ID,
-        offset: {count: 7, unit: 'days'},
+        offset: {count: 7, units: 'days'},
       })
       makeRequestStubPathParam().should.equal('/1/cards/12345/due')
       const dueDate = makeRequestStubOptionParam().value

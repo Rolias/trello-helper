@@ -49,20 +49,22 @@ class TrelloPlus extends Trello {
    * @param {string} path 
    * @param {Object} options  
    * @return {Promise<any>}
-  */
+   * @example  put(getCardPrefixWithId(<cardId>), {dueComplete: true})
+   */
   put(path, options) {
     return this.makeRequest('put', path, options)
   }
+
   /**
   * Wrap the underlying makeRequest for post
   * @param {string} path 
   * @param {Object} options  
   * @return {Promise<any>}
+  * @example post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:<idOfList>})
   */
   post(path, options) {
     return this.makeRequest('post', path, options)
   }
-
 
   /** Get all the actions on the card
    * @param {string} cardId

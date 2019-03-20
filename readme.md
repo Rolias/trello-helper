@@ -48,5 +48,4 @@ The files that end with `test.int.js` do integration testing. In addition to bei
 [moment](https://www.npmjs.com/package/moment) flexible handling of JavaScript dates and times  
 
 ## Available Functions
-
-See the [documentation folder in github](https://github.com/Rolias/trello-helper/tree/master/documentation) for the list of available functions and their signatures
+See the [GitHub documentation]( https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/documentation/module-src_trello-TrelloPlus.html) for the list of available functions and their signatures

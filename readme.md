@@ -34,22 +34,22 @@ If you pass an empty string to the `Trello` constructor, it will look for your c
 }
 ```
 
-You can have other items in this file, but `trelloHelper` must be a top-level object in the file with the indicated property names. Of course, you must put in a valid app key and token for both properties.  
+You can have other items in this file, but `trelloHelper` must be a top-level object in the file with the 'appKey' and 'token' property names. Of course, you must put in valid app key and token strings for both properties.  
 
 ## Integration Tests
 
-The files that end with `test.int.js` do integration testing. In addition to being a useful test for development they useful serve as documentation for the provided functions. They are fragile in that they rely on specific ids that won't exist on your system. These ids and other fragile data are stored in the `test-data/integrations.json` file.
+The files that end with `test.int.js` do integration testing. In addition to being a useful test for development, they also serve as documentation for the provided functions. They are fragile in that they rely on specific ids that won't exist on your system. These ids and other fragile data are stored in the `test-data/integrations.json` file.
 
 ## Dependencies
 
-[`trello`](https://www.npmjs.com/package/trello)  
-[`winston`](https://www.npmjs.com/package/winston)  logging tool
-[env-create](https://www.npmjs.com/package/env-create) reads a JSON file and turns top level elements into environment variables
-[moment](https://www.npmjs.com/package/moment) flexible handling of JavaScript dates and times
+[trello](https://www.npmjs.com/package/trello)  
+[winston](https://www.npmjs.com/package/winston)  logging tool  
+[env-create](https://www.npmjs.com/package/env-create) reads a JSON file and turns top level elements into environment variables  
+[moment](https://www.npmjs.com/package/moment) flexible handling of JavaScript dates and times  
 
 ## Quick Cheat Sheet (not comprehensive)
 
-- see the [documentation folder in github](https://github.com/Rolias/trello-helper/tree/master/documentation) for the most accurate information.
+### See the [documentation folder in github](https://github.com/Rolias/trello-helper/tree/master/documentation) for the most accurate information.
 
 - `getAllActionsOnCard(cardId)` - returns the array of actions
 - `getCardsOnListWith(param)` 

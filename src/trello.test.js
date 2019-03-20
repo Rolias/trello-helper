@@ -23,14 +23,9 @@ const makeRequestStubOptionParam = () => makeRequestStub.getCall(0).args[2]
 describe('trello class', () => {})
 {
   it('constructor should throw with no parameter and no local .env.json file', () => {
-    try {
-      new Trello()
-      true.should.be.false  // error if we get here  
-    } catch (error) {
-      error.should.contain('FATAL ERROR')
-    }
+    // @ts-ignore
+    (() => {new Trello()}).should.throw()
   })
-
 
   describe('using reject ', () => {
     beforeEach(() => {
@@ -41,6 +36,7 @@ describe('trello class', () => {})
     })
 
     it('get() should reject', async () => {
+      // @ts-ignore
       await trello.get(fakeCmd)
         .catch((error) => {
           error.should.equal(rejectMsg)
@@ -49,6 +45,7 @@ describe('trello class', () => {})
 
     // describe('getListCards () should', () => {})
     it('getCardsOnList() should reject', async () => {
+      // @ts-ignore
       await trello.getCardsOnList(fakeCmd)
         .catch((error) => {
           error.should.equal(rejectMsg)

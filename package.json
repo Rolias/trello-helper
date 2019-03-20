@@ -44,7 +44,6 @@
   "dependencies": {
     "env-create": "^1.0.3",
     "moment": "^2.24.0",
-    "node-trello": "^1.3.0",
     "trello": "^0.9.1",
     "winston": "x"
   },

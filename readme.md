@@ -1,6 +1,6 @@
 # Trello Helper
 
-This project is designed to make using the Trello API a little easier. It extends the `trello` package and wraps many calls to use a different calling syntax. For example, there is one function for `getCardsOnList()` which takes a single parameter with object property names that fully describe what the function is doing.
+This project is designed to make using the Trello API a little easier. It extends the `**trello**` npm package and wraps many calls to use a different calling syntax. For example, there is one function for `getCardsOnList()` which takes a single parameter with object property names that fully describe what the function is doing.
 
 ```javascript
 getCardsOnlist({fromId:'123', withOptions:{limit:10}})
@@ -8,13 +8,14 @@ getCardsOnlist({fromId:'123', withOptions:{limit:10}})
 getCardsOnList({fromId:'123'})
 ```
 
-Additionally, it wraps the `get`, `put` and `post` commands. It also exposes several higher level common commands needed for working with boards, lists, cards, and actions. The wrappers all use Promises (no callback syntax support), and the `async/await` syntax.
+Additionally, this package wraps the `get`, `put` and `post` commands. It also exposes several higher level common commands needed for working with boards, lists, cards, and actions. The wrappers all use Promises (no callback syntax support), and the `async/await` syntax.
 
 ## Installation
 
 `npm install trello-helper`
 
 ## Example Usage Authorization
+
 ```javascript
 const Trello = require('trello-helper')
 
@@ -37,15 +38,18 @@ You can have other items in this file, but `trelloHelper` must be a top-level ob
 
 ## Integration Tests
 
-The files that end with `test.int.js` that do integration testing. These are useful for seeing example calls for the commands. They are fragile in that they rely on specific ids that won't exist on your system. These ids and other fragile data are stored in the `test-data/integrations.json` file.  
+The files that end with `test.int.js` do integration testing. In addition to being a useful test for development they useful serve as documentation for the provided functions. They are fragile in that they rely on specific ids that won't exist on your system. These ids and other fragile data are stored in the `test-data/integrations.json` file.
 
 ## Dependencies
 
 [`trello`](https://www.npmjs.com/package/trello)  
-[`winston` logging tool](https://www.npmjs.com/package/winston)  
+[`winston`](https://www.npmjs.com/package/winston)  logging tool
+[env-create](https://www.npmjs.com/package/env-create) reads a JSON file and turns top level elements into environment variables
+[moment](https://www.npmjs.com/package/moment) flexible handling of JavaScript dates and times
 
-This library wraps the functionality of the `trello` package with added functions. In most cases where an underlying `trello` method requires multiple parameters, this wrapper takes a single object with descriptive property names.
+## Quick Cheat Sheet (not comprehensive)
 
+- see the [documentation folder in github](https://github.com/Rolias/trello-helper/tree/master/documentation) for the most accurate information.
 
 - `getAllActionsOnCard(cardId)` - returns the array of actions
 - `getCardsOnListWith(param)` 
@@ -54,16 +58,6 @@ This library wraps the functionality of the `trello` package with added function
 - `get(path,options)`
 - `put(path,options)`
 - `post(path,options)`
-- `getMoveCardToBoardInfo(actions)`
+- `getMoveCardToBoardInfo(actions)` - pass an array of actions and get back the "MoveCardToBoard" actions
 - `setDueComplete(param)`
 - `addCard(param)`
-
-## Acknowledgment
-
-This package relies **heavily** on the `trello` package. It adds some additional calls, but it also wraps some existing functions that take multiple parameters to take an object. That allows for a syntax I like where it's clear what every parameter does. I also tend to favor a naming style where the method and parameter property names more fully describe what is happening e.g.  
-
-```javascript
-const result = await trello.getCardsOnListWith({
-  id:'123',
-  options{fields:'name,id'},})
-  ```

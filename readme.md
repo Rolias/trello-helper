@@ -1,6 +1,6 @@
 # Trello Helper
 
-This project is designed to make using the Trello API a little easier. It extends the `**trello**` npm package and wraps many calls to use a different calling syntax. For example, there is one function for `getCardsOnList()` which takes a single parameter with object property names that fully describe what the function is doing.
+This project is designed to make using the Trello API a little easier. It extends the `trello` npm package and wraps many calls to use a different calling syntax. For example, there is one function for `getCardsOnList()` which takes a single parameter with object property names that fully describe what the function is doing.
 
 ```javascript
 getCardsOnlist({fromId:'123', withOptions:{limit:10}})

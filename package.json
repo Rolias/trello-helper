@@ -25,7 +25,7 @@
     "build:pub": "npm publish ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
-    "build": "npm-run-all --parallel lint test:all security-check   --serial  build:ver build:pub "
+    "build": "npm-run-all --parallel lint test:all security-check doc  --serial  build:ver build:pub "
   },
   "repository": {
     "type": "git",

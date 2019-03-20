@@ -11,7 +11,7 @@ const moment = require('moment')
 class TrelloPlus extends Trello {
   /**
    * Create the TrelloPLus class to add more trello functions
-   * @param {?string} pathString path to the trello JSON credentials file
+   * @param {string=} pathString path to the trello JSON credentials file
    */
   constructor(pathString) {
     const param = {}
@@ -27,7 +27,7 @@ class TrelloPlus extends Trello {
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
   }
-  /** @return the '/1/cards'   DRY */
+  /** @return '/1/cards'  */
   getBaseCardCmd() {return '/1/cards'}
   getCardDueCmd(cardId) {return `${this.getCardPrefixWithId(cardId)}/due`}
   getCardPrefixWithId(cardId) {return `${this.getBaseCardCmd()}/${cardId}`}
@@ -76,7 +76,7 @@ class TrelloPlus extends Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options?}} listParam 
+   * @param {{id:string, options=}} listParam  
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{limit:11}})
    */
@@ -171,7 +171,7 @@ class TrelloPlus extends Trello {
    * @param {{id,offset:{count:Number,units:string}}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
    */
-  addDueDateToCardRelative(param) {
+  addDueDateToCardByOffset(param) {
     // @ts-ignore
     const dueDate = moment().add(param.offset.count, param.offset.units)
     return this.put(this.getCardDueCmd(param.id), {value: dueDate.format()})

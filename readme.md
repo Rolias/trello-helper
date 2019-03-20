@@ -47,17 +47,6 @@ The files that end with `test.int.js` do integration testing. In addition to bei
 [env-create](https://www.npmjs.com/package/env-create) reads a JSON file and turns top level elements into environment variables  
 [moment](https://www.npmjs.com/package/moment) flexible handling of JavaScript dates and times  
 
-## Quick Cheat Sheet (not comprehensive)
+## Available Functions
 
-### See the [documentation folder in github](https://github.com/Rolias/trello-helper/tree/master/documentation) for the most accurate information.
-
-- `getAllActionsOnCard(cardId)` - returns the array of actions
-- `getCardsOnListWith(param)` 
-- `getArchivedCards(param)` - get all the archived cards for the passed board that belong to the passed id  
-- `wasOnList` - takes an array of actions and returns the ones that have a listBefore property that matches the passed listName 
-- `get(path,options)`
-- `put(path,options)`
-- `post(path,options)`
-- `getMoveCardToBoardInfo(actions)` - pass an array of actions and get back the "MoveCardToBoard" actions
-- `setDueComplete(param)`
-- `addCard(param)`
+See the [documentation folder in github](https://github.com/Rolias/trello-helper/tree/master/documentation) for the list of available functions and their signatures

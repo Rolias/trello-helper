@@ -124,8 +124,8 @@ describe('trello class', () => {})
       makeRequestStubOptionParam().text.should.equal(FAKE_COMMENT)
     })
 
-    it('addDueDateToCardRelative constructs expected path and date', async () => {
-      await trello.addDueDateToCardRelative({
+    it('addDueDateToCardByOffset constructs expected path and date', async () => {
+      await trello.addDueDateToCardByOffset({
         id: FAKE_ID,
         offset: {count: 7, units: 'days'},
       })

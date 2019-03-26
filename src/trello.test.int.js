@@ -96,12 +96,12 @@ describe('trello module', function () {
     await trello.deleteCard(result.id)
   })
 
-  it.only('addMemberToCard() should add the member', async () => {
+  it('addMemberToCard() should add the member', async () => {
     const result = await trello.addMemberToCard({cardId: CARD_ID, memberId: MEMBER_ID})
     result[0].id.should.equal(MEMBER_ID)
   })
 
-  it.only('addMemberToCard() should add the member', async () => {
+  it('addMemberToCard() should add the member', async () => {
     const result = await trello.removeMemberFromCard({cardId: CARD_ID, memberId: MEMBER_ID})
     result.length.should.equal(0)
   })

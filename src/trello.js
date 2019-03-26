@@ -4,7 +4,6 @@ const Trello = require('trello')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const moment = require('moment')
-const CredentialsManager = require('./CredentialManager')
 
 /**
  * @extends Trello
@@ -27,11 +26,6 @@ class TrelloPlus extends Trello {
     }
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
-  }
-
-  static async getOrSetCredentials() {
-    const credMan = new CredentialsManager()
-    return await credMan.getOrCreateKeyAndToken()
   }
 
 
@@ -196,10 +190,8 @@ class TrelloPlus extends Trello {
   }
 
   removeMemberFromCard(param) {
-    // 'https://api.trello.com/1/cards/id/idMembers/idMember'
     const {cardId, memberId} = param
     const cmd = `${this.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
-    console.log('CMD>>>', cmd)
     return this.delete(cmd)
   }
 

@@ -14,10 +14,10 @@
     "security-check": "npm audit",
     "lint": "esw src  --color",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha  --reporter spec \"src/**/*.test.js\"",
+    "test": "mocha  ",
     "test:int": "mocha  \"src/**/*.test.int.js\"",
     "test:watch": "npm run test -- --watch",
-    "test:cov": "nyc mocha \"src/**/*.test.js\"",
+    "test:cov": "nyc mocha",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
@@ -41,8 +41,15 @@
     "url": "https://github.com/Rolias/trello-helper/issues"
   },
   "homepage": "https://github.com/Rolias/trello-helper#readme",
+  "mocha": {
+    "spec": "src/**/*.test.js",
+    "verbose": true,
+    "reporter": "spec"
+  },
   "dependencies": {
     "env-create": "^1.0.3",
+    "inquirer": "^6.2.2",
+    "keytar": "^4.4.1",
     "moment": "^2.24.0",
     "trello": "^0.9.1",
     "winston": "x"

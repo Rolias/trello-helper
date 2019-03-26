@@ -7,7 +7,9 @@ const baseTrello = require('trello')
 
 const sandbox = require('sinon').createSandbox()
 const Trello = require('./trello')
+const logger = require('./util/logger')
 const FAKE_ID = '12345'
+const FAKE_MEMBER_ID = '5678'
 const FAKE_COMMENT = 'Message for Comment'
 
 
@@ -23,8 +25,10 @@ const makeRequestStubOptionParam = () => makeRequestStub.getCall(0).args[2]
 describe('trello class', () => {})
 {
   it('constructor should throw with no parameter and no local .env.json file', () => {
-    // @ts-ignore
-    (() => {new Trello()}).should.throw()
+    sandbox.stub(logger, 'error')
+      // @ts-ignore
+      ; (() => {new Trello()}).should.throw()
+    sandbox.restore()
   })
 
   describe('using reject ', () => {
@@ -184,6 +188,32 @@ describe('trello class', () => {})
       })
     })
 
+    describe('addMemberToCard() should', () => {
+      beforeEach(async () => {
+        await trello.addMemberToCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
+      })
+      it('have done a post()', async () => {
+        makeRequestStubType().should.equal('post')
+      })
+      it('have the expected path', async () => {
+        makeRequestStubPathParam().should.equal('/1/cards/12345/members')
+      })
+      it('have an object of {value:FAKE_MEMBER_ID}', async () => {
+        makeRequestStubOptionParam().value.should.equal(FAKE_MEMBER_ID)
+      })
+    })
+
+    describe('removeMemberFromCard() should', () => {
+      beforeEach(async () => {
+        await trello.removeMemberFromCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
+      })
+      it('have done a delete()', async () => {
+        makeRequestStubType().should.equal('delete')
+      })
+      it('have the expected path', async () => {
+        makeRequestStubPathParam().should.equal(`/1/cards/12345/idMembers/${FAKE_MEMBER_ID}`)
+      })
+    })
 
   })
   describe('action functions', () => {
@@ -208,7 +238,6 @@ describe('trello class', () => {})
 
     it('filterActionsByType() should find desired type.', async () => {
       const result = await trello.filterActionsByType({actions, filterType: desiredType})
-      console.log(result)
       result.length.should.equal(1)
       result[0].type.should.equal(desiredType)
     })

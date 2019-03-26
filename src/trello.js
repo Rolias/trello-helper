@@ -4,6 +4,7 @@ const Trello = require('trello')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const moment = require('moment')
+const CredentialsManager = require('./CredentialManager')
 
 /**
  * @extends Trello
@@ -27,6 +28,13 @@ class TrelloPlus extends Trello {
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
   }
+
+  static async getOrSetCredentials() {
+    const credMan = new CredentialsManager()
+    return await credMan.getOrCreateKeyAndToken()
+  }
+
+
   /** @return '/1/cards'  */
   getBaseCardCmd() {return '/1/cards'}
   getCardDueCmd(cardId) {return `${this.getCardPrefixWithId(cardId)}/due`}
@@ -37,7 +45,7 @@ class TrelloPlus extends Trello {
 
   /**
  * Wrap the underlying makeRequest for get
- * @param {string} path 
+ * @param {string} path technically an http path but to the Trello API it's command
  * @param {Object} options  
  * @return {Promise<any>}
  * @example get(this.getListCardCmd('123'), {limit:10})
@@ -46,7 +54,7 @@ class TrelloPlus extends Trello {
     return this.makeRequest('get', path, options)
   }
   /** wrap the underlying makeRequest for put 
-   * @param {string} path 
+   * @param {string} path  technically an http path but to the Trello API it's command
    * @param {Object} options  
    * @return {Promise<any>}
    * @example  put(getCardPrefixWithId(<cardId>), {dueComplete: true})
@@ -57,7 +65,7 @@ class TrelloPlus extends Trello {
 
   /**
   * Wrap the underlying makeRequest for post
-  * @param {string} path 
+  * @param {string} path technically an http path but to the Trello API it's command
   * @param {Object} options  
   * @return {Promise<any>}
   * @example post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:<idOfList>})
@@ -65,6 +73,17 @@ class TrelloPlus extends Trello {
   post(path, options) {
     return this.makeRequest('post', path, options)
   }
+
+  /** wrap the underlying makeRequest for delete 
+ * @param {string} path 
+ * @param {Object=} options  
+ * @return {Promise<any>}
+ * @example  delete(getCardPrefixWithId(<cardId>)})
+ */
+  delete(path, options) {
+    return this.makeRequest('delete', path, options)
+  }
+
 
   /** Get all the actions on the card
    * @param {string} cardId
@@ -164,6 +183,24 @@ class TrelloPlus extends Trello {
     const cmd = `${this.getCardPrefixWithId(param.id)}/actions/comments`
     const {text} = param
     return this.post(cmd, {text})
+  }
+
+  /**
+   * Add a member to a card using the member's id
+   * @param {{cardId:string,memberId:string}} param 
+   */
+  addMemberToCard(param) {
+    const {cardId, memberId} = param
+    const cmd = `${this.getCardPrefixWithId(cardId)}/members`
+    return this.post(cmd, {value: memberId})
+  }
+
+  removeMemberFromCard(param) {
+    // 'https://api.trello.com/1/cards/id/idMembers/idMember'
+    const {cardId, memberId} = param
+    const cmd = `${this.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
+    console.log('CMD>>>', cmd)
+    return this.delete(cmd)
   }
 
   /**

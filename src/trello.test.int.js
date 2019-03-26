@@ -9,6 +9,7 @@ const testData = require('./test-data/integration.json')
 const BOARD_ID = testData.ids.board
 const LIST_ID = testData.ids.list
 const CARD_ID = testData.ids.card
+const MEMBER_ID = testData.ids.member
 const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
 
 before(() => {
@@ -93,6 +94,16 @@ describe('trello module', function () {
     const result = await trello.addCard(param)
     should.exist(result.id)
     await trello.deleteCard(result.id)
+  })
+
+  it.only('addMemberToCard() should add the member', async () => {
+    const result = await trello.addMemberToCard({cardId: CARD_ID, memberId: MEMBER_ID})
+    result[0].id.should.equal(MEMBER_ID)
+  })
+
+  it.only('addMemberToCard() should add the member', async () => {
+    const result = await trello.removeMemberFromCard({cardId: CARD_ID, memberId: MEMBER_ID})
+    result.length.should.equal(0)
   })
 
 })

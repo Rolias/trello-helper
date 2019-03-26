@@ -2,7 +2,8 @@
   "ids": {
     "board": "54662dcf4218ed197f490560",
     "list": "546e5dde53994b64db614cd1",
-    "card": "5b18626142a8d79aaafab7c6"
+    "card": "5b18626142a8d79aaafab7c6",
+    "member": "55725d9ed4229e27d30692e1"
   },
   "authPath": "/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json"
 }

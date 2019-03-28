@@ -25,7 +25,7 @@
     "build:pub": "npm publish ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
-    "build": "npm-run-all --parallel lint test:all security-check doc  --serial build:commit build:ver build:pub "
+    "build": "npm-run-all --parallel lint test:all security-check   --serial build:commit build:ver build:pub "
   },
   "repository": {
     "type": "git",
@@ -47,7 +47,7 @@
     "reporter": "spec"
   },
   "dependencies": {
-    "env-create": "^1.0.3",
+    "env-create": "^1.0.9",
     "inquirer": "^6.2.2",
     "keytar": "^4.4.1",
     "moment": "^2.24.0",
@@ -55,15 +55,15 @@
     "winston": "x"
   },
   "devDependencies": {
-    "@types/node": "x",
+    "@types/node": "^11.12.0",
     "chai": "x",
-    "eslint": "x",
+    "eslint": "^5.15.3",
     "eslint-watch": "x",
     "jsdoc": "^3.5.5",
     "mocha": "x",
     "nodemon": "^1.18.10",
     "npm-run-all": "x",
     "nyc": "x",
-    "sinon": "x"
+    "sinon": "^7.3.1"
   }
 }

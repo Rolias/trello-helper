@@ -321,7 +321,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line108">line 108</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line154">line 154</a>
     </li></ul></dd>
     
 
@@ -483,7 +483,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line151">line 151</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line198">line 198</a>
     </li></ul></dd>
     
 
@@ -645,7 +645,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line161">line 161</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line208">line 208</a>
     </li></ul></dd>
     
 
@@ -809,7 +809,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line174">line 174</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -856,6 +856,350 @@ the offset object has a count property (a number) and a units property
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>await trello.addDueDateToCardByOffset({
+        id: FAKE_ID,
+        offset: {count: 7, units: 'days'},
+      })</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addMemberToCard"><span class="type-signature"></span>addMemberToCard<span class="signature">(param)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Add a member to a card using the member's id</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line218">line 218</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(path, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>wrap the underlying makeRequest for delete</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line77">line 77</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;any></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>delete(getCardPrefixWithId(&lt;cardId>)})</code></pre>
 
 
 
@@ -966,7 +1310,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line117">line 117</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -1024,7 +1368,7 @@ the offset object has a count property (a number) and a units property
     
 
     
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(path, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
     
 
     
@@ -1056,6 +1400,8 @@ the offset object has a count property (a number) and a units property
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1081,10 +1427,18 @@ the offset object has a count property (a number) and a units property
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>technically an http path but to the Trello API it's command</p></td>
         </tr>
 
     
@@ -1103,6 +1457,16 @@ the offset object has a count property (a number) and a units property
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -1148,7 +1512,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line45">line 45</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -1306,7 +1670,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line71">line 71</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -1459,7 +1823,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line94">line 94</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line125">line 125</a>
     </li></ul></dd>
     
 
@@ -1568,7 +1932,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line31">line 31</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -1612,7 +1976,7 @@ the offset object has a count property (a number) and a units property
     
 
     
-    <h4 class="name" id="getCardsOnList"><span class="type-signature"></span>getCardsOnList<span class="signature">(listParam)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object.&lt;string, any>>>}</span></h4>
+    <h4 class="name" id="getCardsOnBoard"><span class="type-signature"></span>getCardsOnBoard<span class="signature">(param)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object.&lt;string, any>>>}</span></h4>
     
 
     
@@ -1620,7 +1984,9 @@ the offset object has a count property (a number) and a units property
 
 
 <div class="description">
-    <p>Get all archived cards from the board that match the passed list id</p>
+    <p>Get all the cards on the board. Two useful options are
+limit:x to limit the number of cards (1 to 1000) coming back and
+fields:'name,desc'</p>
 </div>
 
 
@@ -1656,7 +2022,7 @@ the offset object has a count property (a number) and a units property
 
         <tr>
             
-                <td class="name"><code>listParam</code></td>
+                <td class="name"><code>param</code></td>
             
 
             <td class="type">
@@ -1713,7 +2079,164 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line83">line 83</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line111">line 111</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a Promise of an array of card objects</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;Object.&lt;string, any>>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getCardsOnList"><span class="type-signature"></span>getCardsOnList<span class="signature">(param)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object.&lt;string, any>>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Get all archived cards from the board that match the passed list id</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -1765,6 +2288,147 @@ the offset object has a count property (a number) and a units property
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>getCardsOnListWith({id:'123',options:{limit:11}})</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getMembersOnBoard"><span class="type-signature"></span>getMembersOnBoard<span class="signature">(param)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Get all the members on the passed board</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line235">line 235</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+    
+
+
 
 
 
@@ -1876,7 +2540,7 @@ the number found and the date of the first one found</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line129">line 129</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -1938,7 +2602,7 @@ will have count of number of actions found. Date has date of first object found<
     
 
     
-    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(path, options)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
+    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(path, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;any>}</span></h4>
     
 
     
@@ -1970,6 +2634,8 @@ will have count of number of actions found. Date has date of first object found<
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1995,10 +2661,18 @@ will have count of number of actions found. Date has date of first object found<
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>technically an http path but to the Trello API it's command</p></td>
         </tr>
 
     
@@ -2017,6 +2691,16 @@ will have count of number of actions found. Date has date of first object found<
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -2062,7 +2746,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line62">line 62</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -2105,6 +2789,11 @@ will have count of number of actions found. Date has date of first object found<
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:&lt;idOfList>})</code></pre>
 
 
 
@@ -2174,7 +2863,7 @@ will have count of number of actions found. Date has date of first object found<
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>technically an http path but to the Trello API it's command</p></td>
         </tr>
 
     
@@ -2238,7 +2927,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line53">line 53</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -2281,6 +2970,11 @@ will have count of number of actions found. Date has date of first object found<
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>put(getCardPrefixWithId(&lt;cardId>), {dueComplete: true})</code></pre>
 
 
 
@@ -2392,7 +3086,7 @@ isComplete:false</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line140">line 140</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -2469,7 +3163,7 @@ isComplete:false</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 20 2019 16:38:35 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 27 2019 18:31:26 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

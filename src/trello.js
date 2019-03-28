@@ -40,7 +40,7 @@ class TrelloPlus extends Trello {
   /**
  * Wrap the underlying makeRequest for get
  * @param {string} path technically an http path but to the Trello API it's command
- * @param {Object} options  
+ * @param {Object=} options  
  * @return {Promise<any>}
  * @example get(this.getListCardCmd('123'), {limit:10})
  */
@@ -60,7 +60,7 @@ class TrelloPlus extends Trello {
   /**
   * Wrap the underlying makeRequest for post
   * @param {string} path technically an http path but to the Trello API it's command
-  * @param {Object} options  
+  * @param {Object=} options  
   * @return {Promise<any>}
   * @example post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:<idOfList>})
   */
@@ -91,15 +91,31 @@ class TrelloPlus extends Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options=}} listParam  
+   * @param {{id:string, options?}} param  
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{limit:11}})
    */
-  getCardsOnList(listParam) {
-    const path = `${this.getListCardCmd(listParam.id)}`
-    const {options} = listParam
+  getCardsOnList(param) {
+    const path = `${this.getListCardCmd(param.id)}`
+    const {options} = param
     return this.get(path, options)
   }
+
+  /**
+   * Get all the cards on the board. Two useful options are
+   * limit:x to limit the number of cards (1 to 1000) coming back and
+   * fields:'name,desc'
+   * @param {{id:string, options?}} param 
+   * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
+   */
+  getCardsOnBoard(param) {
+    const {id, options} = param
+    const path = `${this.getBoardPrefixWithId(id)}/cards`
+    return this.get(path, options)
+
+  }
+
+
   /**
    * Get all cards that are archived for the specified list
    * @param {{boardId,listId}} param 
@@ -114,6 +130,21 @@ class TrelloPlus extends Trello {
     const archivedOnList = archivedCards.filter(e => e.idList === list)
     return archivedOnList
   }
+
+  /**
+   * Archives all the cards on the passed list id
+   * @ param {{id:string}} param 
+   * @ returns{Promise}
+   * This functions returns a Cannot Post error from the integration test
+   * Commented OUT for now
+   * 
+   */
+  // TODO see if Cannot POST error can be solved
+  // async archiveAllCardsOnList(param) {
+  //   const path = `${this.getListCardCmd(param.id)}/archiveAllCards`
+  //   return this.post(path)
+  // }
+
   /**
    * Find actions that indicate card was previously on the specified list name
    * @param {{actions,filterList}} params 
@@ -159,7 +190,7 @@ class TrelloPlus extends Trello {
   }
   /**
    * Add the card to the specified list. Use name and optional description
-   * @param {{name:string, description:string, idList:string}} param 
+   * @param {{name:string, desc:string, idList:string, idMembers?:string}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
@@ -196,11 +227,26 @@ class TrelloPlus extends Trello {
   }
 
   /**
+   * Get all the members on the passed board
+   * @param {{boardId:string}} param 
+   * @returns {Promise<{id:string, fullName:string, username:string}[]>}
+   */
+  getMembersOnBoard(param) {
+    const {boardId} = param
+    const cmd = `${this.getBoardPrefixWithId(boardId)}/members`
+    return this.get(cmd, {})
+  }
+
+  /**
    * Add due date to a card using a relative offset
    * the offset object has a count property (a number) and a units property 
    *  `days, months, years, quarters, hours, minutes`  
    * @param {{id,offset:{count:Number,units:string}}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
+   * @example await trello.addDueDateToCardByOffset({
+        id: FAKE_ID,
+        offset: {count: 7, units: 'days'},
+      })
    */
   addDueDateToCardByOffset(param) {
     // @ts-ignore

@@ -121,6 +121,33 @@ describe('trello class', () => {})
       })
     })
 
+    describe('getCardsOnBoard() with id only', () => {
+      beforeEach(async () => {
+        await trello.getCardsOnBoard({id: FAKE_ID})
+      })
+      it('should get a proper path ', async () => {
+        makeRequestStubPathParam().should.equal(`/1/board/${FAKE_ID}/cards`)
+      })
+      it('should not have an option parameter', async () => {
+        should.not.exist(makeRequestStubOptionParam())
+      })
+      it('should do a get', async () => {
+        makeRequestStubType().should.equal('get')
+      })
+    })
+
+    describe('getCardsOnBoard() with id and option properties', () => {
+      beforeEach(async () => {
+        await trello.getCardsOnBoard({id: FAKE_ID, options: {limit: 10}})
+      })
+      it('should get a proper path ', async () => {
+        makeRequestStubPathParam().should.equal(`/1/board/${FAKE_ID}/cards`)
+      })
+      it('should have an option parameter equal to 10', async () => {
+        makeRequestStubOptionParam().limit.should.equal(10)
+      })
+    })
+
     it('addCommentOnCard() should get expected path and option object ', async () => {
       const cardParams = {id: FAKE_ID, text: FAKE_COMMENT}
       await trello.addCommentOnCard(cardParams)

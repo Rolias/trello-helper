@@ -180,34 +180,5 @@ describe('trello module', function () {
     console.log(result)
   })
 
-  xdescribe('Custom Field Operations', () => {
-    it('addCustomTextField() should add a custom text field', async () => {
-      const listFieldObj = {
-        idModel: BOARD_ID,
-        name: 'Course Id',
-        pos: 'top',
-      }
-      const result = await trello.addCustomTextField(listFieldObj)
-      console.log(result)
-    })
-
-
-    it('addCustomDateField()', async () => {
-      const dateFieldObj = {
-        idModel: BOARD_ID,
-        name: 'Start Date',
-        pos: 'top',
-      }
-      const result = await trello.addCustomTextField(dateFieldObj)
-      console.log(result)
-    })
-
-
-    it('deleteCustomField()', async () => {
-      const result = await trello.deleteCustomField('5c9daa8eeb679211609aeb7c')
-      console.log(result)
-    })
-  })
-
 })
 

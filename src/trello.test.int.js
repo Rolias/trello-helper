@@ -53,11 +53,24 @@ describe('trello module', function () {
       Object.keys(result[0]).length.should.equal(2)
     })
 
+    it('can get back customFieldItems', async () => {
+
+      const result = await trello.getCardsOnList({
+        id: LIST_ID,
+        options: {
+          fields: 'name',
+          customFieldItems: true,
+        },
+      })
+      console.log(JSON.stringify(result, null, 2))
+      should.exist(result[0].customFieldItems)
+    })
+
     it('work with empty options', async () => {
       // will also work if withOptions is missing - but ts lint checker won't be happy
       const result = await trello.getCardsOnList({
         id: LIST_ID,
-        options: {},
+        options: {getCustomFields: true},
       })
       result.length.should.be.gt(0)
       Object.keys(result[0]).length.should.be.gt(2)
@@ -162,7 +175,12 @@ describe('trello module', function () {
 
   })
 
-  describe('Custom Field Operations', () => {
+  it('getCustomFieldItemsOnCard() should get the custom items', async () => {
+    const result = await trello.getCustomFieldItemsOnCard(CARD_ID)
+    console.log(result)
+  })
+
+  xdescribe('Custom Field Operations', () => {
     it('addCustomTextField() should add a custom text field', async () => {
       const listFieldObj = {
         idModel: BOARD_ID,
@@ -184,52 +202,6 @@ describe('trello module', function () {
       console.log(result)
     })
 
-    it.only('addCustomListField()', async () => {
-
-      const choiceArray = [
-        'is_low_quality_teaching',
-        'is_author_unqualified',
-        'is_against_best_practices',
-        'is_overlapping',
-        'is_overlapping_with_course_update',
-        'is_overlapping_with_course_replacement',
-        'is_overlapping_with_course_series',
-        'is_not_a_target_audience',
-        'is_abandoned_by_author',
-        'is_security_risk'
-      ]
-      const options = [, ]
-      for (let i = 0; i < choiceArray.length; ++i) {
-        options[i] = {
-          color: 'none',
-          value: {
-            text: choiceArray[i],
-          },
-          pos: i * 1000 + 100,
-        }
-      }
-
-      const listFieldObj = {
-        idModel: BOARD_ID,
-        modelType: 'board',
-        name: 'Reason',
-        options: [
-          {
-            value: {text: 'is_abandonded_by_author'},
-            pos: 1024,
-          }
-        ],
-        pos: 'bottom',
-        type: 'list',
-      }
-      const result = await trello.addCustomField(listFieldObj)
-      console.log(result)
-    })
-
-    it('add an item to list', async () => {
-
-
-    })
 
     it('deleteCustomField()', async () => {
       const result = await trello.deleteCustomField('5c9daa8eeb679211609aeb7c')

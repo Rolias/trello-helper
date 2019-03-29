@@ -90,11 +90,17 @@ class TrelloPlus extends Trello {
     return this.get(path, options)
   }
 
+
+  getCustomFieldItemsOnCard(cardId) {
+    const path = `${this.getCardPrefixWithId(cardId)}/customFieldItems`
+    // const options = {filter: 'all'}
+    return this.get(path)
+  }
   /**
    * Get all archived cards from the board that match the passed list id
    * @param {{id:string, options=}} param  
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
-   * @example getCardsOnListWith({id:'123',options:{limit:11}})
+   * @example getCardsOnListWith({id:'123',options:{customFieldItems:true}})
    */
   getCardsOnList(param) {
     const path = `${this.getListCardCmd(param.id)}`
@@ -189,6 +195,22 @@ class TrelloPlus extends Trello {
     const options = {dueComplete: param.isComplete}
     return this.put(cmd, options)
   }
+
+  /**
+   * TODO need to test this 
+   * @param {{id:string, idCustomField:string, type:string, value:string}} param 
+   * type can be  'text', 'number', 'date', 'checked' or for a list 'idValue' which takes the id of the list option
+   */
+  setCustomField(param) {
+    const cmd = `${this.getCardPrefixWithId(param.id)}/customField/${param.idCustomField}/item`
+    const {type} = param
+    const options = {value: {}}
+    options.value[type] = param.value
+
+    return this.put(cmd, options)
+  }
+
+
   /**
    * Add the card to the specified list. Use name and optional description
    * @param {{name:string, desc:string, idList:string, idMembers=:string}} param 
@@ -262,14 +284,14 @@ class TrelloPlus extends Trello {
   getCustomFieldEndpoint() {return '/1/customFields'}
 
   /**
- * @typedef {Object} customFieldObj
- * @property {string} idModel - always a board id
- * @property {string} modelType - always "board"
- * @property {string} name  - name displayed to user
- * @property {Array<Object>} options 
- * @property {string} pos -  "top", "bottom" or a positive integer
- * @property {string} type = checkbox, date, list, number, text
- */
+  * @typedef {Object} customFieldObj
+  * @property {string} idModel - always a board id
+  * @property {string} modelType - always "board"
+  * @property {string} name  - name displayed to user
+  * @property {Array<Object>} options 
+  * @property {string} pos -  "top", "bottom" or a positive integer
+  * @property {string} type = checkbox, date, list, number, text
+  */
 
   /**
    * @typedef {Object} nonListFieldObj
@@ -279,12 +301,12 @@ class TrelloPlus extends Trello {
    */
 
   /**
-* @typedef {Object} listFieldObj
-* @property {string} idModel
-* @property {string} name - field name shown to user
-* @property {Array<Object>} options
-* @property {string} pos
-*/
+  * @typedef {Object} listFieldObj
+  * @property {string} idModel
+  * @property {string} name - field name shown to user
+  * @property {Array<Object>} options
+  * @property {string} pos
+  */
 
   /**
    * Create a custom text object
@@ -309,9 +331,9 @@ class TrelloPlus extends Trello {
   }
 
   /**
- * Create a custom checkbox obj
- * @param {nonListFieldObj} fieldObj 
-*/
+  * Create a custom checkbox obj
+  * @param {nonListFieldObj} fieldObj 
+  */
   addCustomCheckboxField(fieldObj) {
     const dateObj = {modelType: 'board', type: 'checkbox', options: []}
     /**  @type {customFieldObj} */

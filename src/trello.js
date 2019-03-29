@@ -37,13 +37,14 @@ class TrelloPlus extends Trello {
   getListCardCmd(listId) {return `${this.getListPrefixWithId(listId)}/cards`}
   getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
+
   /**
- * Wrap the underlying makeRequest for get
- * @param {string} path technically an http path but to the Trello API it's command
- * @param {Object=} options  
- * @return {Promise<any>}
- * @example get(this.getListCardCmd('123'), {limit:10})
- */
+  * Wrap the underlying makeRequest for get
+  * @param {string} path technically an http path but to the Trello API it's command
+  * @param {Object=} options  
+  * @return {Promise<any>}
+  * @example get(this.getListCardCmd('123'), {limit:10})
+  */
   get(path, options) {
     return this.makeRequest('get', path, options)
   }
@@ -69,11 +70,11 @@ class TrelloPlus extends Trello {
   }
 
   /** wrap the underlying makeRequest for delete 
- * @param {string} path 
- * @param {Object=} options  
- * @return {Promise<any>}
- * @example  delete(getCardPrefixWithId(<cardId>)})
- */
+  * @param {string} path 
+  * @param {Object=} options  
+  * @return {Promise<any>}
+  * @example  delete(getCardPrefixWithId(<cardId>)})
+  */
   delete(path, options) {
     return this.makeRequest('delete', path, options)
   }
@@ -91,7 +92,7 @@ class TrelloPlus extends Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options?}} param  
+   * @param {{id:string, options=}} param  
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{limit:11}})
    */
@@ -105,7 +106,7 @@ class TrelloPlus extends Trello {
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
    * fields:'name,desc'
-   * @param {{id:string, options?}} param 
+   * @param {{id:string, options=}} param 
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    */
   getCardsOnBoard(param) {
@@ -190,7 +191,7 @@ class TrelloPlus extends Trello {
   }
   /**
    * Add the card to the specified list. Use name and optional description
-   * @param {{name:string, desc:string, idList:string, idMembers?:string}} param 
+   * @param {{name:string, desc:string, idList:string, idMembers=:string}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
@@ -229,7 +230,7 @@ class TrelloPlus extends Trello {
   /**
    * Get all the members on the passed board
    * @param {{boardId:string}} param 
-   * @returns {Promise<{id:string, fullName:string, username:string}[]>}
+   * @returns {Promise<Array<{id:string, fullName:string, username:string}>>}
    */
   getMembersOnBoard(param) {
     const {boardId} = param
@@ -253,6 +254,98 @@ class TrelloPlus extends Trello {
     const dueDate = moment().add(param.offset.count, param.offset.units)
     return this.put(this.getCardDueCmd(param.id), {value: dueDate.format()})
   }
+
+  // ========================== Custom Fields ======================================
+  // All of the following commands require the custom fields powerup be active
+  // on the board where the custom objects are used
+  // ===============================================================================
+  getCustomFieldEndpoint() {return '/1/customFields'}
+
+  /**
+ * @typedef {Object} customFieldObj
+ * @property {string} idModel - always a board id
+ * @property {string} modelType - always "board"
+ * @property {string} name  - name displayed to user
+ * @property {Array<Object>} options 
+ * @property {string} pos -  "top", "bottom" or a positive integer
+ * @property {string} type = checkbox, date, list, number, text
+ */
+
+  /**
+   * @typedef {Object} nonListFieldObj
+   * @property {string} idModel
+   * @property {string} name - field name shown to user
+   * @property {string} pos
+   */
+
+  /**
+* @typedef {Object} listFieldObj
+* @property {string} idModel
+* @property {string} name - field name shown to user
+* @property {Array<Object>} options
+* @property {string} pos
+*/
+
+  /**
+   * Create a custom text object
+   * @param {nonListFieldObj} fieldObj 
+   */
+  addCustomTextField(fieldObj) {
+    const textObj = {modelType: 'board', type: 'text', options: []}
+    /**  @type {customFieldObj} */
+    const fullObj = {...textObj, ...fieldObj}
+    return this.addCustomField(fullObj)
+  }
+
+  /**
+   * Create a custom date obj
+   * @param {nonListFieldObj} fieldObj 
+  */
+  addCustomDateField(fieldObj) {
+    const dateObj = {modelType: 'board', type: 'date', options: []}
+    /**  @type {customFieldObj} */
+    const fullObj = {...dateObj, ...fieldObj}
+    return this.addCustomField(fullObj)
+  }
+
+  /**
+ * Create a custom checkbox obj
+ * @param {nonListFieldObj} fieldObj 
+*/
+  addCustomCheckboxField(fieldObj) {
+    const dateObj = {modelType: 'board', type: 'checkbox', options: []}
+    /**  @type {customFieldObj} */
+    const fullObj = {...dateObj, ...fieldObj}
+    return this.addCustomField(fullObj)
+  }
+
+  /**
+   * Create a custom checkbox obj
+   * @param {listFieldObj} fieldObj 
+   */
+  addCustomListField(fieldObj) {
+    const listObj = {modelType: 'board', type: 'list'}
+    /**  @type {customFieldObj} */
+    const fullObj = {...listObj, ...fieldObj}
+    return this.addCustomField(fullObj)
+  }
+
+  /** @param {customFieldObj} fullFieldObj */
+  addCustomField(fullFieldObj) {
+    const cmd = this.getCustomFieldEndpoint()
+    return this.post(cmd, fullFieldObj)
+  }
+
+  deleteCustomField(fieldId) {
+    const cmd = `${this.getCustomFieldEndpoint()}/${fieldId}`
+    return this.delete(cmd)
+  }
+
+  addItemToList(listId) {
+    const cmd = `${this.getCustomFieldEndpoint()}/${listId}`
+  }
+
+
 }
 
 module.exports = TrelloPlus

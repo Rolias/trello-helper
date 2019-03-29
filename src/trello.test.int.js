@@ -6,9 +6,9 @@ const Trello = require('./trello')
 const logger = require('./util/logger')
 // @ts-ignore
 const testData = require('./test-data/integration.json')
-const BOARD_ID = testData.ids.board
+const BOARD_ID = testData.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
 const LIST_ID = testData.ids.list
-const ARCHIVE_LIST_ID = testData.ids.archiveList
+// const ARCHIVE_LIST_ID = testData.ids.archiveList
 const CARD_ID = testData.ids.card
 const MEMBER_ID = testData.ids.member
 const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
@@ -145,7 +145,7 @@ describe('trello module', function () {
     result.length.should.be.gt(0)
   })
 
-  describe.only('getAllCardsOnBoard()', () => {
+  describe('getAllCardsOnBoard()', () => {
 
     it('should work with no opstions', async () => {
       const result = await trello.getCardsOnBoard({id: BOARD_ID})
@@ -153,15 +153,89 @@ describe('trello module', function () {
       console.log(result)
     })
 
-    it.only('should only return the requested fields and id', async () => {
+    it('should only return the requested fields and id', async () => {
       const result = await trello.getCardsOnBoard({id: BOARD_ID, options: {fields: 'name,desc'}})
       result.length.should.be.gt(0)
       const keys = Object.keys(result[0])
-       keys.length.should.equal(3)
+      keys.length.should.equal(3)
     })
 
   })
 
+  describe('Custom Field Operations', () => {
+    it('addCustomTextField() should add a custom text field', async () => {
+      const listFieldObj = {
+        idModel: BOARD_ID,
+        name: 'Course Id',
+        pos: 'top',
+      }
+      const result = await trello.addCustomTextField(listFieldObj)
+      console.log(result)
+    })
+
+
+    it('addCustomDateField()', async () => {
+      const dateFieldObj = {
+        idModel: BOARD_ID,
+        name: 'Start Date',
+        pos: 'top',
+      }
+      const result = await trello.addCustomTextField(dateFieldObj)
+      console.log(result)
+    })
+
+    it.only('addCustomListField()', async () => {
+
+      const choiceArray = [
+        'is_low_quality_teaching',
+        'is_author_unqualified',
+        'is_against_best_practices',
+        'is_overlapping',
+        'is_overlapping_with_course_update',
+        'is_overlapping_with_course_replacement',
+        'is_overlapping_with_course_series',
+        'is_not_a_target_audience',
+        'is_abandoned_by_author',
+        'is_security_risk'
+      ]
+      const options = [, ]
+      for (let i = 0; i < choiceArray.length; ++i) {
+        options[i] = {
+          color: 'none',
+          value: {
+            text: choiceArray[i],
+          },
+          pos: i * 1000 + 100,
+        }
+      }
+
+      const listFieldObj = {
+        idModel: BOARD_ID,
+        modelType: 'board',
+        name: 'Reason',
+        options: [
+          {
+            value: {text: 'is_abandonded_by_author'},
+            pos: 1024,
+          }
+        ],
+        pos: 'bottom',
+        type: 'list',
+      }
+      const result = await trello.addCustomField(listFieldObj)
+      console.log(result)
+    })
+
+    it('add an item to list', async () => {
+
+
+    })
+
+    it('deleteCustomField()', async () => {
+      const result = await trello.deleteCustomField('5c9daa8eeb679211609aeb7c')
+      console.log(result)
+    })
+  })
 
 })
 

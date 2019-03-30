@@ -27,7 +27,9 @@ class TrelloPlus extends Trello {
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     super(trelloAuth.appKey, trelloAuth.token)
   }
-
+  /**
+   * @typedef {{cardId:string, fieldId:string}} cardFieldType 
+   */
 
   /** @return '/1/cards'  */
   getBaseCardCmd() {return '/1/cards'}
@@ -37,6 +39,8 @@ class TrelloPlus extends Trello {
   getListCardCmd(listId) {return `${this.getListPrefixWithId(listId)}/cards`}
   getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
+  /** @param {cardFieldType} cardFieldParam */
+  getCustomFieldUpdateCmd(cardFieldParam) {return `/1/cards/${cardFieldParam.cardId}/customField/${cardFieldParam.fieldId}/item`}
 
   /**
   * Wrap the underlying makeRequest for get
@@ -90,12 +94,36 @@ class TrelloPlus extends Trello {
     return this.get(path, options)
   }
 
-
+  // ========================= Custom Field Setters/Getters =====================  
   getCustomFieldItemsOnCard(cardId) {
     const path = `${this.getCardPrefixWithId(cardId)}/customFieldItems`
     // const options = {filter: 'all'}
     return this.get(path)
   }
+
+  /**
+   * 
+   * @param {{cardFieldObj:{cardId:string, fieldId:string}, type:string, value:string}} customFieldValueObj 
+   */
+  setCustomFieldValueOnCard(customFieldValueObj) {
+    const cardField = customFieldValueObj.cardFieldObj
+    const cmd = this.getCustomFieldUpdateCmd(cardField)
+
+    const valueObj = {value: {}}
+    const {type, value} = customFieldValueObj
+    valueObj.value[type] = value
+    const valueStr = JSON.stringify(valueObj)
+
+    const data = {text: 'tod gentille'}
+    const datastring = JSON.stringify(data)
+    console.log(datastring)
+    const value2 = {value: {text: 'tod gentille'}}
+    const value2str = JSON.stringify(value2)
+    const test = JSON.stringify({value: {text: 'tod gentille'}})
+    console.log(test)
+    return this.put(cmd, {value: test})
+  }
+
   /**
    * Get all archived cards from the board that match the passed list id
    * @param {{id:string, options=}} param  

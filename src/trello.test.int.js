@@ -180,5 +180,13 @@ describe('trello module', function () {
     console.log(result)
   })
 
+  it.only('set a custom field', async () => {
+    const fieldId = '5c9e6860ea48a783c20de612'
+    const cardId = '5c9e7f54777608079ccfafad'
+    // const type = 'text'
+    // const value = 'tod gentille'
+    const result = await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type: 'text', value: 'tod gentille'})
+    console.log(result)
+  })
 })
 

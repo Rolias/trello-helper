@@ -166,7 +166,7 @@ describe('trello class', () => {})
 
     describe('getAllActionsOnCard() should', () => {
       beforeEach(async () => {
-        await trello.getAllActionsOnCard(FAKE_ID)
+        await trello.getAllActionsOnCard({id: FAKE_ID})
       })
 
       it('have the expected path', async () => {
@@ -265,7 +265,23 @@ describe('trello class', () => {})
       })
     })
 
+    it('setCustomFieldValueOnCard() should work', async () => {
+      const customFieldObj = {
+        cardFieldObj: {
+          cardId: FAKE_ID,
+          fieldId: FAKE_ID,
+        },
+        type: 'text',
+        value: 'A value for custom text field',
+      }
+      await trello.setCustomFieldValueOnCard(customFieldObj)
+      const expectedPath = `${Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)}`
+      putStubParamObj().path.should.equal(expectedPath)
+    })
+
   })
+
+
   describe('action functions', () => {
     const listToFind = 'listOfInterest'
     const desiredType = 'commentAdded'
@@ -297,6 +313,9 @@ describe('trello class', () => {})
       result.length.should.equal(1)
       result[0].type.should.equal(moveCardToBoardType)
     })
+
+
   })
+
 
 }

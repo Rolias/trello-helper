@@ -1,6 +1,6 @@
 {
   "name": "trello-helper",
-  "version": "1.0.13",
+  "version": "2.0.0",
   "engines": {
     "node": ">10.0.0"
   },
@@ -14,8 +14,8 @@
     "security-check": "npm audit",
     "lint": "esw src  --color",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha 'src/**/*.test.js' ",
-    "test:int": "mocha  'src/**/*.test.int.js'",
+    "test": "mocha --use_strict 'src/**/*.test.js' ",
+    "test:int": "mocha --use_strict 'src/**/*.test.int.js'",
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc mocha",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",

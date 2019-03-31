@@ -155,7 +155,7 @@ describe('trello module', function () {
 
   // FRAGILE When the previous member add and remove the array for the board may
   // not have updated. So the resulting array can have 0 or 1 based on timing
-  // mostlyl we want to make sure we don't get any errors
+  // mostly we want to make sure we don't get any errors
   it('getMembersOnBoard() should return a list of members', async () => {
     const result = await trello.getMembersOnBoard({boardId: BOARD_ID})
     result.length.should.be.lt(2)

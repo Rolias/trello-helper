@@ -8,7 +8,10 @@ const logger = require('./util/logger')
 const testData = require('./test-data/integration.json')
 const BOARD_ID = testData.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
 const LIST_ID = testData.ids.list
-// const ARCHIVE_LIST_ID = testData.ids.archiveList
+const ARCHIVE_LIST_ID = testData.ids.archiveList
+// const RETIREMENT_BOARD_BATCH_LIST = '5c4b6f254a94846d2f0c65df'
+const AUTHOR_CUSTOM_FIELD_ID = '5c9e45e513d1db64b50fdca2'
+
 const CARD_ID = testData.ids.card
 const MEMBER_ID = testData.ids.member
 const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
@@ -43,7 +46,7 @@ describe('trello module', function () {
 
     it('process withOptions{} object', async () => {
       const result = await trello.getCardsOnList({
-        id: LIST_ID,
+        id: '5c4b6f254a94846d2f0c65df', // LIST_ID,
         options: {
           fields: 'name,id',
           limit: 1,
@@ -62,7 +65,6 @@ describe('trello module', function () {
           customFieldItems: true,
         },
       })
-      console.log(JSON.stringify(result, null, 2))
       should.exist(result[0].customFieldItems)
     })
 
@@ -78,13 +80,22 @@ describe('trello module', function () {
   })
 
 
-  it('getArchivedCards() should return only archived cards from list', async () => {
-    const result = await trello.getArchivedCards({
-      boardId: BOARD_ID, listId: LIST_ID,
+  describe('getArchivedCards()', () => { // FRAGILE - test list must have one  archived card
+    let archiveResult
+    beforeEach(async () => {
+      archiveResult = await trello.getArchivedCards({
+        boardId: BOARD_ID, listId: LIST_ID,
+      })
     })
-    logger.debug(result[0])
-    result.every(e => e.closed).should.be.true
+
+    it('should return at least one archived card (make sure one exists)', () => {
+      archiveResult.length.should.be.gt(0)
+    })
+    it('should show that every returned card is closed', () => {
+      archiveResult.every(e => e.closed).should.be.true
+    })
   })
+
 
   it('getMoveToBoardInfo() should find any action indicating card was moved to board', async () => {
     const actions = await trello.getAllActionsOnCard(CARD_ID)
@@ -126,20 +137,16 @@ describe('trello module', function () {
       })
     })
 
-    // Causes a Cannot POST error so commented out here and the real func
-    // TODO see if it can be fixed.
-    // xit('archiveAllCardsOnlist() should produce an empty list', async () => {
-    //   param.idList = ARCHIVE_LIST_ID
-    //   await trello.addCard(param)
-    //   const result = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
-    //   result.length.should.be.gt(0)
-    //   const archiveResult = await trello.archiveAllCardsOnList({id: ARCHIVE_LIST_ID})
-    //   console.log(archiveResult)
-    //   const afterArchive = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
-    //   afterArchive.length.should.equal(0)
-    // })
-
-
+    it('archiveAllCardsOnlist() should produce an empty list', async () => {
+      param.idList = ARCHIVE_LIST_ID
+      await trello.addCard(param)
+      const result = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
+      result.length.should.be.gt(0)
+      const archiveResult = await trello.archiveAllCardsOnList({id: ARCHIVE_LIST_ID})
+      console.log(archiveResult)
+      const afterArchive = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
+      afterArchive.length.should.equal(0)
+    })
   })
 
 
@@ -159,11 +166,9 @@ describe('trello module', function () {
   })
 
   describe('getAllCardsOnBoard()', () => {
-
     it('should work with no opstions', async () => {
       const result = await trello.getCardsOnBoard({id: BOARD_ID})
       result.length.should.be.gt(0)
-      console.log(result)
     })
 
     it('should only return the requested fields and id', async () => {
@@ -172,20 +177,19 @@ describe('trello module', function () {
       const keys = Object.keys(result[0])
       keys.length.should.equal(3)
     })
-
   })
 
   it('getCustomFieldItemsOnCard() should get the custom items', async () => {
     const result = await trello.getCustomFieldItemsOnCard(CARD_ID)
-    console.log(result)
+    logger.debug(`Custom Field Items on Card ${JSON.stringify(result, null, 2)}`)
   })
 
-  it.only('set a custom field', async () => {
-    const fieldId = '5c9e6860ea48a783c20de612'
-    const cardId = '5c9e7f54777608079ccfafad'
-    // const type = 'text'
-    // const value = 'tod gentille'
-    const result = await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type: 'text', value: 'tod gentille'})
+  it('set a custom field', async () => {
+    const fieldId = AUTHOR_CUSTOM_FIELD_ID
+    const cardId = CARD_ID
+    const type = 'text'
+    const value = 'Tod Gentille'
+    const result = await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
     console.log(result)
   })
 })

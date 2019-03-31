@@ -1,6 +1,7 @@
 // @ts-check
 /** @module */
 const Trello = require('trello')
+const TrelloRequest = require('./trelloRequest')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const moment = require('moment')
@@ -25,32 +26,40 @@ class TrelloPlus extends Trello {
       throw (errorMsg)
     }
     const trelloAuth = JSON.parse(process.env.trelloHelper)
+    const {appKey: key, token} = trelloAuth
     super(trelloAuth.appKey, trelloAuth.token)
+    this.trelloRequest = new TrelloRequest({key, token})
   }
   /**
    * @typedef {{cardId:string, fieldId:string}} cardFieldType 
    */
 
   /** @return '/1/cards'  */
-  getBaseCardCmd() {return '/1/cards'}
-  getCardDueCmd(cardId) {return `${this.getCardPrefixWithId(cardId)}/due`}
-  getCardPrefixWithId(cardId) {return `${this.getBaseCardCmd()}/${cardId}`}
-  getListPrefixWithId(listId) {return `/1/list/${listId}`}
-  getListCardCmd(listId) {return `${this.getListPrefixWithId(listId)}/cards`}
-  getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
+  static getBaseCardCmd() {return '/1/cards'}
+  static getCardDueCmd(cardId) {return `${TrelloPlus.getCardPrefixWithId(cardId)}/due`}
+  static getCardPrefixWithId(cardId) {return `${TrelloPlus.getBaseCardCmd()}/${cardId}`}
+  static getListPrefixWithId(listId) {return `/1/lists/${listId}`}
+  static getListCardCmd(listId) {return `${TrelloPlus.getListPrefixWithId(listId)}/cards`}
+  static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
   /** @param {cardFieldType} cardFieldParam */
   getCustomFieldUpdateCmd(cardFieldParam) {return `/1/cards/${cardFieldParam.cardId}/customField/${cardFieldParam.fieldId}/item`}
 
   /**
   * Wrap the underlying makeRequest for get
-  * @param {string} path technically an http path but to the Trello API it's command
+  * @param {string} path technically an http path but to the Trello API its command
   * @param {Object=} options  
   * @return {Promise<any>}
   * @example get(this.getListCardCmd('123'), {limit:10})
   */
-  get(path, options) {
-    return this.makeRequest('get', path, options)
+  async get(path, options) {
+    const getOptions = {
+      path,
+      options,
+    }
+    const responseStr = await this.trelloRequest.get(getOptions)
+    return JSON.parse(responseStr)
+    // return this.makeRequest('get', path, options)
   }
   /** wrap the underlying makeRequest for put 
    * @param {string} path  technically an http path but to the Trello API it's command
@@ -58,8 +67,12 @@ class TrelloPlus extends Trello {
    * @return {Promise<any>}
    * @example  put(getCardPrefixWithId(<cardId>), {dueComplete: true})
    */
-  put(path, options) {
-    return this.makeRequest('put', path, options)
+  async put(path, options) {
+    const putOptions = {
+      path,
+      body: options,
+    }
+    return await this.trelloRequest.put(putOptions)
   }
 
   /**
@@ -69,8 +82,13 @@ class TrelloPlus extends Trello {
   * @return {Promise<any>}
   * @example post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:<idOfList>})
   */
-  post(path, options) {
-    return this.makeRequest('post', path, options)
+  async post(path, options) {
+    const postOptions = {
+      path,
+      body: options,
+    }
+    return await this.trelloRequest.post(postOptions)
+
   }
 
   /** wrap the underlying makeRequest for delete 
@@ -89,14 +107,14 @@ class TrelloPlus extends Trello {
    * @returns {Promise<Array.<Object<string,any>>>}
    */
   getAllActionsOnCard(cardId) {
-    const path = `${this.getCardPrefixWithId(cardId)}/actions`
+    const path = `${TrelloPlus.getCardPrefixWithId(cardId)}/actions`
     const options = {filter: 'all'}
     return this.get(path, options)
   }
 
   // ========================= Custom Field Setters/Getters =====================  
   getCustomFieldItemsOnCard(cardId) {
-    const path = `${this.getCardPrefixWithId(cardId)}/customFieldItems`
+    const path = `${TrelloPlus.getCardPrefixWithId(cardId)}/customFieldItems`
     // const options = {filter: 'all'}
     return this.get(path)
   }
@@ -108,20 +126,10 @@ class TrelloPlus extends Trello {
   setCustomFieldValueOnCard(customFieldValueObj) {
     const cardField = customFieldValueObj.cardFieldObj
     const cmd = this.getCustomFieldUpdateCmd(cardField)
-
     const valueObj = {value: {}}
     const {type, value} = customFieldValueObj
     valueObj.value[type] = value
-    const valueStr = JSON.stringify(valueObj)
-
-    const data = {text: 'tod gentille'}
-    const datastring = JSON.stringify(data)
-    console.log(datastring)
-    const value2 = {value: {text: 'tod gentille'}}
-    const value2str = JSON.stringify(value2)
-    const test = JSON.stringify({value: {text: 'tod gentille'}})
-    console.log(test)
-    return this.put(cmd, {value: test})
+    return this.put(cmd, valueObj)
   }
 
   /**
@@ -131,7 +139,7 @@ class TrelloPlus extends Trello {
    * @example getCardsOnListWith({id:'123',options:{customFieldItems:true}})
    */
   getCardsOnList(param) {
-    const path = `${this.getListCardCmd(param.id)}`
+    const path = `${TrelloPlus.getListCardCmd(param.id)}`
     const {options} = param
     return this.get(path, options)
   }
@@ -145,7 +153,7 @@ class TrelloPlus extends Trello {
    */
   getCardsOnBoard(param) {
     const {id, options} = param
-    const path = `${this.getBoardPrefixWithId(id)}/cards`
+    const path = `${TrelloPlus.getBoardPrefixWithId(id)}/cards`
     return this.get(path, options)
 
   }
@@ -160,25 +168,25 @@ class TrelloPlus extends Trello {
   async getArchivedCards(param) {
     const options = {filter: 'closed'}
     const list = param.listId
-    const path = `${this.getBoardPrefixWithId(param.boardId)}/cards`
+    const path = `${TrelloPlus.getBoardPrefixWithId(param.boardId)}/cards`
     const archivedCards = await this.get(path, options)
+    if (archivedCards.length < 1) {return []}
     const archivedOnList = archivedCards.filter(e => e.idList === list)
     return archivedOnList
   }
 
   /**
    * Archives all the cards on the passed list id
-   * @ param {{id:string}} param 
-   * @ returns{Promise}
+   * @param {{id:string}} param 
+   * @returns{Promise}
    * This functions returns a Cannot Post error from the integration test
    * Commented OUT for now
    * 
    */
-  // TODO see if Cannot POST error can be solved
-  // async archiveAllCardsOnList(param) {
-  //   const path = `${this.getListCardCmd(param.id)}/archiveAllCards`
-  //   return this.post(path)
-  // }
+  async archiveAllCardsOnList(param) {
+    const path = `${TrelloPlus.getListPrefixWithId(param.id)}/archiveAllCards`
+    return this.post(path, {})
+  }
 
   /**
    * Find actions that indicate card was previously on the specified list name
@@ -219,7 +227,7 @@ class TrelloPlus extends Trello {
    * @example setDueComplete({id:'123', isComplete:true})
    */
   setDueComplete(param) {
-    const cmd = this.getCardPrefixWithId(param.id)
+    const cmd = TrelloPlus.getCardPrefixWithId(param.id)
     const options = {dueComplete: param.isComplete}
     return this.put(cmd, options)
   }
@@ -246,7 +254,7 @@ class TrelloPlus extends Trello {
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
   addCard(param) {
-    return this.post(this.getBaseCardCmd(), param)
+    return this.post(TrelloPlus.getBaseCardCmd(), param)
   }
 
   /**
@@ -256,7 +264,7 @@ class TrelloPlus extends Trello {
    * @example addCommentOnCard({id:'123',text:"message for comment"})
    */
   addCommentOnCard(param) {
-    const cmd = `${this.getCardPrefixWithId(param.id)}/actions/comments`
+    const cmd = `${TrelloPlus.getCardPrefixWithId(param.id)}/actions/comments`
     const {text} = param
     return this.post(cmd, {text})
   }
@@ -267,13 +275,13 @@ class TrelloPlus extends Trello {
    */
   addMemberToCard(param) {
     const {cardId, memberId} = param
-    const cmd = `${this.getCardPrefixWithId(cardId)}/members`
+    const cmd = `${TrelloPlus.getCardPrefixWithId(cardId)}/members`
     return this.post(cmd, {value: memberId})
   }
 
   removeMemberFromCard(param) {
     const {cardId, memberId} = param
-    const cmd = `${this.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
+    const cmd = `${TrelloPlus.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
     return this.delete(cmd)
   }
 
@@ -284,7 +292,7 @@ class TrelloPlus extends Trello {
    */
   getMembersOnBoard(param) {
     const {boardId} = param
-    const cmd = `${this.getBoardPrefixWithId(boardId)}/members`
+    const cmd = `${TrelloPlus.getBoardPrefixWithId(boardId)}/members`
     return this.get(cmd, {})
   }
 
@@ -302,7 +310,8 @@ class TrelloPlus extends Trello {
   addDueDateToCardByOffset(param) {
     // @ts-ignore
     const dueDate = moment().add(param.offset.count, param.offset.units)
-    return this.put(this.getCardDueCmd(param.id), {value: dueDate.format()})
+    const cmd = TrelloPlus.getCardDueCmd(param.id)
+    return this.put(cmd, {value: dueDate.format()})
   }
 
 

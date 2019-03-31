@@ -33,10 +33,14 @@
   },
   "keywords": [
     "trello",
-    "api"
+    "api",
+    "helper",
+    "custom fields",
+    "easy",
+    "pluralsight"
   ],
   "author": "Tod Gentille",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/Rolias/trello-helper/issues"
   },

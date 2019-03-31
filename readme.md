@@ -106,7 +106,7 @@ The files that end with `test.int.js` do integration testing. In addition to bei
 
 ## Available Functions
 
-See the [GitHub documentation]( https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/documentation/module-src_trello-TrelloPlus.html) for the list of available functions and their signatures
+See the [GitHub documentation]( https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/documentation/module-src_trello-TrelloPlus.html) for the list of available functions and their signatures. Look for the example usage. The param section was optimized for code assistance and type script and it makes the JSDoc runner just show a type of `Object` even though the underlying comment spells out all the proper property names. I figured you'll use the code assist feature a lot more than the documentation but the @example tags do show all the property names.
 
 ---
 [back to top](#table-of-contents)

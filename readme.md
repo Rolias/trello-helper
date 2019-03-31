@@ -74,15 +74,15 @@ Nothing else should be required. All the scripts are in the package.json
 
 ### Testing
 
-There are unit tests and integration tests
-`npm test` runs the unit tests
-`npm run test:int` runs the integration tests
-`npm run test:all` runs them both
-`npm run test:cov` runs them with coverage (by nyc)
-`npm run test:watch` runs the unit tests in watch mode
-`npm run watch` runs the unit tests and sslint in watch mode
-`npm run lint` runs eslint
-`npm run lint:watch` runs eslint in watch mode
+There are unit tests and integration tests  
+`npm test` runs the unit tests  
+`npm run test:int` runs the integration tests  
+`npm run test:all` runs them both  
+`npm run test:cov` runs them with coverage (by nyc)  
+`npm run test:watch` runs the unit tests in watch mode  
+`npm run watch` runs the unit tests and sslint in watch mode  
+`npm run lint` runs eslint  
+`npm run lint:watch` runs eslint in watch mode  
 
 [back to top](#table-of-contents)
 

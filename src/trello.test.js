@@ -114,7 +114,7 @@ describe('trello class', () => {})
         customFieldObj = {...resetObj}
       })
 
-      describe.only('when setting a text type', () => {
+      describe('when setting a text type', () => {
         let retObj
         let paramObj
         beforeEach(async () => {

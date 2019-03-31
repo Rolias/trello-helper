@@ -9,8 +9,9 @@ const testData = require('./test-data/integration.json')
 const BOARD_ID = testData.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
 const LIST_ID = testData.ids.list
 const ARCHIVE_LIST_ID = testData.ids.archiveList
-// const RETIREMENT_BOARD_BATCH_LIST = '5c4b6f254a94846d2f0c65df'
-const AUTHOR_CUSTOM_FIELD_ID = '5c9e45e513d1db64b50fdca2'
+const CUSTOM_FIELD_TEXT = testData.ids.customFieldText
+const CUSTOM_FIELD_LIST = testData.ids.customFieldList
+const CUSTOM_FIELD_LIST_VALUE = testData.ids.customFieldListValue
 
 const CARD_ID = testData.ids.card
 const MEMBER_ID = testData.ids.member
@@ -27,7 +28,6 @@ describe('trello module', function () {
   this.timeout(10000)
   before(() => {
 
-    // trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
   })
 
   it('getAllActionsOnCard() should return some actions', async () => {
@@ -180,12 +180,21 @@ describe('trello module', function () {
     logger.debug(`Custom Field Items on Card ${JSON.stringify(result, null, 2)}`)
   })
 
-  it('set a custom field', async () => {
-    const fieldId = AUTHOR_CUSTOM_FIELD_ID
+  it('setCustomFieldValueOnCard() should set a custom text field', async () => {
+    const fieldId = CUSTOM_FIELD_TEXT
     const cardId = CARD_ID
-    const type = 'text'
+    const type = Trello.customFieldType.text
     const value = 'Tod Gentille'
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
+  })
+
+  it('setCustomFieldValueOnCard() should set a custom list field', async () => {
+    const fieldId = CUSTOM_FIELD_LIST
+    const cardId = CARD_ID
+    const type = Trello.customFieldType.list
+    const value = CUSTOM_FIELD_LIST_VALUE // low priority
+    await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
+
   })
 })
 

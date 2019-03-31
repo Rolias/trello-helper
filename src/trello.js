@@ -155,18 +155,28 @@ class Trello {
   }
 
   /**
-   * 
+   * Set the value of a custom Field object
    * @param {{cardFieldObj:{cardId:string, fieldId:string}, type:string, value:string}} customFieldObj 
-   *    * type can be  'text', 'number', 'date', 'checked' or for a list 
-   * 'idValue' which takes the id of the list option
+   *  see Trello.customFieldType for valid types
+   * @returns {{}} an empty object- oh well so much for testing
    */
   setCustomFieldValueOnCard(customFieldObj) {
+    const fieldType = Trello.customFieldType
     const cmd = Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
-    const valueObj = {value: {}}
+    const valueObj = {}
     const {type, value} = customFieldObj
-    valueObj.value[type] = value
+    // a list takes a simple {idValue:'value'}
+    if (type === fieldType.list) {
+      valueObj.idValue = value
+    } else { // the others take a {value: {'type':'value}} where type is something like text, number etc...
+      valueObj.value = {}
+      valueObj.value[type] = value
+    }
     return this.put(cmd, valueObj)
   }
+
+  // ==========================================================================
+
 
   /**
    * Get all archived cards from the board that match the passed list id
@@ -336,8 +346,16 @@ class Trello {
     const cmd = Trello.getCardDueCmd(param.id)
     return this.put(cmd, {value: dueDate.format()})
   }
-
-
 }
+
+Trello.customFieldType = {
+  /** @type {string} */
+  list: 'list', // this one gets special handling
+  text: 'text',
+  number: 'number', // still takes a string as a value
+  date: 'date', // also takes a string
+  checkbox: 'checked', // takes a string of 'true' or 'false'
+}
+
 
 module.exports = Trello

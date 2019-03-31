@@ -18,6 +18,8 @@ const trello = new Trello('./src/test-data/unit-test-fake-credentials.json')
 const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
+const resolveEmptyObj = {}
+
 // const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 let getStub
@@ -73,6 +75,8 @@ describe('trello class', () => {})
     beforeEach(() => {
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
         .returns(Promise.resolve(resolveObj))
+      putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+        .returns(Promise.resolve(resolveEmptyObj))
     })
 
     afterEach(() => {
@@ -93,10 +97,55 @@ describe('trello class', () => {})
         Object.keys(paramObj.body).length.should.equal(3)
       })
     })
+
+    describe('setCustomFieldValueOnCard()', () => {
+      const fieldType = Trello.customFieldType
+      let customFieldObj = {
+        cardFieldObj: {
+          cardId: FAKE_ID,
+          fieldId: FAKE_ID,
+        },
+        type: fieldType.text,
+        value: 'A value for custom text field',
+      }
+      const resetObj = {...customFieldObj}
+
+      beforeEach(() => {
+        customFieldObj = {...resetObj}
+      })
+
+      describe.only('when setting a text type', () => {
+        let retObj
+        let paramObj
+        beforeEach(async () => {
+          retObj = await trello.setCustomFieldValueOnCard(customFieldObj)
+          paramObj = putStubParamObj()
+        })
+        it(' should have a proper path', () => {
+          const expectedPath = `${Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)}`
+          paramObj.path.should.equal(expectedPath)
+        })
+        it('should have a body with the expect text value', () => {
+          const expectedBody = {value: {text: 'A value for custom text field'}}
+          paramObj.body.should.deep.equal(expectedBody)
+        })
+        it('should return an empty object', () => {
+          retObj.should.equal(resolveEmptyObj)
+        })
+      })
+
+      it(' should set an idValue for a list type field', async () => {
+        customFieldObj.type = Trello.customFieldType.list
+        customFieldObj.value = FAKE_ID
+        await trello.setCustomFieldValueOnCard(customFieldObj)
+        putStubParamObj().body.idValue.should.equal(FAKE_ID)
+      })
+
+    })
+
   })
 
   describe('trello functions that resolve and return array', () => {
-
 
     beforeEach(() => {
       getStub = sandbox.stub(TrelloRequest.prototype, 'get')
@@ -107,7 +156,6 @@ describe('trello class', () => {})
         .returns(Promise.resolve(resolveArrayAsJson))
       deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
         .returns(Promise.resolve(resolveArrayAsJson))
-
     })
 
     afterEach(() => {
@@ -265,19 +313,6 @@ describe('trello class', () => {})
       })
     })
 
-    it('setCustomFieldValueOnCard() should work', async () => {
-      const customFieldObj = {
-        cardFieldObj: {
-          cardId: FAKE_ID,
-          fieldId: FAKE_ID,
-        },
-        type: 'text',
-        value: 'A value for custom text field',
-      }
-      await trello.setCustomFieldValueOnCard(customFieldObj)
-      const expectedPath = `${Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)}`
-      putStubParamObj().path.should.equal(expectedPath)
-    })
 
   })
 

@@ -28,6 +28,7 @@ class TrelloRequest {
     const rpnOptions = {
       uri: `${this.uri}${path}`,
       qs: fullQs,
+      json: true,
       resolveWithFullResponse: this.doFullResponse,
     }
     return rpn.get(rpnOptions)
@@ -66,6 +67,7 @@ class TrelloRequest {
       options,
       qs: this.getAuthObj(),
       resolveWithFullResponse: this.doFullResponse,
+      json: true,
     }
     return rpn.delete(rpnOptions)
   }

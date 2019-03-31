@@ -58,7 +58,7 @@ class TrelloPlus extends Trello {
       options,
     }
     const responseStr = await this.trelloRequest.get(getOptions)
-    return JSON.parse(responseStr)
+    return responseStr
     // return this.makeRequest('get', path, options)
   }
   /** wrap the underlying makeRequest for put 
@@ -97,8 +97,13 @@ class TrelloPlus extends Trello {
   * @return {Promise<any>}
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
-  delete(path, options) {
-    return this.makeRequest('delete', path, options)
+  async delete(path, options) {
+    const deleteOptions = {
+      path,
+      options,
+    }
+    return await this.trelloRequest.delete(deleteOptions)
+    // return this.makeRequest('delete', path, options)
   }
 
 

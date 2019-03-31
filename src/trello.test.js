@@ -19,7 +19,7 @@ const trello = new Trello('./src/test-data/unit-test-fake-credentials.json')
 const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
-const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
+// const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 let getStub
 const getStubParamObj = () => getStub.getCall(0).args[0]
@@ -29,6 +29,9 @@ const putStubParamObj = () => putStub.getCall(0).args[0]
 
 let postStub
 const postStubParamObj = () => postStub.getCall(0).args[0]
+
+let deleteStub
+const deleteStubParamObj = () => deleteStub.getCall(0).args[0]
 
 
 let makeRequestStub
@@ -105,10 +108,12 @@ describe('trello class', () => {})
       makeRequestStub = sandbox.stub(baseTrello.prototype, 'makeRequest')
         .returns(Promise.resolve(resolveArrayAsJson))
       getStub = sandbox.stub(TrelloRequest.prototype, 'get')
-        .returns(Promise.resolve(resolveArrayAsString))
+        .returns(Promise.resolve(resolveArrayAsJson))
       putStub = sandbox.stub(TrelloRequest.prototype, 'put')
         .returns(Promise.resolve(resolveArrayAsJson))
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
+        .returns(Promise.resolve(resolveArrayAsJson))
+      deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
         .returns(Promise.resolve(resolveArrayAsJson))
 
     })
@@ -118,17 +123,15 @@ describe('trello class', () => {})
     })
 
     describe('getCardsOnList() with id only', () => {
-      let paramObj
       beforeEach(async () => {
         await trello.getCardsOnList({id: FAKE_ID})
-        paramObj = getStubParamObj()
       })
       it('should get a proper path ', async () => {
         const cmd = Trello.getListCardCmd(FAKE_ID)
-        paramObj.path.should.equal(cmd)
+        getStubParamObj().path.should.equal(cmd)
       })
       it('should not have an option parameter', async () => {
-        should.not.exist(paramObj.options)
+        should.not.exist(getStubParamObj().options)
       })
 
     })
@@ -182,7 +185,7 @@ describe('trello class', () => {})
       })
     })
 
-    describe('getArchivedCards(param) should', () => {
+    describe('getArchivedCards() should', () => {
       let result
       beforeEach(async () => {
         result = await trello.getArchivedCards({boardId: FAKE_ID, listId: FAKE_ID})
@@ -264,11 +267,9 @@ describe('trello class', () => {})
       beforeEach(async () => {
         await trello.removeMemberFromCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
       })
-      it('have done a delete()', async () => {
-        makeRequestStubType().should.equal('delete')
-      })
+
       it('have the expected path', async () => {
-        makeRequestStubPathParam().should.equal(`/1/cards/12345/idMembers/${FAKE_MEMBER_ID}`)
+        deleteStubParamObj().path.should.equal(`/1/cards/12345/idMembers/${FAKE_MEMBER_ID}`)
       })
     })
 

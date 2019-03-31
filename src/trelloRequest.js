@@ -7,23 +7,18 @@ class TrelloRequest {
     this.key = keyTokenPair.key
     this.token = keyTokenPair.token
     this.uri = 'https://api.trello.com'
+
+    // set doFullResponse o true if you want the full request
+    // The caller will need to specify the result.resultCode or result.body
+    // or any other property needed on the returned object
     this.doFullResponse = false
   }
   /** @returns the Trello api error when the rate is exceeded */
-  static get RATE_LIMIT_ERROR() {return 429}
+  static getRateLimitError() {return 429}
   /** @returns the suggested delay in MS based on 2X the API docs
    * http://help.trello.com/article/838-api-rate-limits
   */
-  static get RATE_LIMIT_DELAY_MS() {return 200}
-
-  /** 
-   * @param {boolean} value set to true if you want the full request
-   * The caller will need to specify the result.resultCode or result.body
-   * or any other parameter needed
-   */
-  set enableFullResponse(value) {
-    this.doFullResponse = value
-  }
+  static getRateLimitDelayMs() {return 200}
 
   /**
    * Get the key/token pair - internal helper function
@@ -104,18 +99,6 @@ class TrelloRequest {
     return rpn.delete(rpnOptions)
   }
 
-
-  // sendRequest(sr) {
-  //   const {rpnFunc, path, options} = sr
-
-  //   const rpnOptions = {
-  //     uri: path,
-  //     options,
-  //     qs: this._getAuthObj(),
-  //     // resolveWithFullResponse: true,
-  //   }
-  //   return rpnFunc(rpnOptions)
-  // }
 }
 
 module.exports = TrelloRequest

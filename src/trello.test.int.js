@@ -31,12 +31,12 @@ describe('trello module', function () {
   })
 
   it('getAllActionsOnCard() should return some actions', async () => {
-    const result = await trello.getAllActionsOnCard({id: CARD_ID})
+    const result = await trello.getActionsOnCard({id: CARD_ID})
     result.length.should.be.gt(0)
   })
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
-    const actions = await trello.getAllActionsOnCard({id: CARD_ID, filter: 'moveCardToBoard'})
+    const actions = await trello.getActionsOnCard({id: CARD_ID, filter: 'moveCardToBoard'})
     const result = await trello.getMoveCardToBoardActions(actions)
     result.length.should.be.gt(0)
   })

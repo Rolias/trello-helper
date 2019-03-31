@@ -26,6 +26,32 @@ class Trello {
     const {appKey: key, token} = trelloAuth
     this.trelloRequest = new TrelloRequest({key, token})
   }
+
+  // --------------------------------------------------------------------------
+  // Some pass through functions to TrelloRequest
+  /**
+   * Turn on full responses for the http command responses. Intended for debugging
+   * troubleshooting only at this point as it hasn't been tested.
+   * @param {boolean} enable - set to true to enable full response (off by default) 
+   */
+  enableFullResponse(enable) {
+    this.trelloRequest.doFullResponse = enable
+  }
+
+  isInFullResponseMode() {
+    return this.trelloRequest.doFullResponse
+  }
+
+  getRateLimitError() {
+    return TrelloRequest.getRateLimitError()
+  }
+
+  getRateLimitDelayMs() {
+    return TrelloRequest.getRateLimitDelayMs()
+  }
+
+  // --------------------------------------------------------------------------
+
   /**
    * @typedef {{cardId:string, fieldId:string}} cardFieldType 
    */
@@ -111,7 +137,7 @@ class Trello {
    * @param {{id:string, filter=:string}} param
    * @returns {Promise<Array.<Object<string,any>>>}
    */
-  getAllActionsOnCard(param) {
+  getActionsOnCard(param) {
     const path = `${Trello.getCardPrefixWithId(param.id)}/actions`
     const filterValue = param.filter || 'all'
     const options = {
@@ -125,7 +151,6 @@ class Trello {
   // ========================= Custom Field Setters/Getters =====================  
   getCustomFieldItemsOnCard(cardId) {
     const path = `${Trello.getCardPrefixWithId(cardId)}/customFieldItems`
-    // const options = {filter: 'all'}
     return this.get(path)
   }
 

@@ -166,7 +166,7 @@ describe('trello class', () => {})
 
     describe('getAllActionsOnCard() should', () => {
       beforeEach(async () => {
-        await trello.getAllActionsOnCard({id: FAKE_ID})
+        await trello.getActionsOnCard({id: FAKE_ID})
       })
 
       it('have the expected path', async () => {
@@ -316,6 +316,17 @@ describe('trello class', () => {})
 
 
   })
+  it('enableFullResponse() should change request to full', () => {
+    trello.enableFullResponse(true)
+    trello.isInFullResponseMode().should.be.true
+  })
 
+  it('getRateLimitError() should return 429', () => {
+    trello.getRateLimitError().should.equal(429)
+  })
+
+  it('getRateLimitDelayMs() should be 200', () => {
+    trello.getRateLimitDelayMs().should.equal(200)
+  })
 
 }

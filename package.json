@@ -48,12 +48,9 @@
   },
   "dependencies": {
     "env-create": "^1.0.9",
-    "inquirer": "^6.2.2",
-    "keytar": "^4.4.1",
     "moment": "^2.24.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "trello": "^0.9.1",
     "winston": "x"
   },
   "devDependencies": {

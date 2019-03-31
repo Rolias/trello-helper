@@ -2,7 +2,6 @@
 const chai = require('chai')
 const should = chai.should()
 const moment = require('moment')
-const baseTrello = require('trello')
 const TrelloRequest = require('./trelloRequest')
 
 
@@ -32,11 +31,6 @@ const postStubParamObj = () => postStub.getCall(0).args[0]
 
 let deleteStub
 const deleteStubParamObj = () => deleteStub.getCall(0).args[0]
-
-
-let makeRequestStub
-const makeRequestStubType = () => makeRequestStub.getCall(0).args[0]
-const makeRequestStubPathParam = () => makeRequestStub.getCall(0).args[1]
 
 describe('trello class', () => {})
 {
@@ -105,8 +99,6 @@ describe('trello class', () => {})
 
 
     beforeEach(() => {
-      makeRequestStub = sandbox.stub(baseTrello.prototype, 'makeRequest')
-        .returns(Promise.resolve(resolveArrayAsJson))
       getStub = sandbox.stub(TrelloRequest.prototype, 'get')
         .returns(Promise.resolve(resolveArrayAsJson))
       putStub = sandbox.stub(TrelloRequest.prototype, 'put')

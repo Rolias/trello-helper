@@ -1,15 +1,12 @@
 // @ts-check
 /** @module */
-const Trello = require('trello')
 const TrelloRequest = require('./trelloRequest')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const moment = require('moment')
 
-/**
- * @extends Trello
- */
-class TrelloPlus extends Trello {
+
+class TrelloPlus {
   /**
    * Create the TrelloPLus class to add more trello functions
    * @param {string=} pathString path to the trello JSON credentials file
@@ -27,7 +24,6 @@ class TrelloPlus extends Trello {
     }
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     const {appKey: key, token} = trelloAuth
-    super(trelloAuth.appKey, trelloAuth.token)
     this.trelloRequest = new TrelloRequest({key, token})
   }
   /**
@@ -36,10 +32,15 @@ class TrelloPlus extends Trello {
 
   /** @return '/1/cards'  */
   static getBaseCardCmd() {return '/1/cards'}
-  static getCardDueCmd(cardId) {return `${TrelloPlus.getCardPrefixWithId(cardId)}/due`}
+  /** @returns `/1/cards/<id>' */
   static getCardPrefixWithId(cardId) {return `${TrelloPlus.getBaseCardCmd()}/${cardId}`}
+  /** @return '/1/cards/<id>/due */
+  static getCardDueCmd(cardId) {return `${TrelloPlus.getCardPrefixWithId(cardId)}/due`}
+  /** @returns '/1/lists/<listId>' */
   static getListPrefixWithId(listId) {return `/1/lists/${listId}`}
+  /** @returns '/1/lists/<id>/cards */
   static getListCardCmd(listId) {return `${TrelloPlus.getListPrefixWithId(listId)}/cards`}
+  /** @returns '/1/boards/<id>' */
   static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
   /** @param {cardFieldType} cardFieldParam */
@@ -262,6 +263,9 @@ class TrelloPlus extends Trello {
     return this.post(TrelloPlus.getBaseCardCmd(), param)
   }
 
+  deleteCard(param) {
+    const cmd = TrelloPlus.getCardPrefixWithId(param.id)
+  }
   /**
    * Add a comment to the card
    * @param {{id,text}} param id of the card and text for the comment

@@ -35,13 +35,6 @@ describe('trello module', function () {
     result.length.should.be.gt(0)
   })
 
-  it('should be able to call base class method getCardsForList()', async () => {
-    const result = await trello.getCardsForList(LIST_ID)
-    result.length.should.be.gt(0)
-    logger.debug(result.length)
-  })
-
-
   describe('getCardsOnList() should', () => {
 
     it('process withOptions{} object', async () => {

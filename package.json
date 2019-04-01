@@ -16,7 +16,7 @@
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --use_strict 'src/**/*.test.js' ",
     "test:int": "mocha --use_strict 'src/**/*.test.int.js'",
-    "test:watch": "npm run test -- --watch",
+    "test:watch": "npm run test  -- --watch --reporter min",
     "test:cov": "nyc mocha",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",

@@ -86,7 +86,7 @@ describe('trello class', () => {})
     describe('addCard() should', () => {
       let paramObj
       beforeEach(async () => {
-        await trello.addCard({name: 'Test', description: 'Something', idList: FAKE_ID})
+        await trello.addCard({name: 'Test', desc: 'Something', idList: FAKE_ID})
         paramObj = postStubParamObj()
       })
       it('create expected path parameter', () => {
@@ -148,13 +148,18 @@ describe('trello class', () => {})
   describe('trello functions that resolve and return array', () => {
 
     beforeEach(() => {
+
       getStub = sandbox.stub(TrelloRequest.prototype, 'get')
+        // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
       putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+        // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
+        // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
       deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
+        // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
     })
 

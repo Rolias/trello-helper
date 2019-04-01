@@ -1,9 +1,10 @@
 // @ts-check
-/** @module */
+/** @module trello */
 const TrelloRequest = require('./trelloRequest')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const moment = require('moment')
+const tv = require('./typeValidate')
 
 
 class Trello {
@@ -52,9 +53,6 @@ class Trello {
 
   // --------------------------------------------------------------------------
 
-  /**
-   * @typedef {{cardId:string, fieldId:string}} cardFieldType 
-   */
 
   /** @return '/1/cards'  */
   static getBaseCardCmd() {return '/1/cards'}
@@ -69,7 +67,7 @@ class Trello {
   /** @returns '/1/boards/<id>' */
   static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
-  /** @param {cardFieldType} cfp - the Card Field Parameter*/
+  /** @param {tv.cardFieldType} cfp - the Card Field Parameter*/
   static getCustomFieldUpdateCmd(cfp) {return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`}
 
   /**
@@ -156,11 +154,17 @@ class Trello {
 
   /**
    * Set the value of a custom Field object
-   * @param {{cardFieldObj:{cardId:string, fieldId:string}, type:string, value:string}} customFieldObj 
+   * @param {tv.customFieldType} customFieldObj 
    *  see Trello.customFieldType for valid types
    * @returns {{}} an empty object- oh well so much for testing
    */
   setCustomFieldValueOnCard(customFieldObj) {
+    const validateObject = {
+      obj: customFieldObj,
+      reqKeys: ['cardFieldObj', 'type', 'value'],
+    }
+    tv.validate(validateObject)
+
     const fieldType = Trello.customFieldType
     const cmd = Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
     const valueObj = {}
@@ -234,20 +238,32 @@ class Trello {
 
   /**
    * Find actions that indicate card was previously on the specified list name
-   * @param {{actions,filterList}} params 
+   * @param {tv.actionFilterListType} param 
    * @return {Array<Object>} the array of actions that fit the criteria
    * @example actionWasOnList({actions,filterList:'idOfList'})
    */
-  actionWasOnList(params) {
-    return params.actions.filter(e => e.data.listBefore === params.filterList)
+  actionWasOnList(param) {
+    /** @type tv.validateType */
+    const tvObj = {
+      obj: param,
+      reqKeys: ['actions', 'filterList'],
+    }
+    tv.validate(tvObj)
+    for (const action of param.actions) {
+      tvObj.obj = action
+      tvObj.reqKeys = ['data']
+      tv.validate(tvObj)
+    }
+    return param.actions.filter(e => e.data.listBefore === param.filterList)
   }
   /**
    * Find actions in array whose `type` field matches the passed type property
-   * @param {{actions:Array,filterType:string }} param 
+   * @param {tv.actionFilterType} param 
    * @returns {Array<Object<string,any>>} - array of matching actions
    * @usage filterActionsByType({actions:[], type:'updateCard'})
    */
   filterActionsByType(param) {
+    tv.validate({obj: param, reqKeys: ['actions', 'filterType']})
     return param.actions.filter(e => e.type === param.filterType)
   }
 
@@ -271,6 +287,7 @@ class Trello {
    * @example setDueComplete({id:'123', isComplete:true})
    */
   setDueComplete(param) {
+    tv.validate({obj: param, reqKeys: ['id', 'isComplete']})
     const cmd = Trello.getCardPrefixWithId(param.id)
     const options = {dueComplete: param.isComplete}
     return this.put(cmd, options)
@@ -283,6 +300,7 @@ class Trello {
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
   addCard(param) {
+    tv.validate({obj: param, reqKeys: ['name', 'desc', 'idList']})
     return this.post(Trello.getBaseCardCmd(), param)
   }
 
@@ -290,6 +308,7 @@ class Trello {
     const cmd = Trello.getCardPrefixWithId(id)
     return this.delete(cmd)
   }
+
   /**
    * Add a comment to the card
    * @param {{id,text}} param id of the card and text for the comment
@@ -297,6 +316,7 @@ class Trello {
    * @example addCommentOnCard({id:'123',text:"message for comment"})
    */
   addCommentOnCard(param) {
+    tv.validate({obj: param, reqKeys: ['id', 'text']})
     const cmd = `${Trello.getCardPrefixWithId(param.id)}/actions/comments`
     const {text} = param
     return this.post(cmd, {text})

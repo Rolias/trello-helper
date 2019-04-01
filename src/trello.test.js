@@ -34,8 +34,8 @@ const postStubParamObj = () => postStub.getCall(0).args[0]
 let deleteStub
 const deleteStubParamObj = () => deleteStub.getCall(0).args[0]
 
-describe('trello class', () => {})
-{
+describe('trello class UNIT TESTS', () => {
+
   it('constructor should throw with no parameter and no local .env.json file', () => {
     sandbox.stub(logger, 'error')
       // @ts-ignore
@@ -45,6 +45,7 @@ describe('trello class', () => {})
 
   describe('using reject ', () => {
     beforeEach(() => {
+      // @ts-ignore
       sandbox.stub(TrelloRequest.prototype, 'get').returns(Promise.reject(rejectMsg))
     })
     afterEach(() => {
@@ -74,8 +75,10 @@ describe('trello class', () => {})
   describe('trello functions that return card object resolve', () => {
     beforeEach(() => {
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
+        // @ts-ignore
         .returns(Promise.resolve(resolveObj))
       putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+        // @ts-ignore  
         .returns(Promise.resolve(resolveEmptyObj))
     })
 
@@ -321,7 +324,6 @@ describe('trello class', () => {})
 
   })
 
-
   describe('action functions', () => {
     const listToFind = 'listOfInterest'
     const desiredType = 'commentAdded'
@@ -368,5 +370,4 @@ describe('trello class', () => {})
   it('getRateLimitDelayMs() should be 200', () => {
     trello.getRateLimitDelayMs().should.equal(200)
   })
-
-}
+})

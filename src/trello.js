@@ -68,7 +68,10 @@ class Trello {
   static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
   /** @param {tv.cardFieldType} cfp - the Card Field Parameter*/
-  static getCustomFieldUpdateCmd(cfp) {return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`}
+  static getCustomFieldUpdateCmd(cfp) {
+    tv.validate({obj: cfp, reqKeys: ['cardId', 'fieldId']})
+    return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`
+  }
 
   /**
   * Wrap the underlying makeRequest for get
@@ -159,11 +162,8 @@ class Trello {
    * @returns {{}} an empty object- oh well so much for testing
    */
   setCustomFieldValueOnCard(customFieldObj) {
-    const validateObject = {
-      obj: customFieldObj,
-      reqKeys: ['cardFieldObj', 'type', 'value'],
-    }
-    tv.validate(validateObject)
+    tv.validate({obj: customFieldObj, reqKeys: ['cardFieldObj', 'type', 'value']})
+    tv.validate({obj: customFieldObj.cardFieldObj, reqKeys: ['cardId', 'fieldId']})
 
     const fieldType = Trello.customFieldType
     const cmd = Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
@@ -327,12 +327,18 @@ class Trello {
    * @param {{cardId:string,memberId:string}} param 
    */
   addMemberToCard(param) {
+    tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
     const cmd = `${Trello.getCardPrefixWithId(cardId)}/members`
     return this.post(cmd, {value: memberId})
   }
 
+  /**
+   * 
+   * @param {{cardId:string, memberId:string}} param 
+   */
   removeMemberFromCard(param) {
+    tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
     const cmd = `${Trello.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
     return this.delete(cmd)
@@ -344,6 +350,7 @@ class Trello {
    * @returns {Promise<Array<{id:string, fullName:string, username:string}>>}
    */
   getMembersOnBoard(param) {
+    tv.validate({obj: param, reqKeys: ['boardId']})
     const {boardId} = param
     const cmd = `${Trello.getBoardPrefixWithId(boardId)}/members`
     return this.get(cmd, {})
@@ -353,7 +360,7 @@ class Trello {
    * Add due date to a card using a relative offset
    * the offset object has a count property (a number) and a units property 
    *  `days, months, years, quarters, hours, minutes`  
-   * @param {{id,offset:{count:Number,units:string}}} param 
+   * @param {{id:string,offset:{count:Number,units:string}}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
    * @example await trello.addDueDateToCardByOffset({
         id: FAKE_ID,
@@ -361,6 +368,8 @@ class Trello {
       })
    */
   addDueDateToCardByOffset(param) {
+    tv.validate({obj: param, reqKeys: ['id', 'offset']})
+    tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
     // @ts-ignore
     const dueDate = moment().add(param.offset.count, param.offset.units)
     const cmd = Trello.getCardDueCmd(param.id)
@@ -368,6 +377,7 @@ class Trello {
   }
 }
 
+// A static helper enumeration so users don't have to hard code magic strings
 Trello.customFieldType = {
   /** @type {string} */
   list: 'list', // this one gets special handling

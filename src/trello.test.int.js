@@ -17,17 +17,15 @@ const CARD_ID = testData.ids.card
 const MEMBER_ID = testData.ids.member
 const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
 
-before(() => {
-  logger.level = 'info'
-})
-after(() => {
-  logger.level = 'debug'
-})
 
-describe('trello module', function () {
+describe('trello module INTEGRATION', function () {
+
   this.timeout(10000)
   before(() => {
-
+    logger.level = 'info'
+  })
+  after(() => {
+    logger.level = 'debug'
   })
 
   it('getAllActionsOnCard() should return some actions', async () => {
@@ -135,8 +133,7 @@ describe('trello module', function () {
       await trello.addCard(param)
       const result = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
       result.length.should.be.gt(0)
-      const archiveResult = await trello.archiveAllCardsOnList({id: ARCHIVE_LIST_ID})
-      console.log(archiveResult)
+      await trello.archiveAllCardsOnList({id: ARCHIVE_LIST_ID})
       const afterArchive = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
       afterArchive.length.should.equal(0)
     })

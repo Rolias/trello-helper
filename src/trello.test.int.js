@@ -29,7 +29,7 @@ describe('trello module INTEGRATION', function () {
   })
 
   it('getAllActionsOnCard() should return some actions', async () => {
-    const result = await trello.getActionsOnCard({id: CARD_ID})
+    const result = await trello.getActionsOnCard({id: CARD_ID, filter: ''})
     result.length.should.be.gt(0)
   })
 
@@ -131,10 +131,10 @@ describe('trello module INTEGRATION', function () {
     it('archiveAllCardsOnlist() should produce an empty list', async () => {
       param.idList = ARCHIVE_LIST_ID
       await trello.addCard(param)
-      const result = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
+      const result = await trello.getCardsOnList({id: ARCHIVE_LIST_ID, options: {}})
       result.length.should.be.gt(0)
       await trello.archiveAllCardsOnList({id: ARCHIVE_LIST_ID})
-      const afterArchive = await trello.getCardsOnList({id: ARCHIVE_LIST_ID})
+      const afterArchive = await trello.getCardsOnList({id: ARCHIVE_LIST_ID, options: {}})
       afterArchive.length.should.equal(0)
     })
   })
@@ -160,7 +160,7 @@ describe('trello module INTEGRATION', function () {
 
   describe('getAllCardsOnBoard()', () => {
     it('should work with no opstions', async () => {
-      const result = await trello.getCardsOnBoard({id: BOARD_ID})
+      const result = await trello.getCardsOnBoard({id: BOARD_ID, options: {}})
       result.length.should.be.gt(0)
     })
 

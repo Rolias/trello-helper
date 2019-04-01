@@ -55,7 +55,7 @@ describe('trello class UNIT TESTS', () => {
     it('get() should reject', async () => {
       // @ts-ignore
       try {
-        await trello.get(fakeCmd)
+        await trello.get({path: fakeCmd, options: {}})
         true.should.be.false('expected exception was not thrown')
       } catch (error) {
         error.should.equal(rejectMsg)
@@ -64,7 +64,7 @@ describe('trello class UNIT TESTS', () => {
 
     it('getCardsOnList() should reject', async () => {
       // @ts-ignore
-      await trello.getCardsOnList(fakeCmd)
+      await trello.getCardsOnList({id: fakeCmd, options: {}})
         .catch((error) => {
           error.should.equal(rejectMsg)
         })
@@ -170,20 +170,6 @@ describe('trello class UNIT TESTS', () => {
       sandbox.restore()
     })
 
-    describe('getCardsOnList() with id only', () => {
-      beforeEach(async () => {
-        await trello.getCardsOnList({id: FAKE_ID})
-      })
-      it('should get a proper path ', async () => {
-        const cmd = Trello.getListCardCmd(FAKE_ID)
-        getStubParamObj().path.should.equal(cmd)
-      })
-      it('should not have an option parameter', async () => {
-        should.not.exist(getStubParamObj().options)
-      })
-
-    })
-
     describe('getCardsOnList() with id and option properties', () => {
       beforeEach(async () => {
         await trello.getCardsOnList({id: FAKE_ID, options: {limit: 10}})
@@ -195,18 +181,18 @@ describe('trello class UNIT TESTS', () => {
         getStubParamObj().options.limit.should.equal(10)
       })
     })
-
-    describe('getCardsOnBoard() with id only', () => {
+    describe('getCardsOnList() with id and empty option properties', () => {
       beforeEach(async () => {
-        await trello.getCardsOnBoard({id: FAKE_ID})
+        await trello.getCardsOnList({id: FAKE_ID, options: {}})
       })
       it('should get a proper path ', async () => {
-        getStubParamObj().path.should.equal(`/1/board/${FAKE_ID}/cards`)
+        getStubParamObj().path.should.equal(Trello.getListCardCmd(FAKE_ID))
       })
-      it('should not have an option parameter', async () => {
-        should.not.exist(getStubParamObj().options)
+      it('should have an option parameter equal to {}', async () => {
+        getStubParamObj().options.should.deep.equal({})
       })
     })
+
 
     describe('getCardsOnBoard() with id and option properties', () => {
       beforeEach(async () => {
@@ -220,9 +206,9 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
-    describe('getAllActionsOnCard() should', () => {
+    describe('getAllActionsOnCard() with blank filter should', () => {
       beforeEach(async () => {
-        await trello.getActionsOnCard({id: FAKE_ID})
+        await trello.getActionsOnCard({id: FAKE_ID, filter: ''})
       })
 
       it('have the expected path', async () => {

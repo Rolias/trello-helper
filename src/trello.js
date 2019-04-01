@@ -75,27 +75,28 @@ class Trello {
 
   /**
   * Wrap the underlying makeRequest for get
-  * @param {string} path technically an http path but to the Trello API its command
-  * @param {Object=} options  
+  * @param {tv.pathOptionsType} pathOptions technically an http path but to the Trello API its command
   * @return {Promise<any>}
-  * @example get(this.getListCardCmd('123'), {limit:10})
+  * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
-  async get(path, options) {
+  async get(pathOptions) {
+    tv.validate({obj: pathOptions, reqKeys: ['path']})
+    const {path, options} = pathOptions
     const getOptions = {
       path,
       options,
     }
     const responseStr = await this.trelloRequest.get(getOptions)
     return responseStr
-    // return this.makeRequest('get', path, options)
   }
   /** wrap the underlying makeRequest for put 
-   * @param {string} path  technically an http path but to the Trello API it's command
-   * @param {Object} options  
+   * @param {tv.pathOptionsType} pathOptions  technically an http path but to the Trello API it's command 
    * @return {Promise<any>}
    * @example  put(getCardPrefixWithId(<cardId>), {dueComplete: true})
    */
-  async put(path, options) {
+  async put(pathOptions) {
+    tv.validate({obj: pathOptions, reqKeys: ['path', 'options']})
+    const {path, options} = pathOptions
     const putOptions = {
       path,
       body: options,
@@ -134,25 +135,31 @@ class Trello {
     // return this.makeRequest('delete', path, options)
   }
 
-  /** Get all the actions on the card
-   * @param {{id:string, filter=:string}} param
+  /** Get the actions on the card. Filter by tye action type if desired
+   * defaults to 'all' for all action types see
+   * https://developers.trello.com/reference/#action-types
+   * @param {{id:string, filter:string}} param
    * @returns {Promise<Array.<Object<string,any>>>}
    */
   getActionsOnCard(param) {
+    tv.validate({obj: param, reqKeys: ['id', 'filter']})
     const path = `${Trello.getCardPrefixWithId(param.id)}/actions`
-    const filterValue = param.filter || 'all'
+    let filterValue = param.filter
+    if (filterValue === '') {
+      filterValue = 'all'
+    }
     const options = {
       filter: filterValue,
       // eslint-disable-next-line camelcase
       limit: 1000,
     }
-    return this.get(path, options)
+    return this.get({path, options})
   }
 
   // ========================= Custom Field Setters/Getters =====================  
   getCustomFieldItemsOnCard(cardId) {
     const path = `${Trello.getCardPrefixWithId(cardId)}/customFieldItems`
-    return this.get(path)
+    return this.get({path, options: {}})
   }
 
   /**
@@ -166,7 +173,7 @@ class Trello {
     tv.validate({obj: customFieldObj.cardFieldObj, reqKeys: ['cardId', 'fieldId']})
 
     const fieldType = Trello.customFieldType
-    const cmd = Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
+    const path = Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
     const valueObj = {}
     const {type, value} = customFieldObj
     // a list takes a simple {idValue:'value'}
@@ -176,7 +183,7 @@ class Trello {
       valueObj.value = {}
       valueObj.value[type] = value
     }
-    return this.put(cmd, valueObj)
+    return this.put({path, options: valueObj})
   }
 
   // ==========================================================================
@@ -184,27 +191,29 @@ class Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options=}} param  
+   * @param {{id:string, options}} param  
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({id:'123',options:{customFieldItems:true}})
    */
   getCardsOnList(param) {
+    tv.validate({obj: param, reqKeys: ['id', 'options']})
     const path = `${Trello.getListCardCmd(param.id)}`
     const {options} = param
-    return this.get(path, options)
+    return this.get({path, options})
   }
 
   /**
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
    * fields:'name,desc'
-   * @param {{id:string, options=}} param 
+   * @param {{id:string, options}} param 
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    */
   getCardsOnBoard(param) {
+    tv.validate({obj: param, reqKeys: ['id', 'options']})
     const {id, options} = param
     const path = `${Trello.getBoardPrefixWithId(id)}/cards`
-    return this.get(path, options)
+    return this.get({path, options})
 
   }
 
@@ -216,10 +225,11 @@ class Trello {
    * @example getArchivedCards({boardId:'123',listId'456'})
    */
   async getArchivedCards(param) {
+    tv.validate({obj: param, reqKeys: ['boardId', 'listId']})
     const options = {filter: 'closed'}
     const list = param.listId
     const path = `${Trello.getBoardPrefixWithId(param.boardId)}/cards`
-    const archivedCards = await this.get(path, options)
+    const archivedCards = await this.get({path, options})
     if (archivedCards.length < 1) {return []}
     const archivedOnList = archivedCards.filter(e => e.idList === list)
     return archivedOnList
@@ -232,6 +242,7 @@ class Trello {
    * 
    */
   async archiveAllCardsOnList(param) {
+    tv.validate({obj: param, reqKeys: ['id']})
     const path = `${Trello.getListPrefixWithId(param.id)}/archiveAllCards`
     return this.post(path, {})
   }
@@ -288,9 +299,9 @@ class Trello {
    */
   setDueComplete(param) {
     tv.validate({obj: param, reqKeys: ['id', 'isComplete']})
-    const cmd = Trello.getCardPrefixWithId(param.id)
+    const path = Trello.getCardPrefixWithId(param.id)
     const options = {dueComplete: param.isComplete}
-    return this.put(cmd, options)
+    return this.put({path, options})
   }
 
   /**
@@ -304,6 +315,10 @@ class Trello {
     return this.post(Trello.getBaseCardCmd(), param)
   }
 
+  /**
+   * 
+   * @param {string} id of the card 
+   */
   deleteCard(id) {
     const cmd = Trello.getCardPrefixWithId(id)
     return this.delete(cmd)
@@ -311,7 +326,7 @@ class Trello {
 
   /**
    * Add a comment to the card
-   * @param {{id,text}} param id of the card and text for the comment
+   * @param {{id:string,text:string}} param id of the card and text for the comment
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCommentOnCard({id:'123',text:"message for comment"})
    */
@@ -352,8 +367,8 @@ class Trello {
   getMembersOnBoard(param) {
     tv.validate({obj: param, reqKeys: ['boardId']})
     const {boardId} = param
-    const cmd = `${Trello.getBoardPrefixWithId(boardId)}/members`
-    return this.get(cmd, {})
+    const path = `${Trello.getBoardPrefixWithId(boardId)}/members`
+    return this.get({path, options: {}})
   }
 
   /**
@@ -372,8 +387,8 @@ class Trello {
     tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
     // @ts-ignore
     const dueDate = moment().add(param.offset.count, param.offset.units)
-    const cmd = Trello.getCardDueCmd(param.id)
-    return this.put(cmd, {value: dueDate.format()})
+    const path = Trello.getCardDueCmd(param.id)
+    return this.put({path, options: {value: dueDate.format()}})
   }
 }
 

@@ -15,6 +15,11 @@
 * @property {string} value
 */
 
+/** 
+  // @ts-ignore
+ * @typedef {{path:string,options:Object}} pathOptionsType 
+ */
+
 
 /**
  * @typedef {{actions:Array<Object>,filterType:string }} actionFilterType 

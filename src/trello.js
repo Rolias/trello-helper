@@ -159,11 +159,11 @@ class Trello {
   // ========================= Custom Field Setters/Getters =====================  
   /**
    * Get the array of custom field items on the card.
-   * @param {string} cardId 
+   * @param {{cardId:string}} param 
    * @returns {Promise<Array<object>>}
    */
-  getCustomFieldItemsOnCard(cardId) {
-    const path = `${Trello.getCardPrefixWithId(cardId)}/customFieldItems`
+  getCustomFieldItemsOnCard(param) {
+    const path = `${Trello.getCardPrefixWithId(param.cardId)}/customFieldItems`
     return this.get({path, options: {}})
   }
 
@@ -232,12 +232,41 @@ class Trello {
   async getArchivedCards(param) {
     tv.validate({obj: param, reqKeys: ['boardId', 'listId']})
     const options = {filter: 'closed'}
-    const list = param.listId
-    const path = `${Trello.getBoardPrefixWithId(param.boardId)}/cards`
-    const archivedCards = await this.get({path, options})
+    const {boardId, listId} = param
+    const archivedCards = await this.getCardsOnBoard({boardId, options})
+    // const list = param.listId
+    // const path = `${Trello.getBoardPrefixWithId(param.boardId)}/cards`
+    // const archivedCards = await this.get({path, options})
     if (archivedCards.length < 1) {return []}
-    const archivedOnList = archivedCards.filter(e => e.idList === list)
+    const archivedOnList = archivedCards.filter(e => e.idList === listId)
     return archivedOnList
+  }
+  /**
+   * TODO Get the board id from the list id
+   * @param {{listId:string}} param 
+   */
+  async getBoardIdFromListId(param) {
+    tv.validate({obj: param, reqKeys: ['listId']})
+    const {listId} = param
+    const path = `${Trello.getListPrefixWithId(listId)}/board`
+    return await this.get({path, options: {fields: 'id'}})
+  }
+  /**
+   * TODO archive cards on list older than the passed relative date
+   * @param {{listId:string, offset:{count:moment.DurationInputArg1, units:moment.DurationInputArg2}}} param 
+   */
+  async archiveCardsOlderThan(param) {
+    tv.validate({obj: param, reqKeys: ['listId', 'offset']})
+    tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
+    const {listId, offset} = param
+    const archivedCards = await this.getArchivedCards()
+
+    const {count, units} = offset
+    const cutoffDate = moment().subtract(count, units)
+
+
+    // return this.put({path, options: {value: dueDate.format()}})
+
   }
 
   /**
@@ -251,6 +280,7 @@ class Trello {
     const path = `${Trello.getListPrefixWithId(param.listId)}/archiveAllCards`
     return this.post({path, options: {}})
   }
+
 
   /**
    * Find actions that indicate card was previously on the specified list name
@@ -344,10 +374,11 @@ class Trello {
 
   /**
    * 
-   * @param {string} id of the card 
+   * @param {cardId:string} id of the card 
    */
-  deleteCard(id) {
-    const path = Trello.getCardPrefixWithId(id)
+  deleteCard(param) {
+    tv.validate({obj: param, reqKeys: ['cardId']})
+    const path = Trello.getCardPrefixWithId(param.cardId)
     return this.delete({path, options: {}})
   }
 

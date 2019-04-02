@@ -80,6 +80,9 @@ describe('trello class UNIT TESTS', () => {
       putStub = sandbox.stub(TrelloRequest.prototype, 'put')
         // @ts-ignore  
         .returns(Promise.resolve(resolveEmptyObj))
+      deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
+        // @ts-ignore
+        .returns(Promise.resolve(resolveObj))
     })
 
     afterEach(() => {
@@ -98,6 +101,14 @@ describe('trello class UNIT TESTS', () => {
 
       it('have an  options argument with three properties', () => {
         Object.keys(paramObj.body).length.should.equal(3)
+      })
+    })
+
+    describe('deleteCard()', () => {
+      it('should get the proper path for deleting a card', async () => {
+        await trello.deleteCard({cardId: FAKE_ID})
+        const expected = Trello.getCardPrefixWithId(FAKE_ID)
+        deleteStubParamObj().path.should.equal(expected)
       })
     })
 
@@ -320,6 +331,12 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
+
+    it('getCustomFieldsOnCard should return the expected path', async () => {
+      await trello.getCustomFieldItemsOnCard({cardId: FAKE_ID})
+      const expected = `${Trello.getCardPrefixWithId(FAKE_ID)}/customFieldItems`
+      getStubParamObj().path.should.equal(expected)
+    })
 
   })
 

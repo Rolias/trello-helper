@@ -20,7 +20,7 @@ const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json
 
 describe('trello module INTEGRATION', function () {
 
-  this.timeout(10000)
+  this.timeout(20000)
   before(() => {
     logger.level = 'info'
   })
@@ -115,7 +115,7 @@ describe('trello module INTEGRATION', function () {
         result = await trello.addCard(param)
       })
       after(async () => {
-        await trello.deleteCard(result.id)
+        await trello.deleteCard({cardId: result.id})
       })
       it('should add a card with id specified', async () => {
         should.exist(result.id)
@@ -173,7 +173,7 @@ describe('trello module INTEGRATION', function () {
   })
 
   it('getCustomFieldItemsOnCard() should get the custom items', async () => {
-    const result = await trello.getCustomFieldItemsOnCard(CARD_ID)
+    const result = await trello.getCustomFieldItemsOnCard({cardId: CARD_ID})
     logger.debug(`Custom Field Items on Card ${JSON.stringify(result, null, 2)}`)
   })
 

@@ -1,14 +1,14 @@
-# Trello Helper - Making Trello Dead Simple
+# Trello Helper - Simplifying the Trello API 
 
-This project is designed to make using the Trello API a little easier. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. You will also never get the parameters in the wrong order. The options or body properties are often optional. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you type anything incorrectly.
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES5 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object. 
 
 ```javascript
-getCardsOnlist({id:'123', options:{limit:10}})
+getCardsOnlist({listId:'123', options:{limit:10}})
 // or
-getCardsOnList({id:'123'})
+getCardsOnList({listId:'123', options:{}})
 ```
 
-Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands. It also exposes many higher-level  commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
+Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands. But, it also exposes many higher-level  commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
 
 ## Table of Contents
 - [Installation](#installation)  
@@ -34,11 +34,11 @@ const Trello = require('trello-helper')
 
 const trello = new Trello('/Users/ENV_VARS/trello.env.json') 
 // get all the cards on the list with id 123
-const cardsOnList = trello.getCardsOnList({id:'123', options{}})
+const cardsOnList = trello.getCardsOnList({listId:'123', options{}})
 // get all the actions on card 123 that are of type 'moveToBoard'
-const mtbActions = trello.getActionsOnCard({id:'123', filter:'moveToBoard'})
+const mtbActions = trello.getActionsOnCard({listId:'123', filter:'moveToBoard'})
 // get up to 1000 actions on a card
-const actions = trello.getActionsOnCard({id:'123'})
+const actions = trello.getActionsOnCard({cardId:'123'})
 // get all the custom field data for a card
 const cf = trello.getCustomFieldItemsOnCard('123')
 // set the value of a custom field 

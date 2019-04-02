@@ -80,7 +80,7 @@ class Trello {
   * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
   async get(pathOptions) {
-    tv.validate({obj: pathOptions, reqKeys: ['path']})
+    tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
     const getOptions = {
       path,
@@ -92,10 +92,10 @@ class Trello {
   /** wrap the underlying makeRequest for put 
    * @param {tv.pathOptionsType} pathOptions  technically an http path but to the Trello API it's command 
    * @return {Promise<any>}
-   * @example  put(getCardPrefixWithId(<cardId>), {dueComplete: true})
+   * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   async put(pathOptions) {
-    tv.validate({obj: pathOptions, reqKeys: ['path', 'options']})
+    tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
     const putOptions = {
       path,
@@ -108,10 +108,10 @@ class Trello {
   * Wrap the underlying makeRequest for post
   * @param {tv.pathOptionsType} pathOptions technically an http path but to the Trello API it's command
   * @return {Promise<any>}
-  * @example post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:<idOfList>})
+  * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   async post(pathOptions) {
-    tv.validate({obj: pathOptions, reqKeys: ['path', 'options']})
+    tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
     const postOptions = {
       path,
@@ -126,7 +126,7 @@ class Trello {
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
   async delete(pathOptions) {
-    tv.validate({obj: pathOptions, reqKeys: ['path', 'options']})
+    tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
     const deleteOptions = {
       path,
@@ -138,12 +138,12 @@ class Trello {
   /** Get the actions on the card. Filter by tye action type if desired
    * defaults to 'all' for all action types see
    * https://developers.trello.com/reference/#action-types
-   * @param {{id:string, filter:string}} param
+   * @param {{cardId:string, filter:string}} param
    * @returns {Promise<Array.<Object<string,any>>>}
    */
   getActionsOnCard(param) {
-    tv.validate({obj: param, reqKeys: ['id', 'filter']})
-    const path = `${Trello.getCardPrefixWithId(param.id)}/actions`
+    tv.validate({obj: param, reqKeys: ['cardId', 'filter']})
+    const path = `${Trello.getCardPrefixWithId(param.cardId)}/actions`
     let filterValue = param.filter
     if (filterValue === '') {
       filterValue = 'all'
@@ -157,6 +157,11 @@ class Trello {
   }
 
   // ========================= Custom Field Setters/Getters =====================  
+  /**
+   * Get the array of custom field items on the card.
+   * @param {string} cardId 
+   * @returns {Promise<Array<object>>}
+   */
   getCustomFieldItemsOnCard(cardId) {
     const path = `${Trello.getCardPrefixWithId(cardId)}/customFieldItems`
     return this.get({path, options: {}})
@@ -191,13 +196,13 @@ class Trello {
 
   /**
    * Get all archived cards from the board that match the passed list id
-   * @param {{id:string, options}} param  
+   * @param {{listId:string, options}} param  
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
-   * @example getCardsOnListWith({id:'123',options:{customFieldItems:true}})
+   * @example getCardsOnListWith({listId:'123',options:{customFieldItems:true}})
    */
   getCardsOnList(param) {
-    tv.validate({obj: param, reqKeys: ['id', 'options']})
-    const path = `${Trello.getListCardCmd(param.id)}`
+    tv.validate({obj: param, reqKeys: ['listId', 'options']})
+    const path = `${Trello.getListCardCmd(param.listId)}`
     const {options} = param
     return this.get({path, options})
   }
@@ -206,13 +211,13 @@ class Trello {
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
    * fields:'name,desc'
-   * @param {{id:string, options}} param 
+   * @param {{boardId:string, options}} param 
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    */
   getCardsOnBoard(param) {
-    tv.validate({obj: param, reqKeys: ['id', 'options']})
-    const {id, options} = param
-    const path = `${Trello.getBoardPrefixWithId(id)}/cards`
+    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+    const {boardId, options} = param
+    const path = `${Trello.getBoardPrefixWithId(boardId)}/cards`
     return this.get({path, options})
 
   }
@@ -237,13 +242,13 @@ class Trello {
 
   /**
    * Archives all the cards on the passed list id
-   * @param {{id:string}} param 
+   * @param {{listId:string}} param 
    * @returns {Promise<object>}
    * 
    */
   async archiveAllCardsOnList(param) {
-    tv.validate({obj: param, reqKeys: ['id']})
-    const path = `${Trello.getListPrefixWithId(param.id)}/archiveAllCards`
+    tv.validate({obj: param, reqKeys: ['listId']})
+    const path = `${Trello.getListPrefixWithId(param.listId)}/archiveAllCards`
     return this.post({path, options: {}})
   }
 
@@ -291,27 +296,27 @@ class Trello {
   }
 
   /**
-   * Set the due date as complete when isComplete:true or clear it if 
+   * Set the due date on card as complete when isComplete:true or clear it if 
    * isComplete:false
-   * @param {{id,isComplete:boolean}} param 
+   * @param {{cardId,isComplete:boolean}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example setDueComplete({id:'123', isComplete:true})
    */
   setDueComplete(param) {
-    tv.validate({obj: param, reqKeys: ['id', 'isComplete']})
-    const path = Trello.getCardPrefixWithId(param.id)
+    tv.validate({obj: param, reqKeys: ['cardId', 'isComplete']})
+    const path = Trello.getCardPrefixWithId(param.cardId)
     const options = {dueComplete: param.isComplete}
     return this.put({path, options})
   }
 
   /**
    * Add the card to the specified list. Use name and optional description
-   * @param {{name:string, desc:string, idList:string, idMembers=:string}} options 
+   * @param {{idList:string, name:string, desc:string}} options 
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
   addCard(options) {
-    tv.validate({obj: options, reqKeys: ['name', 'desc', 'idList']})
+    tv.validate({obj: options, reqKeys: ['idList', 'name', 'desc']})
     return this.post({path: Trello.getBaseCardCmd(), options})
   }
 
@@ -326,13 +331,13 @@ class Trello {
 
   /**
    * Add a comment to the card
-   * @param {{id:string,text:string}} param id of the card and text for the comment
+   * @param {{cardId:string,text:string}} param id of the card and text for the comment
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCommentOnCard({id:'123',text:"message for comment"})
    */
   addCommentOnCard(param) {
-    tv.validate({obj: param, reqKeys: ['id', 'text']})
-    const path = `${Trello.getCardPrefixWithId(param.id)}/actions/comments`
+    tv.validate({obj: param, reqKeys: ['cardId', 'text']})
+    const path = `${Trello.getCardPrefixWithId(param.cardId)}/actions/comments`
     const {text} = param
     return this.post({path, options: {text}})
   }
@@ -375,7 +380,7 @@ class Trello {
    * Add due date to a card using a relative offset
    * the offset object has a count property (a number) and a units property 
    *  `days, months, years, quarters, hours, minutes`  
-   * @param {{id:string,offset:{count:Number,units:string}}} param 
+   * @param {{cardId:string,offset:{count:Number,units:string}}} param 
    * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
    * @example await trello.addDueDateToCardByOffset({
         id: FAKE_ID,
@@ -383,11 +388,11 @@ class Trello {
       })
    */
   addDueDateToCardByOffset(param) {
-    tv.validate({obj: param, reqKeys: ['id', 'offset']})
+    tv.validate({obj: param, reqKeys: ['cardId', 'offset']})
     tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
     // @ts-ignore
     const dueDate = moment().add(param.offset.count, param.offset.units)
-    const path = Trello.getCardDueCmd(param.id)
+    const path = Trello.getCardDueCmd(param.cardId)
     return this.put({path, options: {value: dueDate.format()}})
   }
 }

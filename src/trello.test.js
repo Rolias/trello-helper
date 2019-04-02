@@ -64,7 +64,7 @@ describe('trello class UNIT TESTS', () => {
 
     it('getCardsOnList() should reject', async () => {
       // @ts-ignore
-      await trello.getCardsOnList({id: fakeCmd, options: {}})
+      await trello.getCardsOnList({listId: fakeCmd, options: {}})
         .catch((error) => {
           error.should.equal(rejectMsg)
         })
@@ -172,7 +172,7 @@ describe('trello class UNIT TESTS', () => {
 
     describe('getCardsOnList() with id and option properties', () => {
       beforeEach(async () => {
-        await trello.getCardsOnList({id: FAKE_ID, options: {limit: 10}})
+        await trello.getCardsOnList({listId: FAKE_ID, options: {limit: 10}})
       })
       it('should get a proper path ', async () => {
         getStubParamObj().path.should.equal(Trello.getListCardCmd(FAKE_ID))
@@ -183,7 +183,7 @@ describe('trello class UNIT TESTS', () => {
     })
     describe('getCardsOnList() with id and empty option properties', () => {
       beforeEach(async () => {
-        await trello.getCardsOnList({id: FAKE_ID, options: {}})
+        await trello.getCardsOnList({listId: FAKE_ID, options: {}})
       })
       it('should get a proper path ', async () => {
         getStubParamObj().path.should.equal(Trello.getListCardCmd(FAKE_ID))
@@ -196,7 +196,7 @@ describe('trello class UNIT TESTS', () => {
 
     describe('getCardsOnBoard() with id and option properties', () => {
       beforeEach(async () => {
-        await trello.getCardsOnBoard({id: FAKE_ID, options: {limit: 10}})
+        await trello.getCardsOnBoard({boardId: FAKE_ID, options: {limit: 10}})
       })
       it('should get a proper path ', async () => {
         getStubParamObj().path.should.equal(`/1/board/${FAKE_ID}/cards`)
@@ -208,7 +208,7 @@ describe('trello class UNIT TESTS', () => {
 
     describe('getAllActionsOnCard() with blank filter should', () => {
       beforeEach(async () => {
-        await trello.getActionsOnCard({id: FAKE_ID, filter: ''})
+        await trello.getActionsOnCard({cardId: FAKE_ID, filter: ''})
       })
 
       it('have the expected path', async () => {
@@ -219,6 +219,19 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
+    describe('archiveAllCardsOnList()', () => {
+      beforeEach(async () => {
+        await trello.archiveAllCardsOnList({listId: FAKE_ID})
+      })
+      it('should have the expected path', () => {
+        const expected = `${Trello.getListPrefixWithId(FAKE_ID)}/archiveAllCards`
+        postStubParamObj().path.should.equal(expected)
+      })
+      it('should have an empty body property', () => {
+        postStubParamObj().body.should.deep.equal({})
+      })
+
+    })
     describe('getArchivedCards() should', () => {
       let result
       beforeEach(async () => {
@@ -240,7 +253,7 @@ describe('trello class UNIT TESTS', () => {
     describe('addCommentOnCard()', () => {
       let paramObj
       beforeEach(async () => {
-        const cardParams = {id: FAKE_ID, text: FAKE_COMMENT}
+        const cardParams = {cardId: FAKE_ID, text: FAKE_COMMENT}
         await trello.addCommentOnCard(cardParams)
         paramObj = postStubParamObj()
       })
@@ -257,7 +270,7 @@ describe('trello class UNIT TESTS', () => {
 
     it('addDueDateToCardByOffset constructs expected path and date', async () => {
       await trello.addDueDateToCardByOffset({
-        id: FAKE_ID,
+        cardId: FAKE_ID,
         offset: {count: 7, units: 'days'},
       })
       const putParam = putStubParamObj()
@@ -269,7 +282,7 @@ describe('trello class UNIT TESTS', () => {
     describe('setDueComplete() should', () => {
       let putParam
       beforeEach(async () => {
-        await trello.setDueComplete({id: FAKE_ID, isComplete: true})
+        await trello.setDueComplete({cardId: FAKE_ID, isComplete: true})
         putParam = putStubParamObj()
       })
 

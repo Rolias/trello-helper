@@ -29,12 +29,12 @@ describe('trello module INTEGRATION', function () {
   })
 
   it('getAllActionsOnCard() should return some actions', async () => {
-    const result = await trello.getActionsOnCard({id: CARD_ID, filter: ''})
+    const result = await trello.getActionsOnCard({cardId: CARD_ID, filter: ''})
     result.length.should.be.gt(0)
   })
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
-    const actions = await trello.getActionsOnCard({id: CARD_ID, filter: 'moveCardToBoard'})
+    const actions = await trello.getActionsOnCard({cardId: CARD_ID, filter: 'moveCardToBoard'})
     const result = await trello.getMoveCardToBoardActions(actions)
     result.length.should.be.gt(0)
   })
@@ -44,7 +44,7 @@ describe('trello module INTEGRATION', function () {
 
     it('process withOptions{} object', async () => {
       const result = await trello.getCardsOnList({
-        id: '5c4b6f254a94846d2f0c65df', // LIST_ID,
+        listId: '5c4b6f254a94846d2f0c65df',
         options: {
           fields: 'name,id',
           limit: 1,
@@ -57,7 +57,7 @@ describe('trello module INTEGRATION', function () {
     it('can get back customFieldItems', async () => {
 
       const result = await trello.getCardsOnList({
-        id: LIST_ID,
+        listId: LIST_ID,
         options: {
           fields: 'name',
           customFieldItems: true,
@@ -69,7 +69,7 @@ describe('trello module INTEGRATION', function () {
     it('work with empty options', async () => {
       // will also work if withOptions is missing - but ts lint checker won't be happy
       const result = await trello.getCardsOnList({
-        id: LIST_ID,
+        listId: LIST_ID,
         options: {getCustomFields: true},
       })
       result.length.should.be.gt(0)
@@ -96,9 +96,9 @@ describe('trello module INTEGRATION', function () {
 
   it('setDueComplete works', async () => {
     const testCardId = '5c8891992a649d6fc0d6c598'
-    let result = await trello.setDueComplete({id: testCardId, isComplete: false})
+    let result = await trello.setDueComplete({cardId: testCardId, isComplete: false})
     result.dueComplete.should.be.false
-    result = await trello.setDueComplete({id: testCardId, isComplete: true})
+    result = await trello.setDueComplete({cardId: testCardId, isComplete: true})
     result.dueComplete.should.be.true
   })
 
@@ -131,10 +131,10 @@ describe('trello module INTEGRATION', function () {
     it('archiveAllCardsOnlist() should produce an empty list', async () => {
       param.idList = ARCHIVE_LIST_ID
       await trello.addCard(param)
-      const result = await trello.getCardsOnList({id: ARCHIVE_LIST_ID, options: {}})
+      const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
       result.length.should.be.gt(0)
-      await trello.archiveAllCardsOnList({id: ARCHIVE_LIST_ID})
-      const afterArchive = await trello.getCardsOnList({id: ARCHIVE_LIST_ID, options: {}})
+      await trello.archiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
+      const afterArchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
       afterArchive.length.should.equal(0)
     })
   })
@@ -160,12 +160,12 @@ describe('trello module INTEGRATION', function () {
 
   describe('getAllCardsOnBoard()', () => {
     it('should work with no opstions', async () => {
-      const result = await trello.getCardsOnBoard({id: BOARD_ID, options: {}})
+      const result = await trello.getCardsOnBoard({boardId: BOARD_ID, options: {}})
       result.length.should.be.gt(0)
     })
 
     it('should only return the requested fields and id', async () => {
-      const result = await trello.getCardsOnBoard({id: BOARD_ID, options: {fields: 'name,desc'}})
+      const result = await trello.getCardsOnBoard({boardId: BOARD_ID, options: {fields: 'name,desc'}})
       result.length.should.be.gt(0)
       const keys = Object.keys(result[0])
       keys.length.should.equal(3)

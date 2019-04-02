@@ -54,8 +54,20 @@ const validate = (param) => {
   }
 }
 
+/**
+ * Since we use this multiple times it gets a wrapper so we don't have
+ * to specify the array of property names all the time
+ * we
+ * @param {Object}  param
+ */
+const validatePathOptions = (param) => {
+  const pathOptions = {obj: param, reqKeys: ['path', 'options']}
+  validate(pathOptions)
+}
+
 
 module.exports = {
   validate,
+  validatePathOptions,
 
 }

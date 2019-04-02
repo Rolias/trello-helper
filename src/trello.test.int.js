@@ -128,7 +128,7 @@ describe('trello module INTEGRATION', function () {
       })
     })
 
-    it('archiveAllCardsOnlist() should produce an empty list', async () => {
+    it('archiveAllCardsOnList() should produce an empty list', async () => {
       param.idList = ARCHIVE_LIST_ID
       await trello.addCard(param)
       const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
@@ -159,7 +159,7 @@ describe('trello module INTEGRATION', function () {
   })
 
   describe('getAllCardsOnBoard()', () => {
-    it('should work with no opstions', async () => {
+    it('should work with no options', async () => {
       const result = await trello.getCardsOnBoard({boardId: BOARD_ID, options: {}})
       result.length.should.be.gt(0)
     })

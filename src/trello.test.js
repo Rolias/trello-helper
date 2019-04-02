@@ -1,6 +1,5 @@
 // @ts-check
-const chai = require('chai')
-const should = chai.should()
+require('chai')
 const moment = require('moment')
 const TrelloRequest = require('./trelloRequest')
 

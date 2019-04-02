@@ -30,7 +30,7 @@
  */
 
 /**
- * @typedef {{cmd:string,options:Object=}} httpCommandType
+ * @typedef {{cmd:string,options:object}} httpCommandType
  */
 
 /**

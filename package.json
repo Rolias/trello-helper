@@ -57,9 +57,9 @@
     "winston": "x"
   },
   "devDependencies": {
-    "@types/node": "^11.12.0",
+    "@types/node": "^11.13.0",
     "chai": "x",
-    "eslint": "^5.15.3",
+    "eslint": "^5.16.0",
     "eslint-watch": "x",
     "jsdoc": "^3.5.5",
     "mocha": "x",

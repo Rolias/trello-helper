@@ -321,6 +321,28 @@ class Trello {
   }
 
   /**
+   * like addCard() but takes a comma separated list of memberIds
+   * @param {{idList:string, name:string, desc:string, idMembers:string}} options 
+   */
+  addCardWithMembers(options) {
+    tv.validate({obj: options, reqKeys: ['idList', 'name', 'desc', 'idMembers']})
+    return this.post({path: Trello.getBaseCardCmd(), options})
+  }
+
+  /**
+   * Add a card with any of the available options like idAttachmentCover:string, 
+   * idLabels:comma separated string of Label IDs, pos ('top', 'bottom' or postive float),
+   * due (when the card is due mm/dd/yyy),dueComplete:boolean ,subscribed:boolean
+   * User is responsible for knowing the names of the api query params
+   * https://developers.trello.com/reference/#cardsid-1
+   * @param {object} options 
+   * @example addCardWithAnything({idList:123,name:'card name', due:true})
+   */
+  addCardWithAnything(options) {
+    return this.post({path: Trello.getBaseCardCmd(), options})
+  }
+
+  /**
    * 
    * @param {string} id of the card 
    */

@@ -28,13 +28,13 @@ describe('trello module INTEGRATION', function () {
     logger.level = 'debug'
   })
 
-  it('getAllActionsOnCard() should return some actions', async () => {
-    const result = await trello.getActionsOnCard({cardId: CARD_ID, filter: ''})
-    result.length.should.be.gt(0)
+  it('getActionsOnCard() should return ten actions', async () => {
+    const result = await trello.getActionsOnCard({cardId: CARD_ID, options: {limit: 10}})
+    result.length.should.equal(10)
   })
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
-    const actions = await trello.getActionsOnCard({cardId: CARD_ID, filter: 'moveCardToBoard'})
+    const actions = await trello.getActionsOnCard({cardId: CARD_ID, options: {filter: 'moveCardToBoard'}})
     const result = await trello.getMoveCardToBoardActions(actions)
     result.length.should.be.gt(0)
   })

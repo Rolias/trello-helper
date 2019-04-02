@@ -40,7 +40,7 @@ const mtbActions = trello.getActionsOnCard({listId:'123', filter:'moveToBoard'})
 // get up to 1000 actions on a card
 const actions = trello.getActionsOnCard({cardId:'123'})
 // get all the custom field data for a card
-const cf = trello.getCustomFieldItemsOnCard('123')
+const cf = trello.getCustomFieldItemsOnCard({cardId:'123'})
 // set the value of a custom field 
 trello.setCustomFieldValueOnCard({cardFieldObj:{
                                     {cardId:'123', fieldId:'456'}, 

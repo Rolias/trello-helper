@@ -217,16 +217,19 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
-    describe('getAllActionsOnCard() with blank filter should', () => {
+    describe('getActionsOnCard() with blank filter should', () => {
       beforeEach(async () => {
-        await trello.getActionsOnCard({cardId: FAKE_ID, filter: ''})
+        await trello.getActionsOnCard({cardId: FAKE_ID, options: {}})
       })
 
       it('have the expected path', async () => {
         getStubParamObj().path.should.equal('/1/cards/12345/actions')
       })
-      it('have an object of {filter:"all"}', async () => {
+      it('have an object property filter="all"}', async () => {
         getStubParamObj().options.filter.should.equal('all')
+      })
+      it('have an object property limit="1000" (the max)}', async () => {
+        getStubParamObj().options.limit.should.equal(1000)
       })
     })
 

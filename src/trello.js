@@ -138,21 +138,23 @@ class Trello {
   /** Get the actions on the card. Filter by tye action type if desired
    * defaults to 'all' for all action types see
    * https://developers.trello.com/reference/#action-types
-   * @param {{cardId:string, filter:string}} param
+   * @param {{cardId:string, options:object}} param
    * @returns {Promise<Array.<Object<string,any>>>}
    */
   getActionsOnCard(param) {
-    tv.validate({obj: param, reqKeys: ['cardId', 'filter']})
+    tv.validate({obj: param, reqKeys: ['cardId', 'options']})
     const path = `${Trello.getCardPrefixWithId(param.cardId)}/actions`
-    let filterValue = param.filter
-    if (filterValue === '') {
-      filterValue = 'all'
-    }
-    const options = {
-      filter: filterValue,
-      // eslint-disable-next-line camelcase
-      limit: 1000,
-    }
+    const {options} = param
+
+    options.filter = options.filter || 'all'
+    options.limit = options.limit || 1000
+
+
+    // const options = {
+    //   filter: filterValue,
+    //   // eslint-disable-next-line camelcase
+    //   limit: 1000,
+    // }
     return this.get({path, options})
   }
 
@@ -255,20 +257,20 @@ class Trello {
    * TODO archive cards on list older than the passed relative date
    * @param {{listId:string, offset:{count:moment.DurationInputArg1, units:moment.DurationInputArg2}}} param 
    */
-  async archiveCardsOlderThan(param) {
-    tv.validate({obj: param, reqKeys: ['listId', 'offset']})
-    tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
-    const {listId, offset} = param
-    const boardId = this.getBoardIdFromListId(listId)
-    const archivedCards = await this.getArchivedCards({boardId, listId})
+  // async archiveCardsOlderThan(param) {
+  //   tv.validate({obj: param, reqKeys: ['listId', 'offset']})
+  //   tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
+  //   const {listId, offset} = param
+  //   const boardId = this.getBoardIdFromListId(listId)
+  //   const archivedCards = await this.getArchivedCards({boardId, listId})
 
-    const {count, units} = offset
-    const cutoffDate = moment().subtract(count, units)
-    // IN PROGRESS - on plane here
+  //   const {count, units} = offset
+  //   const cutoffDate = moment().subtract(count, units)
+  //   // IN PROGRESS - on plane here
 
-    // return this.put({path, options: {value: dueDate.format()}})
+  //   // return this.put({path, options: {value: dueDate.format()}})
 
-  }
+  // }
 
   /**
    * Archives all the cards on the passed list id

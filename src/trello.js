@@ -259,11 +259,12 @@ class Trello {
     tv.validate({obj: param, reqKeys: ['listId', 'offset']})
     tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
     const {listId, offset} = param
-    const archivedCards = await this.getArchivedCards()
+    const boardId = this.getBoardIdFromListId(listId)
+    const archivedCards = await this.getArchivedCards({boardId, listId})
 
     const {count, units} = offset
     const cutoffDate = moment().subtract(count, units)
-
+    // IN PROGRESS - on plane here
 
     // return this.put({path, options: {value: dueDate.format()}})
 

@@ -106,33 +106,33 @@ class Trello {
 
   /**
   * Wrap the underlying makeRequest for post
-  * @param {string} path technically an http path but to the Trello API it's command
-  * @param {Object=} options  
+  * @param {tv.pathOptionsType} pathOptions technically an http path but to the Trello API it's command
   * @return {Promise<any>}
   * @example post(this.getBaseCardCmd(), {name:'card name', description:'some desc., idList:<idOfList>})
   */
-  async post(path, options) {
+  async post(pathOptions) {
+    tv.validate({obj: pathOptions, reqKeys: ['path', 'options']})
+    const {path, options} = pathOptions
     const postOptions = {
       path,
       body: options,
     }
     return await this.trelloRequest.post(postOptions)
-
   }
 
   /** wrap the underlying makeRequest for delete 
-  * @param {string} path 
-  * @param {Object=} options  
+  * @param {tv.pathOptionsType} pathOptions 
   * @return {Promise<any>}
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
-  async delete(path, options) {
+  async delete(pathOptions) {
+    tv.validate({obj: pathOptions, reqKeys: ['path', 'options']})
+    const {path, options} = pathOptions
     const deleteOptions = {
       path,
       options,
     }
     return await this.trelloRequest.delete(deleteOptions)
-    // return this.makeRequest('delete', path, options)
   }
 
   /** Get the actions on the card. Filter by tye action type if desired
@@ -244,7 +244,7 @@ class Trello {
   async archiveAllCardsOnList(param) {
     tv.validate({obj: param, reqKeys: ['id']})
     const path = `${Trello.getListPrefixWithId(param.id)}/archiveAllCards`
-    return this.post(path, {})
+    return this.post({path, options: {}})
   }
 
   /**
@@ -306,13 +306,13 @@ class Trello {
 
   /**
    * Add the card to the specified list. Use name and optional description
-   * @param {{name:string, desc:string, idList:string, idMembers=:string}} param 
+   * @param {{name:string, desc:string, idList:string, idMembers=:string}} options 
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
-  addCard(param) {
-    tv.validate({obj: param, reqKeys: ['name', 'desc', 'idList']})
-    return this.post(Trello.getBaseCardCmd(), param)
+  addCard(options) {
+    tv.validate({obj: options, reqKeys: ['name', 'desc', 'idList']})
+    return this.post({path: Trello.getBaseCardCmd(), options})
   }
 
   /**
@@ -320,8 +320,8 @@ class Trello {
    * @param {string} id of the card 
    */
   deleteCard(id) {
-    const cmd = Trello.getCardPrefixWithId(id)
-    return this.delete(cmd)
+    const path = Trello.getCardPrefixWithId(id)
+    return this.delete({path, options: {}})
   }
 
   /**
@@ -332,9 +332,9 @@ class Trello {
    */
   addCommentOnCard(param) {
     tv.validate({obj: param, reqKeys: ['id', 'text']})
-    const cmd = `${Trello.getCardPrefixWithId(param.id)}/actions/comments`
+    const path = `${Trello.getCardPrefixWithId(param.id)}/actions/comments`
     const {text} = param
-    return this.post(cmd, {text})
+    return this.post({path, options: {text}})
   }
 
   /**
@@ -344,8 +344,8 @@ class Trello {
   addMemberToCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
-    const cmd = `${Trello.getCardPrefixWithId(cardId)}/members`
-    return this.post(cmd, {value: memberId})
+    const path = `${Trello.getCardPrefixWithId(cardId)}/members`
+    return this.post({path, options: {value: memberId}})
   }
 
   /**
@@ -355,8 +355,8 @@ class Trello {
   removeMemberFromCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
-    const cmd = `${Trello.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
-    return this.delete(cmd)
+    const path = `${Trello.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
+    return this.delete({path, options: {}})
   }
 
   /**

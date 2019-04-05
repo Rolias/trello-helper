@@ -148,13 +148,6 @@ class Trello {
 
     options.filter = options.filter || 'all'
     options.limit = options.limit || 1000
-
-
-    // const options = {
-    //   filter: filterValue,
-    //   // eslint-disable-next-line camelcase
-    //   limit: 1000,
-    // }
     return this.get({path, options})
   }
 
@@ -236,15 +229,12 @@ class Trello {
     const options = {filter: 'closed'}
     const {boardId, listId} = param
     const archivedCards = await this.getCardsOnBoard({boardId, options})
-    // const list = param.listId
-    // const path = `${Trello.getBoardPrefixWithId(param.boardId)}/cards`
-    // const archivedCards = await this.get({path, options})
+
     if (archivedCards.length < 1) {return []}
     const archivedOnList = archivedCards.filter(e => e.idList === listId)
     return archivedOnList
   }
   /**
-   * TODO Get the board id from the list id
    * @param {{listId:string}} param 
    */
   async getBoardIdFromListId(param) {
@@ -257,20 +247,37 @@ class Trello {
    * TODO archive cards on list older than the passed relative date
    * @param {{listId:string, offset:{count:moment.DurationInputArg1, units:moment.DurationInputArg2}}} param 
    */
-  // async archiveCardsOlderThan(param) {
-  //   tv.validate({obj: param, reqKeys: ['listId', 'offset']})
-  //   tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
-  //   const {listId, offset} = param
-  //   const boardId = this.getBoardIdFromListId(listId)
-  //   const archivedCards = await this.getArchivedCards({boardId, listId})
+  async archiveCardsOlderThan(param) {
+    tv.validate({obj: param, reqKeys: ['listId', 'offset']})
+    tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
+    const {listId, offset} = param
+    const {count, units} = offset
+    const cutoffDate = moment().subtract(count, units)
+      .toISOString()
 
-  //   const {count, units} = offset
-  //   const cutoffDate = moment().subtract(count, units)
-  //   // IN PROGRESS - on plane here
 
-  //   // return this.put({path, options: {value: dueDate.format()}})
+    const allCards = await this.getCardsOnList({listId, options: {fields: dateLastActivity}})
+    // there's a cards_modifiedSince on query parameters and a before and since param on URL parameters
+    const newerCards = await this.getCardsOnList({listId, options: {since: cutoffDate}})
+    const olderCards = allCards.filter(card => !newerCards.includes(card))
 
-  // }
+    for (const card of olderCards) {
+      await this.archiveCard({cardId: card.id})
+    }
+
+  }
+
+  /**
+   * 
+   * @param {{cardId}} param 
+   */
+  async archiveCard(param) {
+    tv.validate({obj: param, reqKeys: ['cardId']})
+    const path = Trello.getCardPrefixWithId(param.cardId)
+    const options = {closed: true}
+    return this.put({path, options})
+  }
+
 
   /**
    * Archives all the cards on the passed list id

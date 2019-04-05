@@ -233,6 +233,18 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
+    describe('archiveCard()', () => {
+      beforeEach(async () => {
+        await trello.archiveCard({cardId: FAKE_ID})
+      })
+      it('should have the expected path', () => {
+        putStubParamObj().path.should.equal(Trello.getCardPrefixWithId(FAKE_ID))
+      })
+      it('should have a body property named closed set to true', () => {
+        putStubParamObj().body.closed.should.equal(true)
+      })
+    })
+
     describe('archiveAllCardsOnList()', () => {
       beforeEach(async () => {
         await trello.archiveAllCardsOnList({listId: FAKE_ID})

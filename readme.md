@@ -1,6 +1,6 @@
 # Trello Helper - Simplifying the Trello API 
 
-This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES5 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object. 
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object. 
 
 ```javascript
 getCardsOnlist({listId:'123', options:{limit:10}})
@@ -41,7 +41,7 @@ const mtbActions = trello.getActionsOnCard({listId:'123', filter:'moveToBoard'})
 const actions = trello.getActionsOnCard({cardId:'123'})
 // get all the custom field data for a card
 const cf = trello.getCustomFieldItemsOnCard({cardId:'123'})
-// set the value of a custom field 
+// set the value of a custom field  
 trello.setCustomFieldValueOnCard({cardFieldObj:{
                                     {cardId:'123', fieldId:'456'}, 
                                   type:'text', 

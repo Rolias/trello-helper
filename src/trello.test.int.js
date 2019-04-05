@@ -137,6 +137,11 @@ describe('trello module INTEGRATION', function () {
       const afterArchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
       afterArchive.length.should.equal(0)
     })
+
+    it.only('archiveCardsOlderThan()', async () => {
+      trello.archiveCardsOlderThan({listId: ARCHIVE_LIST_ID, offset: {count: 2, units: 'days'}})
+    })
+
   })
 
 

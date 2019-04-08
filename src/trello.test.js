@@ -4,15 +4,15 @@ chai.should()
 const moment = require('moment')
 const TrelloRequest = require('./trelloRequest')
 
-
-const sandbox = require('sinon').createSandbox()
+const sinon = require('sinon')
+const sandbox = sinon.createSandbox()
 const Trello = require('./trello')
 const logger = require('./util/logger')
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'
 const FAKE_COMMENT = 'Message for Comment'
 
-
+const {match} = sinon
 const trello = new Trello('./src/test-data/unit-test-fake-credentials.json')
 
 const fakeCmd = 'fake command'
@@ -23,6 +23,7 @@ const resolveEmptyObj = {}
 // const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 let getStub
+
 const getStubParamObj = () => getStub.getCall(0).args[0]
 
 let putStub
@@ -53,7 +54,6 @@ describe('trello class UNIT TESTS', () => {
     })
 
     it('get() should reject', async () => {
-      // @ts-ignore
       try {
         await trello.get({path: fakeCmd, options: {}})
         true.should.be.false('expected exception was not thrown')
@@ -63,7 +63,6 @@ describe('trello class UNIT TESTS', () => {
     })
 
     it('getCardsOnList() should reject', async () => {
-      // @ts-ignore
       await trello.getCardsOnList({listId: fakeCmd, options: {}})
         .catch((error) => {
           error.should.equal(rejectMsg)
@@ -74,10 +73,13 @@ describe('trello class UNIT TESTS', () => {
 
   describe('trello functions that return card object resolve', () => {
     beforeEach(() => {
+      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
+        // @ts-ignore
+        .returns(Promise.resolve(resolveObj))
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
         // @ts-ignore
         .returns(Promise.resolve(resolveObj))
-      putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+      putStub = sandbox.stub(TrelloRequest.prototype, 'put').returnsArg(0)
         // @ts-ignore  
         .returns(Promise.resolve(resolveEmptyObj))
       deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
@@ -89,18 +91,30 @@ describe('trello class UNIT TESTS', () => {
       sandbox.restore()
     })
 
-    describe('addCard() should', () => {
-      let paramObj
+    describe('getCard()', () => {
+
       beforeEach(async () => {
-        await trello.addCard({name: 'Test', desc: 'Something', idList: FAKE_ID})
-        paramObj = postStubParamObj()
+        await trello.getCard({cardId: FAKE_ID, options: {fields: 'name'}})
+      })
+      it('should have expected path parameter', () => {
+        const expected = Trello.getBoardPrefixWithId(FAKE_ID)
+        getStub.calledWith(match({path: expected})).should.be.true
+      })
+      it('should have an options:fields property set to name', () => {
+        getStub.calledWith(match.hasNested('options.fields', 'name')).should.be.true
+      })
+    })
+
+    describe('addCard() should', () => {
+      const newCardObj = {name: 'Test', desc: 'Something', idList: FAKE_ID}
+      beforeEach(async () => {
+        await trello.addCard(newCardObj)
       })
       it('create expected path parameter', () => {
-        paramObj.path.should.equal('/1/cards')
+        postStub.calledWith(match.has('path', '/1/cards')).should.be.true
       })
-
       it('have an  options argument with three properties', () => {
-        Object.keys(paramObj.body).length.should.equal(3)
+        postStub.calledWith(match.has('body', newCardObj)).should.be.true
       })
     })
 
@@ -108,7 +122,7 @@ describe('trello class UNIT TESTS', () => {
       it('should get the proper path for deleting a card', async () => {
         await trello.deleteCard({cardId: FAKE_ID})
         const expected = Trello.getCardPrefixWithId(FAKE_ID)
-        deleteStubParamObj().path.should.equal(expected)
+        deleteStub.calledWith(match.has('path', expected))
       })
     })
 
@@ -129,22 +143,17 @@ describe('trello class UNIT TESTS', () => {
       })
 
       describe('when setting a text type', () => {
-        let retObj
-        let paramObj
         beforeEach(async () => {
-          retObj = await trello.setCustomFieldValueOnCard(customFieldObj)
-          paramObj = putStubParamObj()
+          await trello.setCustomFieldValueOnCard(customFieldObj)
         })
         it(' should have a proper path', () => {
           const expectedPath = `${Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)}`
-          paramObj.path.should.equal(expectedPath)
+          // paramObj.path.should.equal(expectedPath)
+          putStub.calledWith(match.has('path', expectedPath)).should.be.true
         })
         it('should have a body with the expect text value', () => {
           const expectedBody = {value: {text: 'A value for custom text field'}}
-          paramObj.body.should.deep.equal(expectedBody)
-        })
-        it('should return an empty object', () => {
-          retObj.should.equal(resolveEmptyObj)
+          putStub.calledWith(match.has('body', expectedBody)).should.be.true
         })
       })
 
@@ -152,9 +161,35 @@ describe('trello class UNIT TESTS', () => {
         customFieldObj.type = Trello.customFieldType.list
         customFieldObj.value = FAKE_ID
         await trello.setCustomFieldValueOnCard(customFieldObj)
-        putStubParamObj().body.idValue.should.equal(FAKE_ID)
+        putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true
       })
+    })
+  })
 
+
+  describe.only('get functions that resolve and return array', () => {
+    beforeEach(() => {
+      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
+        // @ts-ignore
+        .returns(Promise.resolve(resolveArrayAsJson))
+    })
+
+    afterEach(() => {
+      sandbox.restore()
+    })
+
+    describe('getCardsOnList() with id and option properties', () => {
+      beforeEach(async () => {
+        await trello.getCardsOnList({listId: FAKE_ID, options: {limit: 10}})
+      })
+      it('should get a proper path ', async () => {
+        const expectedPath = Trello.getListCardCmd(FAKE_ID)
+        getStub.calledWith(match({path: expectedPath})).should.be.true
+
+      })
+      it('should have an option parameter equal to 10', async () => {
+        getStubParamObj().options.limit.should.equal(10)
+      })
     })
 
   })
@@ -162,7 +197,6 @@ describe('trello class UNIT TESTS', () => {
   describe('trello functions that resolve and return array', () => {
 
     beforeEach(() => {
-
       getStub = sandbox.stub(TrelloRequest.prototype, 'get')
         // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
@@ -181,17 +215,7 @@ describe('trello class UNIT TESTS', () => {
       sandbox.restore()
     })
 
-    describe('getCardsOnList() with id and option properties', () => {
-      beforeEach(async () => {
-        await trello.getCardsOnList({listId: FAKE_ID, options: {limit: 10}})
-      })
-      it('should get a proper path ', async () => {
-        getStubParamObj().path.should.equal(Trello.getListCardCmd(FAKE_ID))
-      })
-      it('should have an option parameter equal to 10', async () => {
-        getStubParamObj().options.limit.should.equal(10)
-      })
-    })
+
     describe('getCardsOnList() with id and empty option properties', () => {
       beforeEach(async () => {
         await trello.getCardsOnList({listId: FAKE_ID, options: {}})
@@ -245,6 +269,23 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
+    describe('archiveCardsOlderThan()', () => {
+      beforeEach(async () => {
+        sandbox.spy(Trello.prototype, 'getCardsOnList')
+        sandbox.spy(Trello.prototype, 'archiveCard')
+        await trello.archiveCardsOlderThan({listId: FAKE_ID, offset: {count: 2, units: 'days'}})
+      })
+      it('should call getCardsOnList() twice', () => {
+        // @ts-ignore
+        trello.getCardsOnList.callCount.should.equal(2)
+      })
+
+      it('should call getCardsOnList() with an options:since parameter', () => {
+        // @ts-ignore
+        trello.getCardsOnList.calledWith(sinon.match.hasNested('options.since')).should.be.true
+      })
+    })
+
     describe('archiveAllCardsOnList()', () => {
       beforeEach(async () => {
         await trello.archiveAllCardsOnList({listId: FAKE_ID})
@@ -258,6 +299,8 @@ describe('trello class UNIT TESTS', () => {
       })
 
     })
+
+    /** @deprecated */
     describe('getArchivedCards() should', () => {
       let result
       beforeEach(async () => {
@@ -270,9 +313,68 @@ describe('trello class UNIT TESTS', () => {
       it('have an object of {filter:"closed"}', () => {
         getStubParamObj().options.filter.should.equal('closed')
       })
-      it('should return the action with the FAKE_ID idList ', () => {
+      it('should return only the card on the FAKE_ID idList ', () => {
         result.length.should.equal(1)
         result[0].idList.should.equal(FAKE_ID)
+      })
+    })
+
+    describe('getArchivedCardsOnBoard() should', () => {
+      let result
+      beforeEach(async () => {
+        result = await trello.getArchivedCardsOnBoard({boardId: FAKE_ID, options: {}})
+      })
+      it('have the expected path', () => {
+        getStub.calledWith(sinon.match({path: '/1/board/12345/cards'})).should.be.true
+      })
+      it('have an object of {filter:"closed"}', () => {
+        getStub.calledWith(sinon.match.hasNested('options.filter', 'closed')).should.be.true
+      })
+      it('should return all cards in fake get', () => {
+        result.length.should.equal(resolveArrayAsJson.length)
+      })
+    })
+
+    describe('getArchivedCardsOnList() should', () => {
+      let result
+      beforeEach(async () => {
+        result = await trello.getArchivedCardsOnList({listId: FAKE_ID, options: {}})
+      })
+      it('have the expected path', () => {
+        getStub.calledWith(sinon.match({path: '/1/lists/12345/cards'})).should.be.true
+      })
+      it('have an object of {filter:"closed"}', () => {
+        getStub.calledWith(sinon.match.hasNested('options.filter', 'closed')).should.be.true
+      })
+      it('should return all cards in fake get', () => {
+        result.length.should.equal(resolveArrayAsJson.length)
+      })
+    })
+
+    describe('unarchiveAllCardsOnList()', () => {
+      let params
+      beforeEach(async () => {
+        sandbox.spy(Trello.prototype, 'getArchivedCardsOnList')
+        sandbox.spy(Trello.prototype, 'setClosedState')
+        await trello.unarchiveAllCardsOnList({listId: FAKE_ID})
+        params = putStubParamObj()
+      })
+      it('should call getArchivedCardsOnList once', () => {
+        // @ts-ignore
+        trello.getArchivedCardsOnList.calledOnce.should.be.true
+      })
+      it('should call setClosedState multiple times (once for each card to unarchive)', async () => {
+        // @ts-ignore
+        trello.setClosedState.callCount.should.be.gt(1)
+        // @ts-ignore
+        logger.debug(trello.setClosedState.callCount)
+      })
+      it('should call put with cards command and ID', () => {
+        params.path.should.equal('/1/cards/123')
+      })
+
+      it('should call put with body.closed set false', () => {
+        params.body.closed.should.be.false
       })
     })
 
@@ -353,6 +455,20 @@ describe('trello class UNIT TESTS', () => {
       getStubParamObj().path.should.equal(expected)
     })
 
+    describe('setClosedState() ', () => {
+      beforeEach(async () => {
+        await trello.setClosedState({cardId: FAKE_ID, isClosed: true})
+      })
+      it('should have the expected path', () => {
+        const expected = Trello.getCardPrefixWithId(FAKE_ID)
+        putStub.calledWith(sinon.match.has('path', expected)).should.be.true
+
+      })
+      it('should get called with a body:{closed:true} nested property', () => {
+        putStub.calledWith(sinon.match.hasNested('body.closed', true)).should.be.true
+      })
+    })
+
   })
 
   describe('action functions', () => {
@@ -399,6 +515,8 @@ describe('trello class UNIT TESTS', () => {
   })
 
   it('getRateLimitDelayMs() should be 200', () => {
-    trello.getRateLimitDelayMs().should.equal(200)
+    trello.getRateLimitDelayMs().should.equal(500)
   })
+
+
 })

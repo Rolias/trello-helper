@@ -1,7 +1,6 @@
 const rpn = require('request-promise-native')
 const tv = require('./typeValidate')
 
-
 class TrelloRequest {
   /** @param {{key:string,token:string}} keyTokenPair  */
   constructor(keyTokenPair) {
@@ -20,7 +19,7 @@ class TrelloRequest {
   /** @returns the suggested delay in MS based on 2X the API docs
    * http://help.trello.com/article/838-api-rate-limits
   */
-  static getRateLimitDelayMs() {return 200}
+  static getRateLimitDelayMs() {return 500}
 
   /**
    * Get the key/token pair - internal helper function
@@ -68,7 +67,6 @@ class TrelloRequest {
     }
     return rpn.put(rpnOptions)
   }
-
 
   /**
    * Send a post command

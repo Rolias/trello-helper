@@ -77,16 +77,31 @@ describe('trello module INTEGRATION', function () {
     })
   })
 
+  // NOTE: getArchivedCards() has been deprecated
+  // describe('getArchivedCards()', () => { // FRAGILE - test list must have one  archived card
+  //   let archiveResult
+  //   beforeEach(async () => {
+  //     archiveResult = await trello.getArchivedCards({
+  //       boardId: BOARD_ID, listId: LIST_ID,
+  //     })
+  //   })
+  //   it('should return at least one archived card (make sure one exists)', () => {
+  //     archiveResult.length.should.be.gt(0)
+  //   })
+  //   it('should show that every returned card is closed', () => {
+  //     archiveResult.every(e => e.closed).should.be.true
+  //   })
+  // })
 
-  describe('getArchivedCards()', () => { // FRAGILE - test list must have one  archived card
+  describe('getArchivedCardsOnBoard()', () => {
     let archiveResult
     beforeEach(async () => {
-      archiveResult = await trello.getArchivedCards({
-        boardId: BOARD_ID, listId: LIST_ID,
+      // FRAGILE - board must have one  archived carf
+      archiveResult = await trello.getArchivedCardsOnBoard({
+        boardId: BOARD_ID,
       })
     })
-
-    it('should return at least one archived card (make sure one exists)', () => {
+    it('should return at least one archived card (make sure on exists)', () => {
       archiveResult.length.should.be.gt(0)
     })
     it('should show that every returned card is closed', () => {
@@ -102,7 +117,7 @@ describe('trello module INTEGRATION', function () {
     result.dueComplete.should.be.true
   })
 
-  describe('Card Creation  ', () => {
+  describe('Card Creation/Deletion  ', () => {
     const param = {
       name: 'Remotely Added Card',
       desc: 'test',
@@ -127,10 +142,35 @@ describe('trello module INTEGRATION', function () {
         result.desc.should.equal('test')
       })
     })
+    it(' Delete any cards created in the last week', async () => {
+      const moment = require('moment')
+      const recent = moment().subtract(14, 'days')
+        .toISOString()
+      const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {since: recent}})
+      console.log('number found = ', result.length)
+      for (const card of result) {
+        await trello.deleteCard({cardId: card.id})
+      }
+    })
+
+  })
+
+  describe('Archiving/Unarchiving', () => {
+    let numCardsOnArchiveList
+
+    after(async () => {
+      await trello.unarchiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
+    })
+
+    it('unarchiveAllCardsOnList() should do that', async () => {
+      await trello.unarchiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
+      const afterUnarchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
+      numCardsOnArchiveList = afterUnarchive.length
+      numCardsOnArchiveList.should.be.gt(0)
+    })
 
     it('archiveAllCardsOnList() should produce an empty list', async () => {
-      param.idList = ARCHIVE_LIST_ID
-      await trello.addCard(param)
+      await trello.unarchiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
       const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
       result.length.should.be.gt(0)
       await trello.archiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
@@ -138,22 +178,21 @@ describe('trello module INTEGRATION', function () {
       afterArchive.length.should.equal(0)
     })
 
-    it.only('archiveCardsOlderThan()', async () => {
-      trello.archiveCardsOlderThan({listId: ARCHIVE_LIST_ID, offset: {count: 2, units: 'days'}})
+  })
+
+
+  describe('Member Functions', () => {
+    it('addMemberToCard() should add the member', async () => {
+      const result = await trello.addMemberToCard({cardId: CARD_ID, memberId: MEMBER_ID})
+      result[0].id.should.equal(MEMBER_ID)
     })
 
+    it('removeMemberFromCard() should remove the member', async () => {
+      const result = await trello.removeMemberFromCard({cardId: CARD_ID, memberId: MEMBER_ID})
+      result.length.should.equal(0)
+    })
   })
 
-
-  it('addMemberToCard() should add the member', async () => {
-    const result = await trello.addMemberToCard({cardId: CARD_ID, memberId: MEMBER_ID})
-    result[0].id.should.equal(MEMBER_ID)
-  })
-
-  it('removeMemberFromCard() should remove the member', async () => {
-    const result = await trello.removeMemberFromCard({cardId: CARD_ID, memberId: MEMBER_ID})
-    result.length.should.equal(0)
-  })
 
   // FRAGILE When the previous member add and remove the array for the board may
   // not have updated. So the resulting array can have 0 or 1 based on timing
@@ -163,7 +202,7 @@ describe('trello module INTEGRATION', function () {
     result.length.should.be.lt(2)
   })
 
-  describe('getAllCardsOnBoard()', () => {
+  describe('getCardsOnBoard()', () => {
     it('should work with no options', async () => {
       const result = await trello.getCardsOnBoard({boardId: BOARD_ID, options: {}})
       result.length.should.be.gt(0)
@@ -198,5 +237,11 @@ describe('trello module INTEGRATION', function () {
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
 
   })
-})
 
+  it.only('setClosedState ...', async () => {
+    let result = await trello.setClosedState({cardId: '5ca01ee36f576f22802d4afe', isClosed: true})
+    result.closed.should.be.true
+    result = await trello.setClosedState({cardId: '5ca01ee36f576f22802d4afe', isClosed: false})
+    result.closed.should.be.false
+  })
+})

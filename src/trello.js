@@ -2,8 +2,9 @@
 /** @module trello */
 const TrelloRequest = require('./trelloRequest')
 const envCreate = require('env-create')
-const logger = require('./util/logger')
 const moment = require('moment')
+const logger = require('./util/logger')
+const utils = require('./util/utils')
 const tv = require('./typeValidate')
 
 
@@ -87,6 +88,16 @@ class Trello {
       options,
     }
     const responseStr = await this.trelloRequest.get(getOptions)
+      .catch(async error => {
+        if (error.statusCode === this.getRateLimitError()) {
+          logger.error('Rate limit error - retrying...')
+          await utils.delay(this.getRateLimitDelayMs())
+          this.get(pathOptions)
+        }
+        else {
+          throw error
+        }
+      })
     return responseStr
   }
   /** wrap the underlying makeRequest for put 
@@ -133,6 +144,18 @@ class Trello {
       options,
     }
     return await this.trelloRequest.delete(deleteOptions)
+  }
+
+  /**
+   * @param {{cardId:string, options:object}} param the id of the card to return
+   */
+  getCard(param) {
+    tv.validate({obj: param, reqKeys: ['cardId', 'options']})
+    const {cardId, options} = param
+    const path = Trello.getBoardPrefixWithId(cardId)
+    return this.get({path, options})
+    // TODO write a test
+
   }
 
   /** Get the actions on the card. Filter by tye action type if desired
@@ -188,7 +211,6 @@ class Trello {
 
   // ==========================================================================
 
-
   /**
    * Get all archived cards from the board that match the passed list id
    * @param {{listId:string, options}} param  
@@ -217,9 +239,36 @@ class Trello {
 
   }
 
+  /**
+  * Get all cards that are archived for the board
+  * @param {{listId, options}} param 
+  * @returns {Promise<Array.<Object>>} returns Promise to array of cards
+  * @example getArchivedCards({boardId:'123',listId'456'})
+  */
+  async getArchivedCardsOnList(param) {
+    tv.validate({obj: param, reqKeys: ['listId', 'options']})
+    const {listId} = param
+    const options = {...param.options, filter: 'closed'}
+    return await this.getCardsOnList({listId, options})
+  }
 
   /**
-   * Get all cards that are archived for the specified list
+   * Get all cards that are archived for the board
+   * @param {{boardId:string, options:object}} param 
+   * @returns {Promise<Array.<Object>>} returns Promise to array of cards
+   * @example getArchivedCards({boardId:'123',listId'456'})
+   */
+  async getArchivedCardsOnBoard(param) {
+    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+    const {boardId} = param
+    const options = {...param.options, filter: 'closed'}
+    return await this.getCardsOnBoard({boardId, options})
+  }
+
+  /**
+   * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())
+   * or from a list (getArchivedCardsOnList())  instead of this method
+   * Get all cards that are archived for the board
    * @param {{boardId,listId}} param 
    * @returns {Promise<Array.<Object>>} returns Promise to array of cards
    * @example getArchivedCards({boardId:'123',listId'456'})
@@ -244,7 +293,7 @@ class Trello {
     return await this.get({path, options: {fields: 'id'}})
   }
   /**
-   * TODO archive cards on list older than the passed relative date
+   *archive cards on list older than the passed relative date
    * @param {{listId:string, offset:{count:moment.DurationInputArg1, units:moment.DurationInputArg2}}} param 
    */
   async archiveCardsOlderThan(param) {
@@ -255,22 +304,19 @@ class Trello {
     const cutoffDate = moment().subtract(count, units)
       .toISOString()
 
-
-    const allCards = await this.getCardsOnList({listId, options: {fields: dateLastActivity}})
-    // there's a cards_modifiedSince on query parameters and a before and since param on URL parameters
+    const allCards = await this.getCardsOnList({listId, options: {}})
     const newerCards = await this.getCardsOnList({listId, options: {since: cutoffDate}})
     const olderCards = allCards.filter(card => !newerCards.includes(card))
 
     for (const card of olderCards) {
       await this.archiveCard({cardId: card.id})
     }
-
   }
 
   /**
-   * 
-   * @param {{cardId}} param 
-   */
+    * Archive the card with the passed ID 
+    * @param {{cardId}} param 
+    */
   async archiveCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId']})
     const path = Trello.getCardPrefixWithId(param.cardId)
@@ -278,12 +324,10 @@ class Trello {
     return this.put({path, options})
   }
 
-
   /**
    * Archives all the cards on the passed list id
    * @param {{listId:string}} param 
    * @returns {Promise<object>}
-   * 
    */
   async archiveAllCardsOnList(param) {
     tv.validate({obj: param, reqKeys: ['listId']})
@@ -291,6 +335,20 @@ class Trello {
     return this.post({path, options: {}})
   }
 
+  /**
+    * Unarchive all the cards on a particular list (set closed state to false)
+    * @param {{listId}} param 
+    * @returns {Promise}
+    */
+  async unarchiveAllCardsOnList(param) {
+    tv.validate({obj: param, reqKeys: ['listId']})
+    const {listId} = param
+    const archivedCards = await this.getArchivedCardsOnList({listId, options: {fields: 'name'}})
+    // NOTE - to minimize rate errors we await setting each card to unarchived.
+    for (const card of archivedCards) {
+      await this.setClosedState({cardId: card.id, isClosed: false})
+    }
+  }
 
   /**
    * Find actions that indicate card was previously on the specified list name
@@ -350,6 +408,18 @@ class Trello {
   }
 
   /**
+   * 
+   * @param {{cardId:string, isClosed:boolean}} param 
+   */
+  setClosedState(param) {
+    tv.validate({obj: param, reqKeys: ['cardId', 'isClosed']})
+    const {cardId, isClosed} = param
+    const path = Trello.getCardPrefixWithId(cardId)
+    const options = {closed: isClosed}
+    return this.put({path, options})
+  }
+
+  /**
    * Add the card to the specified list. Use name and optional description
    * @param {{idList:string, name:string, desc:string}} options 
    * @returns {Promise<Object<string,any>>} a Promise of a card object
@@ -384,7 +454,7 @@ class Trello {
 
   /**
    * 
-   * @param {cardId:string} id of the card 
+   * @param {{cardId:string}} param  pass in object with id of the card 
    */
   deleteCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId']})

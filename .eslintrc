@@ -2,6 +2,9 @@
   "extends": [
     "eslint:recommended"
   ],
+  "plugins": [
+    "chai-expect"
+  ],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
@@ -12,6 +15,8 @@
     "es6": true
   },
   "rules": {
+    "chai-expect/missing-assertion": "error",
+    "chai-expect/terminating-properties": "warn",
     "quotes": [
       "error",
       "single"

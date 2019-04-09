@@ -22,20 +22,24 @@ const resolveEmptyObj = {}
 
 // const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
-let getStub
-
-const getStubParamObj = () => getStub.getCall(0).args[0]
+// let getStub
 
 let putStub
-const putStubParamObj = () => putStub.getCall(0).args[0]
-
-let postStub
-const postStubParamObj = () => postStub.getCall(0).args[0]
-
-let deleteStub
-const deleteStubParamObj = () => deleteStub.getCall(0).args[0]
 
 describe('trello class UNIT TESTS', () => {
+
+  it('enableFullResponse() should change request to full', () => {
+    trello.enableFullResponse(true)
+    trello.isInFullResponseMode().should.be.true
+  })
+
+  it('getRateLimitError() should return 429', () => {
+    trello.getRateLimitError().should.equal(429)
+  })
+
+  it('getRateLimitDelayMs() should be 200', () => {
+    trello.getRateLimitDelayMs().should.equal(500)
+  })
 
   it('constructor should throw with no parameter and no local .env.json file', () => {
     sandbox.stub(logger, 'error')
@@ -70,110 +74,126 @@ describe('trello class UNIT TESTS', () => {
     })
   })
 
-
   describe('trello functions that return card object resolve', () => {
-    beforeEach(() => {
-      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveObj))
-      postStub = sandbox.stub(TrelloRequest.prototype, 'post')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveObj))
-      putStub = sandbox.stub(TrelloRequest.prototype, 'put').returnsArg(0)
-        // @ts-ignore  
-        .returns(Promise.resolve(resolveEmptyObj))
-      deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveObj))
-    })
 
     afterEach(() => {
       sandbox.restore()
     })
 
-    describe('getCard()', () => {
-
-      beforeEach(async () => {
-        await trello.getCard({cardId: FAKE_ID, options: {fields: 'name'}})
-      })
-      it('should have expected path parameter', () => {
-        const expected = Trello.getBoardPrefixWithId(FAKE_ID)
-        getStub.calledWith(match({path: expected})).should.be.true
-      })
-      it('should have an options:fields property set to name', () => {
-        getStub.calledWith(match.hasNested('options.fields', 'name')).should.be.true
-      })
-    })
-
-    describe('addCard() should', () => {
-      const newCardObj = {name: 'Test', desc: 'Something', idList: FAKE_ID}
-      beforeEach(async () => {
-        await trello.addCard(newCardObj)
-      })
-      it('create expected path parameter', () => {
-        postStub.calledWith(match.has('path', '/1/cards')).should.be.true
-      })
-      it('have an  options argument with three properties', () => {
-        postStub.calledWith(match.has('body', newCardObj)).should.be.true
-      })
-    })
-
-    describe('deleteCard()', () => {
-      it('should get the proper path for deleting a card', async () => {
-        await trello.deleteCard({cardId: FAKE_ID})
-        const expected = Trello.getCardPrefixWithId(FAKE_ID)
-        deleteStub.calledWith(match.has('path', expected))
-      })
-    })
-
-    describe('setCustomFieldValueOnCard()', () => {
-      const fieldType = Trello.customFieldType
-      let customFieldObj = {
-        cardFieldObj: {
-          cardId: FAKE_ID,
-          fieldId: FAKE_ID,
-        },
-        type: fieldType.text,
-        value: 'A value for custom text field',
-      }
-      const resetObj = {...customFieldObj}
-
-      beforeEach(() => {
-        customFieldObj = {...resetObj}
-      })
-
-      describe('when setting a text type', () => {
+    describe('get requests', () => {
+      describe('getCard()', () => {
+        let getStub
         beforeEach(async () => {
+          getStub = sandbox.stub(TrelloRequest.prototype, 'get')
+            // @ts-ignore
+            .returns(Promise.resolve(resolveObj))
+          await trello.getCard({cardId: FAKE_ID, options: {fields: 'name'}})
+        })
+        it('should have expected path parameter', () => {
+          const expected = Trello.getBoardPrefixWithId(FAKE_ID)
+          getStub.calledWith(match({path: expected})).should.be.true
+        })
+        it('should have an options:fields property set to name', () => {
+          getStub.calledWith(match.hasNested('options.fields', 'name')).should.be.true
+        })
+      })
+    })
+
+    describe('post requests', () => {
+      let postStub
+      beforeEach(() => {
+        postStub = sandbox.stub(TrelloRequest.prototype, 'post')
+          // @ts-ignore
+          .returns(Promise.resolve(resolveObj))
+      })
+      describe('addCard() should', () => {
+        const newCardObj = {name: 'Test', desc: 'Something', idList: FAKE_ID}
+        beforeEach(async () => {
+          await trello.addCard(newCardObj)
+        })
+        it('create expected path parameter', () => {
+          postStub.calledWith(match.has('path', '/1/cards')).should.be.true
+        })
+        it('have an  options argument with three properties', () => {
+          postStub.calledWith(match.has('body', newCardObj)).should.be.true
+        })
+      })
+    })
+
+
+    describe('delete requests', () => {
+      let deleteStub
+      beforeEach(() => {
+        deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
+          // @ts-ignore
+          .returns(Promise.resolve(resolveObj))
+      })
+
+      describe('deleteCard()', () => {
+        it('should get the proper path for deleting a card', async () => {
+          await trello.deleteCard({cardId: FAKE_ID})
+          const expected = Trello.getCardPrefixWithId(FAKE_ID)
+          deleteStub.calledWith(match.has('path', expected))
+        })
+      })
+    })
+
+    describe('put requests', () => {
+      let putStub
+      beforeEach(() => {
+        putStub = sandbox.stub(TrelloRequest.prototype, 'put').returnsArg(0)
+          // @ts-ignore  
+          .returns(Promise.resolve(resolveEmptyObj))
+      })
+      describe('setCustomFieldValueOnCard()', () => {
+        const fieldType = Trello.customFieldType
+        let customFieldObj = {
+          cardFieldObj: {
+            cardId: FAKE_ID,
+            fieldId: FAKE_ID,
+          },
+          type: fieldType.text,
+          value: 'A value for custom text field',
+        }
+        const resetObj = {...customFieldObj}
+
+        beforeEach(() => {
+          customFieldObj = {...resetObj}
+        })
+
+
+        describe('when setting a text type', () => {
+          beforeEach(async () => {
+            await trello.setCustomFieldValueOnCard(customFieldObj)
+          })
+          it(' should have a proper path', () => {
+            const expectedPath = `${Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)}`
+            // paramObj.path.should.equal(expectedPath)
+            putStub.calledWith(match.has('path', expectedPath)).should.be.true
+          })
+          it('should have a body with the expect text value', () => {
+            const expectedBody = {value: {text: 'A value for custom text field'}}
+            putStub.calledWith(match.has('body', expectedBody)).should.be.true
+          })
+        })
+
+        it(' should set an idValue for a list type field', async () => {
+          customFieldObj.type = Trello.customFieldType.list
+          customFieldObj.value = FAKE_ID
           await trello.setCustomFieldValueOnCard(customFieldObj)
-        })
-        it(' should have a proper path', () => {
-          const expectedPath = `${Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)}`
-          // paramObj.path.should.equal(expectedPath)
-          putStub.calledWith(match.has('path', expectedPath)).should.be.true
-        })
-        it('should have a body with the expect text value', () => {
-          const expectedBody = {value: {text: 'A value for custom text field'}}
-          putStub.calledWith(match.has('body', expectedBody)).should.be.true
+          putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true
         })
       })
 
-      it(' should set an idValue for a list type field', async () => {
-        customFieldObj.type = Trello.customFieldType.list
-        customFieldObj.value = FAKE_ID
-        await trello.setCustomFieldValueOnCard(customFieldObj)
-        putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true
-      })
     })
+
   })
 
-
-  describe.only('get functions that resolve and return array', () => {
+  describe('get functions', () => {
+    let getStub
     beforeEach(() => {
-      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveArrayAsJson))
+      getStub = sandbox.stub(TrelloRequest.prototype, 'get').resolves()
     })
-
     afterEach(() => {
       sandbox.restore()
     })
@@ -188,43 +208,20 @@ describe('trello class UNIT TESTS', () => {
 
       })
       it('should have an option parameter equal to 10', async () => {
-        getStubParamObj().options.limit.should.equal(10)
+        getStub.calledWith(match.hasNested('options.limit', 10)).should.be.true
       })
     })
-
-  })
-
-  describe('trello functions that resolve and return array', () => {
-
-    beforeEach(() => {
-      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveArrayAsJson))
-      putStub = sandbox.stub(TrelloRequest.prototype, 'put')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveArrayAsJson))
-      postStub = sandbox.stub(TrelloRequest.prototype, 'post')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveArrayAsJson))
-      deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
-        // @ts-ignore
-        .returns(Promise.resolve(resolveArrayAsJson))
-    })
-
-    afterEach(() => {
-      sandbox.restore()
-    })
-
 
     describe('getCardsOnList() with id and empty option properties', () => {
       beforeEach(async () => {
         await trello.getCardsOnList({listId: FAKE_ID, options: {}})
       })
       it('should get a proper path ', async () => {
-        getStubParamObj().path.should.equal(Trello.getListCardCmd(FAKE_ID))
+        const expected = Trello.getListCardCmd(FAKE_ID)
+        getStub.calledWith(match({path: expected})).should.be.true
       })
       it('should have an option parameter equal to {}', async () => {
-        getStubParamObj().options.should.deep.equal({})
+        getStub.calledWith(match({options: {}})).should.be.true
       })
     })
 
@@ -234,10 +231,11 @@ describe('trello class UNIT TESTS', () => {
         await trello.getCardsOnBoard({boardId: FAKE_ID, options: {limit: 10}})
       })
       it('should get a proper path ', async () => {
-        getStubParamObj().path.should.equal(`/1/board/${FAKE_ID}/cards`)
+        const expected = `/1/board/${FAKE_ID}/cards`
+        getStub.calledWith(match({path: expected})).should.be.true
       })
       it('should have an option parameter equal to 10', async () => {
-        getStubParamObj().options.limit.should.equal(10)
+        getStub.calledWith(match.hasNested('options.limit', 10)).should.be.true
       })
     })
 
@@ -247,57 +245,27 @@ describe('trello class UNIT TESTS', () => {
       })
 
       it('have the expected path', async () => {
-        getStubParamObj().path.should.equal('/1/cards/12345/actions')
+        getStub.calledWith(match({path: '/1/cards/12345/actions'})).should.be.true
       })
       it('have an object property filter="all"}', async () => {
-        getStubParamObj().options.filter.should.equal('all')
+        getStub.calledWith(match.hasNested('options.filter', 'all')).should.be.true
       })
       it('have an object property limit="1000" (the max)}', async () => {
-        getStubParamObj().options.limit.should.equal(1000)
+        getStub.calledWith(match.hasNested('options.limit', 1000)).should.be.true
       })
     })
+  })
 
-    describe('archiveCard()', () => {
-      beforeEach(async () => {
-        await trello.archiveCard({cardId: FAKE_ID})
-      })
-      it('should have the expected path', () => {
-        putStubParamObj().path.should.equal(Trello.getCardPrefixWithId(FAKE_ID))
-      })
-      it('should have a body property named closed set to true', () => {
-        putStubParamObj().body.closed.should.equal(true)
-      })
-    })
 
-    describe('archiveCardsOlderThan()', () => {
-      beforeEach(async () => {
-        sandbox.spy(Trello.prototype, 'getCardsOnList')
-        sandbox.spy(Trello.prototype, 'archiveCard')
-        await trello.archiveCardsOlderThan({listId: FAKE_ID, offset: {count: 2, units: 'days'}})
-      })
-      it('should call getCardsOnList() twice', () => {
+  describe('get functions that resolve and return array', () => {
+    let getStub
+    beforeEach(() => {
+      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
         // @ts-ignore
-        trello.getCardsOnList.callCount.should.equal(2)
-      })
-
-      it('should call getCardsOnList() with an options:since parameter', () => {
-        // @ts-ignore
-        trello.getCardsOnList.calledWith(sinon.match.hasNested('options.since')).should.be.true
-      })
+        .returns(Promise.resolve(resolveArrayAsJson))
     })
-
-    describe('archiveAllCardsOnList()', () => {
-      beforeEach(async () => {
-        await trello.archiveAllCardsOnList({listId: FAKE_ID})
-      })
-      it('should have the expected path', () => {
-        const expected = `${Trello.getListPrefixWithId(FAKE_ID)}/archiveAllCards`
-        postStubParamObj().path.should.equal(expected)
-      })
-      it('should have an empty body property', () => {
-        postStubParamObj().body.should.deep.equal({})
-      })
-
+    afterEach(() => {
+      sandbox.restore()
     })
 
     /** @deprecated */
@@ -308,10 +276,10 @@ describe('trello class UNIT TESTS', () => {
       })
 
       it('have the expected path', () => {
-        getStubParamObj().path.should.equal('/1/board/12345/cards')
+        getStub.calledWith(match({path: '/1/board/12345/cards'})).should.be.true
       })
       it('have an object of {filter:"closed"}', () => {
-        getStubParamObj().options.filter.should.equal('closed')
+        getStub.calledWith(match.hasNested('options.filter', 'closed')).should.be.true
       })
       it('should return only the card on the FAKE_ID idList ', () => {
         result.length.should.equal(1)
@@ -351,108 +319,81 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
-    describe('unarchiveAllCardsOnList()', () => {
-      let params
+    describe('archiveCardsOlderThan()', () => {
       beforeEach(async () => {
-        sandbox.spy(Trello.prototype, 'getArchivedCardsOnList')
-        sandbox.spy(Trello.prototype, 'setClosedState')
-        await trello.unarchiveAllCardsOnList({listId: FAKE_ID})
-        params = putStubParamObj()
+        sandbox.spy(Trello.prototype, 'getCardsOnList')
+        sandbox.spy(Trello.prototype, 'archiveCard')
+        await trello.archiveCardsOlderThan({listId: FAKE_ID, offset: {count: 2, units: 'days'}})
       })
-      it('should call getArchivedCardsOnList once', () => {
+      it('should call getCardsOnList() twice', () => {
         // @ts-ignore
-        trello.getArchivedCardsOnList.calledOnce.should.be.true
+        trello.getCardsOnList.callCount.should.equal(2)
       })
-      it('should call setClosedState multiple times (once for each card to unarchive)', async () => {
+
+      it('should call getCardsOnList() with an options:since parameter', () => {
         // @ts-ignore
-        trello.setClosedState.callCount.should.be.gt(1)
-        // @ts-ignore
-        logger.debug(trello.setClosedState.callCount)
-      })
-      it('should call put with cards command and ID', () => {
-        params.path.should.equal('/1/cards/123')
-      })
-
-      it('should call put with body.closed set false', () => {
-        params.body.closed.should.be.false
+        trello.getCardsOnList.calledWith(sinon.match.hasNested('options.since')).should.be.true
       })
     })
-
-    describe('addCommentOnCard()', () => {
-      let paramObj
-      beforeEach(async () => {
-        const cardParams = {cardId: FAKE_ID, text: FAKE_COMMENT}
-        await trello.addCommentOnCard(cardParams)
-        paramObj = postStubParamObj()
-      })
-
-      it(' should get expected path and option object ', () => {
-        paramObj.path.should.equal(`/1/cards/${FAKE_ID}/actions/comments`)
-      })
-
-      it('should get the expected option object', () => {
-        paramObj.body.text.should.equal(FAKE_COMMENT)
-      })
-    })
-
-
-    it('addDueDateToCardByOffset constructs expected path and date', async () => {
-      await trello.addDueDateToCardByOffset({
-        cardId: FAKE_ID,
-        offset: {count: 7, units: 'days'},
-      })
-      const putParam = putStubParamObj()
-      putParam.path.should.equal('/1/cards/12345/due')
-      moment(putParam.body.value).isSame(moment().add(7, 'days'), 'day')
-
-    })
-
-    describe('setDueComplete() should', () => {
-      let putParam
-      beforeEach(async () => {
-        await trello.setDueComplete({cardId: FAKE_ID, isComplete: true})
-        putParam = putStubParamObj()
-      })
-
-      it('have the expected path', async () => {
-        putParam.path.should.equal('/1/cards/12345')
-      })
-      it('have an object of {filter:"all"}', async () => {
-        putParam.body.dueComplete.should.be.true
-      })
-    })
-
-
-    describe('addMemberToCard() should', () => {
-      let paramObj
-      beforeEach(async () => {
-        await trello.addMemberToCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
-        paramObj = postStubParamObj()
-      })
-
-      it('have the expected path', async () => {
-        paramObj.path.should.equal('/1/cards/12345/members')
-      })
-      it('have an object of {value:FAKE_MEMBER_ID}', async () => {
-        paramObj.body.value.should.equal(FAKE_MEMBER_ID)
-      })
-    })
-
-    describe('removeMemberFromCard() should', () => {
-      beforeEach(async () => {
-        await trello.removeMemberFromCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
-      })
-
-      it('have the expected path', async () => {
-        deleteStubParamObj().path.should.equal(`/1/cards/12345/idMembers/${FAKE_MEMBER_ID}`)
-      })
-    })
-
 
     it('getCustomFieldsOnCard should return the expected path', async () => {
       await trello.getCustomFieldItemsOnCard({cardId: FAKE_ID})
       const expected = `${Trello.getCardPrefixWithId(FAKE_ID)}/customFieldItems`
-      getStubParamObj().path.should.equal(expected)
+      getStub.calledWith(match({path: expected})).should.be.true
+    })
+
+  })
+
+
+  describe('put functions', () => {
+    beforeEach(() => {
+      putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+    })
+    afterEach(() => {
+      sandbox.restore()
+    })
+
+    describe('archiveCard()', () => {
+      beforeEach(async () => {
+        await trello.archiveCard({cardId: FAKE_ID})
+      })
+      it('should have the expected path', () => {
+        const expected = Trello.getCardPrefixWithId(FAKE_ID)
+        putStub.calledWith(match({path: expected})).should.be.true
+      })
+      it('should have a body property named closed set to true', () => {
+        putStub.calledWith(match.hasNested('body.closed', true)).should.be.true
+      })
+    })
+
+    describe('addDueDateToCardByOffset()', () => {
+      beforeEach(async () => {
+        await trello.addDueDateToCardByOffset({
+          cardId: FAKE_ID,
+          offset: {count: 7, units: 'days'},
+        })
+      })
+      it('should have expected path ', () => {
+        putStub.calledWith(match({path: '/1/cards/12345/due'})).should.be.true
+      })
+      it('should have expected date', () => {
+        const [putParam] = putStub.getCall(0).args
+        moment(putParam.body.value).isSame(moment().add(7, 'days'), 'day')
+      })
+    })
+
+    describe('setDueComplete() should', () => {
+      beforeEach(async () => {
+        await trello.setDueComplete({cardId: FAKE_ID, isComplete: true})
+      })
+
+      it('have the expected path', async () => {
+        putStub.calledWith(match({path: '/1/cards/12345'})).should.be.true
+
+      })
+      it('have an object of {filter:"all"}', async () => {
+        putStub.calledWith(match.hasNested('body.dueComplete', true)).should.be.true
+      })
     })
 
     describe('setClosedState() ', () => {
@@ -469,6 +410,121 @@ describe('trello class UNIT TESTS', () => {
       })
     })
 
+
+  })
+
+  describe('post functions', () => {
+    let postStub
+    beforeEach(() => {
+      postStub = sandbox.stub(TrelloRequest.prototype, 'post')
+    })
+    afterEach(() => {
+      sandbox.restore()
+    })
+
+    describe('archiveAllCardsOnList()', () => {
+      beforeEach(async () => {
+        await trello.archiveAllCardsOnList({listId: FAKE_ID})
+      })
+      it('should have the expected path', () => {
+        const expected = `${Trello.getListPrefixWithId(FAKE_ID)}/archiveAllCards`
+        postStub.calledWith(match({path: expected})).should.be.true
+      })
+      it('should have an empty body property', () => {
+        postStub.calledWith(match({body: {}})).should.be.true
+      })
+    })
+
+    describe('addCommentOnCard()', () => {
+      beforeEach(async () => {
+        const cardParams = {cardId: FAKE_ID, text: FAKE_COMMENT}
+        await trello.addCommentOnCard(cardParams)
+      })
+      it(' should get expected path  ', () => {
+        const expected = `/1/cards/${FAKE_ID}/actions/comments`
+        postStub.calledWith(match({path: expected})).should.be.true
+      })
+
+      it('should get the expected option object', () => {
+        postStub.calledWith(match.hasNested('body.text', FAKE_COMMENT)).should.be.true
+      })
+    })
+
+    describe('addMemberToCard() should', () => {
+      beforeEach(async () => {
+        await trello.addMemberToCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
+      })
+
+      it('have the expected path', async () => {
+        const expected = '/1/cards/12345/members'
+        postStub.calledWith(match({path: expected})).should.be.true
+      })
+      it('have an object of {value:FAKE_MEMBER_ID}', async () => {
+        postStub.calledWith(match.hasNested('body.value', FAKE_MEMBER_ID)).should.be.true
+      })
+    })
+  })
+
+  describe('delete functions', () => {
+    let deleteStub
+    beforeEach(() => {
+      deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
+    })
+    afterEach(() => {
+      sandbox.restore()
+    })
+
+    describe('removeMemberFromCard() should', () => {
+      beforeEach(async () => {
+        await trello.removeMemberFromCard({cardId: FAKE_ID, memberId: FAKE_MEMBER_ID})
+      })
+
+      it('have the expected path', async () => {
+        const expected = `/1/cards/12345/idMembers/${FAKE_MEMBER_ID}`
+        deleteStub.calledWith(match({path: expected})).should.be.true
+      })
+    })
+  })
+
+  describe('get/put that resolve and return array', () => {
+    let putStub
+
+    beforeEach(() => {
+      sandbox.stub(TrelloRequest.prototype, 'get')
+        // @ts-ignore
+        .returns(Promise.resolve(resolveArrayAsJson))
+      putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+
+    })
+    afterEach(() => {
+      sandbox.restore()
+    })
+
+
+    describe('unarchiveAllCardsOnList()', () => {
+      beforeEach(async () => {
+        sandbox.spy(Trello.prototype, 'getArchivedCardsOnList')
+        sandbox.spy(Trello.prototype, 'setClosedState')
+        await trello.unarchiveAllCardsOnList({listId: FAKE_ID})
+      })
+      it('should call getArchivedCardsOnList once', () => {
+        // @ts-ignore
+        trello.getArchivedCardsOnList.calledOnce.should.be.true
+      })
+      it('should call setClosedState multiple times (once for each card to unarchive)', async () => {
+        // @ts-ignore
+        trello.setClosedState.callCount.should.be.gt(1)
+        // @ts-ignore
+        logger.debug(trello.setClosedState.callCount)
+      })
+      it('should call put with cards command and ID', () => {
+        putStub.calledWith(match({path: '/1/cards/123'})).should.be.true
+      })
+
+      it('should call put with body.closed set false', () => {
+        putStub.calledWith(match.hasNested('body.closed', false)).should.be.true
+      })
+    })
   })
 
   describe('action functions', () => {
@@ -504,18 +560,6 @@ describe('trello class UNIT TESTS', () => {
     })
 
 
-  })
-  it('enableFullResponse() should change request to full', () => {
-    trello.enableFullResponse(true)
-    trello.isInFullResponseMode().should.be.true
-  })
-
-  it('getRateLimitError() should return 429', () => {
-    trello.getRateLimitError().should.equal(429)
-  })
-
-  it('getRateLimitDelayMs() should be 200', () => {
-    trello.getRateLimitDelayMs().should.equal(500)
   })
 
 

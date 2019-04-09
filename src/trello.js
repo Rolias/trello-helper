@@ -7,7 +7,6 @@ const logger = require('./util/logger')
 const utils = require('./util/utils')
 const tv = require('./typeValidate')
 
-
 class Trello {
   /**
    * Create the TrelloPLus class to add more trello functions
@@ -100,6 +99,7 @@ class Trello {
       })
     return responseStr
   }
+
   /** wrap the underlying makeRequest for put 
    * @param {tv.pathOptionsType} pathOptions  technically an http path but to the Trello API it's command 
    * @return {Promise<any>}
@@ -154,8 +154,6 @@ class Trello {
     const {cardId, options} = param
     const path = Trello.getBoardPrefixWithId(cardId)
     return this.get({path, options})
-    // TODO write a test
-
   }
 
   /** Get the actions on the card. Filter by tye action type if desired

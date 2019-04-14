@@ -199,6 +199,72 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".customFieldType"><span class="type-signature">(static) </span>customFieldType<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>A static helper enumeration so users don't have to hard code magic strings</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line610">line 610</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -209,7 +275,7 @@
     
 
     
-    <h4 class="name" id=".getBaseCardCmd"><span class="type-signature">(static) </span>getBaseCardCmd<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getBaseCardCmd"><span class="type-signature">(static) </span>getBaseCardCmd<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -289,6 +355,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -301,7 +379,7 @@
     
 
     
-    <h4 class="name" id=".getBoardPrefixWithId"><span class="type-signature">(static) </span>getBoardPrefixWithId<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getBoardPrefixWithId"><span class="type-signature">(static) </span>getBoardPrefixWithId<span class="signature">(boardId)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -314,6 +392,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>boardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -349,7 +476,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line69">line 69</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -376,10 +503,22 @@
 
         
 <div class="param-desc">
-    <p>'/1/boards/<id>'</p>
+    <p>'/1/boards/[boardId]'</p>
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -393,7 +532,7 @@
     
 
     
-    <h4 class="name" id=".getCardDueCmd"><span class="type-signature">(static) </span>getCardDueCmd<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getCardDueCmd"><span class="type-signature">(static) </span>getCardDueCmd<span class="signature">(cardId)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -406,6 +545,208 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>'/1/cards/[cardId]/due</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getCardPrefixWithId"><span class="type-signature">(static) </span>getCardPrefixWithId<span class="signature">(cardId)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -468,102 +809,22 @@
 
         
 <div class="param-desc">
-    <p>'/1/cards/<id>/due</p>
+    <p>'/1/cards/[cardId]'</p>
 </div>
 
 
 
-    
-
-
-
-
-
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
-            
-
-    
-
-    
-    <h4 class="name" id=".getCardPrefixWithId"><span class="type-signature">(static) </span>getCardPrefixWithId<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
+<span class="param-type">string</span>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line61">line 61</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>'/1/cards/<id>'</p>
-</div>
-
-
 
     
 
@@ -674,7 +935,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line72">line 72</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line82">line 82</a>
     </li></ul></dd>
     
 
@@ -708,7 +969,7 @@
     
 
     
-    <h4 class="name" id=".getListCardCmd"><span class="type-signature">(static) </span>getListCardCmd<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getListCardCmd"><span class="type-signature">(static) </span>getListCardCmd<span class="signature">(listId)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -721,6 +982,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -756,7 +1066,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line67">line 67</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -783,10 +1093,22 @@
 
         
 <div class="param-desc">
-    <p>'/1/lists/<id>/cards</p>
+    <p>'/1/lists/[listId]/cards</p>
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -800,7 +1122,7 @@
     
 
     
-    <h4 class="name" id=".getListPrefixWithId"><span class="type-signature">(static) </span>getListPrefixWithId<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getListPrefixWithId"><span class="type-signature">(static) </span>getListPrefixWithId<span class="signature">(listId)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -813,6 +1135,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -848,7 +1219,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line65">line 65</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -875,10 +1246,22 @@
 
         
 <div class="param-desc">
-    <p>'/1/lists/<listId>'</p>
+    <p>'/1/lists/[listId]'</p>
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1163,7 +1546,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line395">line 395</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line405">line 405</a>
     </li></ul></dd>
     
 
@@ -1420,7 +1803,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line476">line 476</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line486">line 486</a>
     </li></ul></dd>
     
 
@@ -1586,7 +1969,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line503">line 503</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line513">line 513</a>
     </li></ul></dd>
     
 
@@ -1844,7 +2227,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line489">line 489</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line499">line 499</a>
     </li></ul></dd>
     
 
@@ -2051,7 +2434,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line526">line 526</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -2357,7 +2740,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line585">line 585</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line595">line 595</a>
     </li></ul></dd>
     
 
@@ -2594,7 +2977,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line539">line 539</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line549">line 549</a>
     </li></ul></dd>
     
 
@@ -2778,7 +3161,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line363">line 363</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line373">line 373</a>
     </li></ul></dd>
     
 
@@ -2980,7 +3363,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line350">line 350</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -3277,7 +3660,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line327">line 327</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line337">line 337</a>
     </li></ul></dd>
     
 
@@ -3484,7 +3867,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line148">line 148</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -3691,7 +4074,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line512">line 512</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line522">line 522</a>
     </li></ul></dd>
     
 
@@ -4083,7 +4466,7 @@ troubleshooting only at this point as it hasn't been tested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line419">line 419</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line429">line 429</a>
     </li></ul></dd>
     
 
@@ -4314,7 +4697,7 @@ troubleshooting only at this point as it hasn't been tested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line85">line 85</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -4546,7 +4929,7 @@ https://developers.trello.com/reference/#action-types</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line178">line 178</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -4699,7 +5082,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line296">line 296</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line306">line 306</a>
     </li></ul></dd>
     
 
@@ -4861,7 +5244,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line281">line 281</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line291">line 291</a>
     </li></ul></dd>
     
 
@@ -5095,7 +5478,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line268">line 268</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line278">line 278</a>
     </li></ul></dd>
     
 
@@ -5306,7 +5689,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line312">line 312</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line322">line 322</a>
     </li></ul></dd>
     
 
@@ -5509,7 +5892,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line163">line 163</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -5718,7 +6101,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line253">line 253</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -5947,7 +6330,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line237">line 237</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -6158,7 +6541,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line194">line 194</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -6360,7 +6743,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line565">line 565</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line575">line 575</a>
     </li></ul></dd>
     
 
@@ -6563,7 +6946,7 @@ the number found and the date of the first one found</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line433">line 433</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line443">line 443</a>
     </li></ul></dd>
     
 
@@ -6798,7 +7181,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line131">line 131</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line141">line 141</a>
     </li></ul></dd>
     
 
@@ -7028,7 +7411,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line113">line 113</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -7258,7 +7641,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line552">line 552</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line562">line 562</a>
     </li></ul></dd>
     
 
@@ -7461,7 +7844,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line459">line 459</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line469">line 469</a>
     </li></ul></dd>
     
 
@@ -7763,7 +8146,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line209">line 209</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -7993,7 +8376,7 @@ isComplete:false</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line446">line 446</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line456">line 456</a>
     </li></ul></dd>
     
 
@@ -8204,7 +8587,7 @@ isComplete:false</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line375">line 375</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line385">line 385</a>
     </li></ul></dd>
     
 
@@ -8272,7 +8655,7 @@ isComplete:false</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 21:54:48 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 22:29:53 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -87,7 +87,6 @@ class TrelloRequest {
     return rpn.post(rpnOptions)
   }
 
-
   /**
    * Send a delete command
    * @param {{path:string, options:object}} deleteOptions 

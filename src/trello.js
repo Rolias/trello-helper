@@ -55,17 +55,27 @@ class Trello {
   // --------------------------------------------------------------------------
 
 
-  /** @return '/1/cards'  */
+  /** @return {string} '/1/cards'  */
   static getBaseCardCmd() {return '/1/cards'}
-  /** @returns '/1/cards/<id>' */
+  /** 
+   * @param {string} cardId 
+   * @return {string} '/1/cards/[cardId]' */
   static getCardPrefixWithId(cardId) {return `${Trello.getBaseCardCmd()}/${cardId}`}
-  /** @return '/1/cards/<id>/due */
+  /** 
+   * @param {string} cardId 
+   * @return {string} '/1/cards/[cardId]/due */
   static getCardDueCmd(cardId) {return `${Trello.getCardPrefixWithId(cardId)}/due`}
-  /** @returns '/1/lists/<listId>' */
+  /** 
+   * @param {string} listId 
+   * @return {string} '/1/lists/[listId]' */
   static getListPrefixWithId(listId) {return `/1/lists/${listId}`}
-  /** @returns '/1/lists/<id>/cards */
+  /** 
+   * @param {string} listId 
+   * @return {string} '/1/lists/[listId]/cards */
   static getListCardCmd(listId) {return `${Trello.getListPrefixWithId(listId)}/cards`}
-  /** @returns '/1/boards/<id>' */
+  /**
+   * @param {string} boardId 
+   * @return {string} '/1/boards/[boardId]' */
   static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
 
   /** @param {tv.cardFieldType} cfp - the Card Field Parameter*/
@@ -202,7 +212,7 @@ class Trello {
    * @param {object} customFieldObj.cardFieldObj
    * @param {string} customFieldObj.cardFieldObj.cardId
    * @param {string} customFieldObj.cardFieldObj.fieldId
-   * @param {string} customFieldObj.type see Trello.customFieldType enum below for valid types
+   * @param {string} customFieldObj.type see {@link Trello.customFieldType} enum below for valid types 
    * @param {string} customFieldObj.value what goes in this custom field (for a list field it's the ID of the list item) 
    * @returns {{}} an empty object- oh well so much for testing
    */
@@ -590,9 +600,13 @@ class Trello {
     const path = Trello.getCardDueCmd(param.cardId)
     return this.put({path, options: {value: dueDate.format()}})
   }
+
 }
 
-// A static helper enumeration so users don't have to hard code magic strings
+/** 
+ *  A static helper enumeration so users don't have to hard code magic strings
+ * @static
+*/
 Trello.customFieldType = {
   /** @type {string} */
   list: 'list', // this one gets special handling

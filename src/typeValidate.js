@@ -20,6 +20,9 @@
  * @typedef {{path:string,options:Object}} pathOptionsType 
  */
 
+/**
+* @typedef {{cardId:string, options:object}} cardParam  
+*/
 
 /**
  * @typedef {{actions:Array<Object>,filterType:string }} actionFilterType 

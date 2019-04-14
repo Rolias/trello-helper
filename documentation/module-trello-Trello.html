@@ -942,7 +942,133 @@
             <td class="type">
             
                 
-<span class="param-type">tv.actionFilterListType</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>actions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listBefore</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -953,6 +1079,50 @@
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filterList</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -993,7 +1163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line363">line 363</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line395">line 395</a>
     </li></ul></dd>
     
 
@@ -1062,7 +1232,7 @@
 
 
 <div class="description">
-    <p>Add the card to the specified list. Use name and optional description</p>
+    <p>Add the card to the specified list. Use name and  description</p>
 </div>
 
 
@@ -1104,7 +1274,49 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>idList</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -1115,6 +1327,59 @@
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>desc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1155,7 +1420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line433">line 433</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line476">line 476</a>
     </li></ul></dd>
     
 
@@ -1225,7 +1490,7 @@
 
 <div class="description">
     <p>Add a card with any of the available options like idAttachmentCover:string, 
-idLabels:comma separated string of Label IDs, pos ('top', 'bottom' or postive float),
+idLabels:comma separated string of Label IDs, pos ('top', 'bottom' or positive float),
 due (when the card is due mm/dd/yyy),dueComplete:boolean ,subscribed:boolean
 User is responsible for knowing the names of the api query params
 https://developers.trello.com/reference/#cardsid-1</p>
@@ -1321,7 +1586,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line456">line 456</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line503">line 503</a>
     </li></ul></dd>
     
 
@@ -1410,7 +1675,49 @@ https://developers.trello.com/reference/#cardsid-1</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>idList</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -1421,6 +1728,82 @@ https://developers.trello.com/reference/#cardsid-1</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>desc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>idMembers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>comma separated list of memberIds</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1461,7 +1844,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line442">line 442</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line489">line 489</a>
     </li></ul></dd>
     
 
@@ -1545,7 +1928,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
 
 
             
@@ -1555,7 +1938,79 @@ https://developers.trello.com/reference/#cardsid-1</p>
 
             
 
-            <td class="description last"><p>id of the card and text for the comment</p></td>
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>id of the card</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>text for the comment</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1596,7 +2051,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line476">line 476</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line526">line 526</a>
     </li></ul></dd>
     
 
@@ -1647,7 +2102,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>addCommentOnCard({id:'123',text:"message for comment"})</code></pre>
+    <pre class="prettyprint"><code>addCommentOnCard({cardId:'123',text:"message for comment"})</code></pre>
 
 
 
@@ -1665,9 +2120,7 @@ https://developers.trello.com/reference/#cardsid-1</p>
 
 
 <div class="description">
-    <p>Add due date to a card using a relative offset
-the offset object has a count property (a number) and a units property 
- <code>days, months, years, quarters, hours, minutes</code></p>
+    <p>Add due date to a card using a relative offset</p>
 </div>
 
 
@@ -1709,7 +2162,49 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -1720,6 +2215,108 @@ the offset object has a count property (a number) and a units property
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>count</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">moment.DurationInputArg1</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>units</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">moment.DurationInputArg2</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>e.g. <code>days, months, years, quarters, hours, minutes</code></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1760,7 +2357,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line528">line 528</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line585">line 585</a>
     </li></ul></dd>
     
 
@@ -1874,7 +2471,49 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -1885,6 +2524,36 @@ the offset object has a count property (a number) and a units property
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>memberId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1925,7 +2594,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line487">line 487</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line539">line 539</a>
     </li></ul></dd>
     
 
@@ -2009,7 +2678,49 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -2020,6 +2731,13 @@ the offset object has a count property (a number) and a units property
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2060,7 +2778,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line336">line 336</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line363">line 363</a>
     </li></ul></dd>
     
 
@@ -2112,7 +2830,7 @@ the offset object has a count property (a number) and a units property
     
 
     
-    <h4 class="name" id="archiveCard"><span class="type-signature">(async) </span>archiveCard<span class="signature">(param)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="archiveCard"><span class="type-signature">(async) </span>archiveCard<span class="signature">(param)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
     
 
     
@@ -2162,7 +2880,49 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -2173,6 +2933,13 @@ the offset object has a count property (a number) and a units property
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2213,7 +2980,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line324">line 324</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line350">line 350</a>
     </li></ul></dd>
     
 
@@ -2236,6 +3003,24 @@ the offset object has a count property (a number) and a units property
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -2255,7 +3040,7 @@ the offset object has a count property (a number) and a units property
 
 
 <div class="description">
-    <p>archive cards on list older than the passed relative date</p>
+    <p>Archive cards on list older than the passed relative date</p>
 </div>
 
 
@@ -2297,7 +3082,49 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -2308,6 +3135,108 @@ the offset object has a count property (a number) and a units property
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>count</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">moment.DurationInputArg1</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>units</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">moment.DurationInputArg2</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2348,7 +3277,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line303">line 303</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -2432,7 +3361,49 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">tv.pathOptionsType</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>technically an http path but to the Trello API it's a command</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -2443,6 +3414,36 @@ the offset object has a count property (a number) and a units property
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2483,7 +3484,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line141">line 141</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -2547,6 +3548,10 @@ the offset object has a count property (a number) and a units property
 
 
 
+<div class="description">
+    <p>Delete the card with the passed Id</p>
+</div>
+
 
 
 
@@ -2586,7 +3591,7 @@ the offset object has a count property (a number) and a units property
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
 
 
             
@@ -2596,7 +3601,56 @@ the offset object has a count property (a number) and a units property
 
             
 
-            <td class="description last"><p>pass in object with id of the card</p></td>
+            <td class="description last"><p>pass in object with id of the card</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2637,7 +3691,7 @@ the offset object has a count property (a number) and a units property
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line464">line 464</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line512">line 512</a>
     </li></ul></dd>
     
 
@@ -2857,7 +3911,91 @@ troubleshooting only at this point as it hasn't been tested.</p>
             <td class="type">
             
                 
-<span class="param-type">tv.actionFilterType</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>actions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -2868,6 +4006,43 @@ troubleshooting only at this point as it hasn't been tested.</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filterType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2908,7 +4083,7 @@ troubleshooting only at this point as it hasn't been tested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line383">line 383</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line419">line 419</a>
     </li></ul></dd>
     
 
@@ -3016,7 +4191,7 @@ troubleshooting only at this point as it hasn't been tested.</p>
             <td class="type">
             
                 
-<span class="param-type">tv.pathOptionsType</span>
+<span class="param-type">object</span>
 
 
             
@@ -3026,7 +4201,79 @@ troubleshooting only at this point as it hasn't been tested.</p>
 
             
 
-            <td class="description last"><p>technically an http path but to the Trello API its command</p></td>
+            <td class="description last"><p>technically an http path but to the Trello API its command</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -3067,7 +4314,7 @@ troubleshooting only at this point as it hasn't been tested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line83">line 83</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -3176,7 +4423,49 @@ https://developers.trello.com/reference/#action-types</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -3187,6 +4476,36 @@ https://developers.trello.com/reference/#action-types</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -3227,7 +4546,7 @@ https://developers.trello.com/reference/#action-types</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line169">line 169</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -3364,8 +4683,8 @@ https://developers.trello.com/reference/#action-types</p>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>- don't need to use the board, can just get them directly from the list
-Use getArchivedCardsOnBoard() or getArchivedCardsOnList() instead
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Get archived cards either directly from a board (getArchivedCardsOnBoard())
+or from a list (getArchivedCardsOnList())  instead of this method
 Get all cards that are archived for the board</li></ul></dd>
     
 
@@ -3380,7 +4699,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line280">line 280</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line296">line 296</a>
     </li></ul></dd>
     
 
@@ -3542,7 +4861,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line265">line 265</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
@@ -3653,7 +4972,49 @@ Get all cards that are archived for the board</li></ul></dd>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -3664,6 +5025,36 @@ Get all cards that are archived for the board</li></ul></dd>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -3704,7 +5095,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line251">line 251</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line268">line 268</a>
     </li></ul></dd>
     
 
@@ -3772,6 +5163,10 @@ Get all cards that are archived for the board</li></ul></dd>
 
 
 
+<div class="description">
+    <p>Find the boardId for the given listID</p>
+</div>
+
 
 
 
@@ -3811,7 +5206,49 @@ Get all cards that are archived for the board</li></ul></dd>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -3822,6 +5259,13 @@ Get all cards that are archived for the board</li></ul></dd>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -3862,7 +5306,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line293">line 293</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -3896,7 +5340,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
 
     
-    <h4 class="name" id="getCard"><span class="type-signature"></span>getCard<span class="signature">(param)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getCard"><span class="type-signature"></span>getCard<span class="signature">(cardParam)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3936,7 +5380,7 @@ Get all cards that are archived for the board</li></ul></dd>
 
         <tr>
             
-                <td class="name"><code>param</code></td>
+                <td class="name"><code>cardParam</code></td>
             
 
             <td class="type">
@@ -3952,7 +5396,79 @@ Get all cards that are archived for the board</li></ul></dd>
 
             
 
-            <td class="description last"><p>the id of the card to return</p></td>
+            <td class="description last"><p>the id and options for the card</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -3993,7 +5509,7 @@ Get all cards that are archived for the board</li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line154">line 154</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -4079,7 +5595,49 @@ fields:'name,desc'</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>boardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -4090,6 +5648,36 @@ fields:'name,desc'</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4130,7 +5718,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line236">line 236</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line253">line 253</a>
     </li></ul></dd>
     
 
@@ -4236,7 +5824,49 @@ fields:'name,desc'</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -4247,6 +5877,36 @@ fields:'name,desc'</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4287,7 +5947,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line222">line 222</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line237">line 237</a>
     </li></ul></dd>
     
 
@@ -4398,7 +6058,49 @@ fields:'name,desc'</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -4409,6 +6111,13 @@ fields:'name,desc'</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4449,7 +6158,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line185">line 185</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line194">line 194</a>
     </li></ul></dd>
     
 
@@ -4551,7 +6260,49 @@ fields:'name,desc'</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>boardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -4562,6 +6313,13 @@ fields:'name,desc'</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4602,7 +6360,7 @@ fields:'name,desc'</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line510">line 510</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line565">line 565</a>
     </li></ul></dd>
     
 
@@ -4705,7 +6463,7 @@ the number found and the date of the first one found</p>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;Object.&lt;string, any>></span>
+<span class="param-type">Array.&lt;object></span>
 
 
             
@@ -4715,7 +6473,56 @@ the number found and the date of the first one found</p>
 
             
 
-            <td class="description last"><p>the action objects</p></td>
+            <td class="description last"><p>the action objects</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4756,7 +6563,7 @@ the number found and the date of the first one found</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line396">line 396</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line433">line 433</a>
     </li></ul></dd>
     
 
@@ -4868,7 +6675,7 @@ will have count of number of actions found. Date has date of first object found<
             <td class="type">
             
                 
-<span class="param-type">tv.pathOptionsType</span>
+<span class="param-type">object</span>
 
 
             
@@ -4878,7 +6685,79 @@ will have count of number of actions found. Date has date of first object found<
 
             
 
-            <td class="description last"><p>technically an http path but to the Trello API it's command</p></td>
+            <td class="description last"><p>technically an http path but to the Trello API it's a command</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4919,7 +6798,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line126">line 126</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -5026,7 +6905,7 @@ will have count of number of actions found. Date has date of first object found<
             <td class="type">
             
                 
-<span class="param-type">tv.pathOptionsType</span>
+<span class="param-type">object</span>
 
 
             
@@ -5036,7 +6915,79 @@ will have count of number of actions found. Date has date of first object found<
 
             
 
-            <td class="description last"><p>technically an http path but to the Trello API it's command</p></td>
+            <td class="description last"><p>technically an http path but to the Trello API it's a command</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -5077,7 +7028,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line110">line 110</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -5141,6 +7092,10 @@ will have count of number of actions found. Date has date of first object found<
 
 
 
+<div class="description">
+    <p>Remove member from the card</p>
+</div>
+
 
 
 
@@ -5180,7 +7135,49 @@ will have count of number of actions found. Date has date of first object found<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -5191,6 +7188,36 @@ will have count of number of actions found. Date has date of first object found<
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>memberId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -5231,7 +7258,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line498">line 498</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line552">line 552</a>
     </li></ul></dd>
     
 
@@ -5311,7 +7338,49 @@ will have count of number of actions found. Date has date of first object found<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -5322,6 +7391,36 @@ will have count of number of actions found. Date has date of first object found<
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isClosed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -5362,7 +7461,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line419">line 419</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line459">line 459</a>
     </li></ul></dd>
     
 
@@ -5446,7 +7545,7 @@ will have count of number of actions found. Date has date of first object found<
             <td class="type">
             
                 
-<span class="param-type">tv.customFieldType</span>
+<span class="param-type">object</span>
 
 
             
@@ -5456,7 +7555,174 @@ will have count of number of actions found. Date has date of first object found<
 
             
 
-            <td class="description last"><p>see Trello.customFieldType for valid types</p></td>
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardFieldObj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fieldId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>see Trello.customFieldType enum below for valid types</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>what goes in this custom field (for a list field it's the ID of the list item)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -5497,7 +7763,7 @@ will have count of number of actions found. Date has date of first object found<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line196">line 196</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -5604,7 +7870,49 @@ isComplete:false</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cardId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -5615,6 +7923,36 @@ isComplete:false</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isComplete</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -5655,7 +7993,7 @@ isComplete:false</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line407">line 407</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line446">line 446</a>
     </li></ul></dd>
     
 
@@ -5766,7 +8104,49 @@ isComplete:false</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -5777,6 +8157,13 @@ isComplete:false</p>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -5817,7 +8204,7 @@ isComplete:false</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line347">line 347</a>
+        <a href="trello.js.html">trello.js</a>, <a href="trello.js.html#line375">line 375</a>
     </li></ul></dd>
     
 
@@ -5885,7 +8272,7 @@ isComplete:false</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 08 2019 13:08:19 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 21:54:48 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

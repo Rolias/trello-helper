@@ -184,7 +184,6 @@ describe('trello class UNIT TESTS', () => {
           putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true
         })
       })
-
     })
 
   })

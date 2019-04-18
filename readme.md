@@ -1,6 +1,11 @@
 # Trello Helper - Simplifying the Trello API 
 
-This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object. 
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.  
+
+[![NPM version](https://img.shields.io/npm/v/env-create.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper~) 
+![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
+![Coverage Status](https://img.shields.io/badge/coverage-82%25-green.svg)
+[![Inline docs](https://inch-ci.org/github/Rolias/env-create.svg?branch=master)](https://github.com/Rolias/env-create)
 
 ```javascript
 getCardsOnlist({listId:'123', options:{limit:10}})

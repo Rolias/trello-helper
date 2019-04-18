@@ -35,7 +35,7 @@ describe('trello module INTEGRATION', function () {
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
     const actions = await trello.getActionsOnCard({cardId: CARD_ID, options: {filter: 'moveCardToBoard'}})
-    const result = await trello.getMoveCardToBoardActions(actions)
+    const result = await Trello.getMoveCardToBoardActions(actions)
     result.length.should.be.gt(0)
   })
 

@@ -1,10 +1,11 @@
 // @ts-check
 /** @module trello */
 const moment = require('moment')
-const TrelloBase = require('./TrelloBase')
+// const TrelloBase = require('./TrelloBase')
+const TrelloGetL1 = require('./TrelloGetL1')
 const tv = require('./typeValidate')
 
-class Trello extends TrelloBase {
+class Trello extends TrelloGetL1 {
   /**
    * Create the TrelloPLus class to add more trello functions
    * @param {string=} pathString path to the trello JSON credentials file
@@ -13,34 +14,6 @@ class Trello extends TrelloBase {
     super(pathString)
   }
 
-  /** Get the actions on the card. Filter by tye action type if desired
-   * defaults to 'all' for all action types see
-   * https://developers.trello.com/reference/#action-types
-   * @param {object} param
-   * @param {string} param.cardId
-   * @param {object} param.options
-   * @returns {Promise<Array.<Object<string,any>>>}
-   */
-  getActionsOnCard(param) {
-    tv.validate({obj: param, reqKeys: ['cardId', 'options']})
-    const {cardId, options} = param
-    const path = `${Trello.getCardPrefixWithId(cardId)}/actions`
-    options.filter = options.filter || 'all'
-    options.limit = options.limit || 1000
-    return this.get({path, options})
-  }
-
-  // ========================= Custom Field Setters/Getters =====================  
-  /**
-   * Get the array of custom field items on the card.
-   * @param {object} param 
-   * @param {string} param.cardId
-   * @returns {Promise<Array<object>>}
-   */
-  getCustomFieldItemsOnCard(param) {
-    const path = `${Trello.getCardPrefixWithId(param.cardId)}/customFieldItems`
-    return this.get({path, options: {}})
-  }
 
   /**
    * Set the value of a custom Field object
@@ -70,55 +43,6 @@ class Trello extends TrelloBase {
     return this.put({path, options: valueObj})
   }
 
-  // ==========================================================================
-
-  /**
-   * Get all archived cards from the board that match the passed list id
-   * @param {object} param  
-   * @param {string} param.listId 
-   * @param {object} param.options
-   * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
-   * @example getCardsOnListWith({listId:'123',options:{customFieldItems:true}})
-   */
-  getCardsOnList(param) {
-    Trello.validateListIdAndOptions(param)
-    const {listId, options} = param
-    const path = `${Trello.getListCardCmd(listId)}`
-    return this.get({path, options})
-  }
-
-  /**
-* Get all cards that are archived for the board
-* @param {object} param 
-* @param {string} param.listId
-* @param {object} param.options
-* @returns {Promise<Array.<Object>>} returns Promise to array of cards
-* @example getArchivedCards({boardId:'123',listId'456'})
-*/
-  async getArchivedCardsOnList(param) {
-    Trello.validateListIdAndOptions(param)
-    const {listId} = param
-    const options = {...param.options, filter: 'closed'}
-    return await this.getCardsOnList({listId, options})
-  }
-
-
-  /**
-   * Get all the cards on the board. Two useful options are
-   * limit:x to limit the number of cards (1 to 1000) coming back and
-   * fields:'name,desc'
-   * @param {object} param 
-   * @param {string} param.boardId
-   * @param {object} param.options
-   * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
-   */
-  getCardsOnBoard(param) {
-    Trello.validateBoardIdAndOptions(param)
-    const {boardId, options} = param
-    const path = `${Trello.getBoardPrefixWithId(boardId)}/cards`
-    return this.get({path, options})
-  }
-
   /**
    * Get all cards that are archived for the board
    * @param {{boardId:string, options:object}} param 
@@ -131,7 +55,6 @@ class Trello extends TrelloBase {
     const options = {...param.options, filter: 'closed'}
     return await this.getCardsOnBoard({boardId, options})
   }
-
 
   /**
    * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())
@@ -150,18 +73,6 @@ class Trello extends TrelloBase {
     if (archivedCards.length < 1) {return []}
     const archivedOnList = archivedCards.filter(e => e.idList === listId)
     return archivedOnList
-  }
-
-  /**
-   * Find the boardId for the given listID
-   * @param {object} param 
-   * @param {string} param.listId
-   */
-  async getBoardIdFromListId(param) {
-    tv.validate({obj: param, reqKeys: ['listId']})
-    const {listId} = param
-    const path = `${Trello.getListPrefixWithId(listId)}/board`
-    return await this.get({path, options: {fields: 'id'}})
   }
 
   /**
@@ -228,45 +139,6 @@ class Trello extends TrelloBase {
     for (const card of archivedCards) {
       await this.setClosedState({cardId: card.id, isClosed: false})
     }
-  }
-
-  /**
-   * Find actions that indicate card was previously on the specified list name
-   * @param {object} param
-   * @param {object[]} param.actions
-   * @param {object} param.actions[].data
-   * @param {string} param.actions[].data.listBefore
-   * @param {string} param.filterList 
-   * @return {Array<Object>} the array of actions that fit the criteria
-   * @example actionWasOnList({actions,filterList:'idOfList'})
-   */
-  actionWasOnList(param) {
-    /** @type tv.validateType */
-    const tvObj = {
-      obj: param,
-      reqKeys: ['actions', 'filterList'],
-    }
-    tv.validate(tvObj)
-    for (const action of param.actions) {
-      tvObj.obj = action
-      tvObj.reqKeys = ['data']
-      tv.validate(tvObj)
-    }
-    return param.actions.filter(e => e.data.listBefore === param.filterList)
-  }
-
-
-  /**
-   * Find any actions that are of type 'moveCardToBoard' and capture
-   * the number found and the date of the first one found
-   * @param {object[]} actions the action objects 
-   * @param {string} actions[].type
-   * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType 
-   * will have count of number of actions found. Date has date of first object found
-   * @example getMoveCardToBoardInfo([{actionObjects}])
-   */
-  getMoveCardToBoardActions(actions) {
-    return Trello.filterActionsByType({actions, filterType: 'moveCardToBoard'})
   }
 
   /**
@@ -389,19 +261,6 @@ class Trello extends TrelloBase {
     const {cardId, memberId} = param
     const path = `${Trello.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
     return this.delete({path, options: {}})
-  }
-
-  /**
-   * Get all the members on the passed board
-   * @param {object} param 
-   * @param {string} param.boardId
-   * @returns {Promise<Array<{id:string, fullName:string, username:string}>>}
-   */
-  getMembersOnBoard(param) {
-    tv.validate({obj: param, reqKeys: ['boardId']})
-    const {boardId} = param
-    const path = `${Trello.getBoardPrefixWithId(boardId)}/members`
-    return this.get({path, options: {}})
   }
 
   /**

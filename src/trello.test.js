@@ -541,7 +541,7 @@ describe('trello class UNIT TESTS', () => {
       }]
 
     it('actionWasOnList() should find action on the desired list', async () => {
-      const result = await trello.actionWasOnList({actions, filterList: listToFind})
+      const result = await Trello.actionWasOnList({actions, filterList: listToFind})
       result.length.should.equal(1)
       result[0].data.listBefore.should.equal(listToFind)
     })
@@ -553,7 +553,7 @@ describe('trello class UNIT TESTS', () => {
     })
 
     it('getMoveCardBoardToBoardActions() should return expected action', async () => {
-      const result = await trello.getMoveCardToBoardActions(actions)
+      const result = await Trello.getMoveCardToBoardActions(actions)
       result.length.should.equal(1)
       result[0].type.should.equal(moveCardToBoardType)
     })

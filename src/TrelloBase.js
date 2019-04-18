@@ -204,6 +204,44 @@ class TrelloBase {
   }
 
 
+  /**
+ * Find actions that indicate card was previously on the specified list name
+ * @param {object} param
+ * @param {object[]} param.actions
+ * @param {object} param.actions[].data
+ * @param {string} param.actions[].data.listBefore
+ * @param {string} param.filterList 
+ * @return {Array<Object>} the array of actions that fit the criteria
+ * @example actionWasOnList({actions,filterList:'idOfList'})
+ */
+  static actionWasOnList(param) {
+    /** @type tv.validateType */
+    const tvObj = {
+      obj: param,
+      reqKeys: ['actions', 'filterList'],
+    }
+    tv.validate(tvObj)
+    for (const action of param.actions) {
+      tvObj.obj = action
+      tvObj.reqKeys = ['data']
+      tv.validate(tvObj)
+    }
+    return param.actions.filter(e => e.data.listBefore === param.filterList)
+  }
+
+  /**
+ * Find any actions that are of type 'moveCardToBoard' and capture
+ * the number found and the date of the first one found
+ * @param {object[]} actions the action objects 
+ * @param {string} actions[].type
+ * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType 
+ * will have count of number of actions found. Date has date of first object found
+ * @example getMoveCardToBoardInfo([{actionObjects}])
+ */
+  static getMoveCardToBoardActions(actions) {
+    return TrelloBase.filterActionsByType({actions, filterType: 'moveCardToBoard'})
+  }
+
 }
 
 /** 

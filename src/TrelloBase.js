@@ -134,17 +134,6 @@ class TrelloBase {
     }
   }
 
-  /**
-   * @param {Object} cardParam the id and options for the card
-   * @param {string} cardParam.cardId
-   * @param {object} cardParam.options
-   */
-  getCard(cardParam) {
-    tv.validate({obj: cardParam, reqKeys: ['cardId', 'options']})
-    const {cardId, options} = cardParam
-    const path = TrelloBase.getBoardPrefixWithId(cardId)
-    return this.get({path, options})
-  }
 
   // --------------------------------------------------------------------------
   // Some pass through functions to TrelloRequest
@@ -172,22 +161,6 @@ class TrelloBase {
     return TrelloRequest.getRateLimitDelayMs()
   }
 
-
-  /**
-   * Test that listId and options properties exist. Throw if not.
-   * @param {{listId:string, options:string}} param 
-   */
-  static validateListIdAndOptions(param) {
-    tv.validate({obj: param, reqKeys: ['listId', 'options']})
-  }
-
-  /**
-   * Test that boardId and options properties exist. Throw if not.
-   * @param {{boardId:string, options:string}} param 
-   */
-  static validateBoardIdAndOptions(param) {
-    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
-  }
 
   /**
  * Find actions in array whose `type` field matches the passed type property

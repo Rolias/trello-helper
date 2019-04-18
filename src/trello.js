@@ -1,11 +1,10 @@
 // @ts-check
 /** @module trello */
 const moment = require('moment')
-// const TrelloBase = require('./TrelloBase')
-const TrelloGetL1 = require('./TrelloGetL1')
+const TrelloGet = require('./TrelloGet')
 const tv = require('./typeValidate')
 
-class Trello extends TrelloGetL1 {
+class Trello extends TrelloGet {
   /**
    * Create the TrelloPLus class to add more trello functions
    * @param {string=} pathString path to the trello JSON credentials file
@@ -13,7 +12,6 @@ class Trello extends TrelloGetL1 {
   constructor(pathString) {
     super(pathString)
   }
-
 
   /**
    * Set the value of a custom Field object
@@ -43,18 +41,6 @@ class Trello extends TrelloGetL1 {
     return this.put({path, options: valueObj})
   }
 
-  /**
-   * Get all cards that are archived for the board
-   * @param {{boardId:string, options:object}} param 
-   * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-   * @example getArchivedCards({boardId:'123',listId'456'})
-   */
-  async getArchivedCardsOnBoard(param) {
-    Trello.validateBoardIdAndOptions(param)
-    const {boardId} = param
-    const options = {...param.options, filter: 'closed'}
-    return await this.getCardsOnBoard({boardId, options})
-  }
 
   /**
    * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())

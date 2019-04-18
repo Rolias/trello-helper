@@ -4,7 +4,7 @@ This project is designed to make using the Trello API a lot easier and to provid
 
 [![NPM version](https://img.shields.io/npm/v/env-create.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper~) 
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
-![Coverage Status](https://img.shields.io/badge/coverage-82%25-green.svg)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/test_coverage)](https://codeclimate.com/github/Rolias/trello-helper/test_coverage)
 [![Inline docs](https://inch-ci.org/github/Rolias/env-create.svg?branch=master)](https://github.com/Rolias/env-create)
 
 ```javascript

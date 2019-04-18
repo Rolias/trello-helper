@@ -34,11 +34,11 @@ describe('trello class UNIT TESTS', () => {
   })
 
   it('getRateLimitError() should return 429', () => {
-    trello.getRateLimitError().should.equal(429)
+    Trello.getRateLimitError().should.equal(429)
   })
 
   it('getRateLimitDelayMs() should be 200', () => {
-    trello.getRateLimitDelayMs().should.equal(500)
+    Trello.getRateLimitDelayMs().should.equal(500)
   })
 
   it('constructor should throw with no parameter and no local .env.json file', () => {
@@ -547,7 +547,7 @@ describe('trello class UNIT TESTS', () => {
     })
 
     it('filterActionsByType() should find desired type.', async () => {
-      const result = await trello.filterActionsByType({actions, filterType: desiredType})
+      const result = await Trello.filterActionsByType({actions, filterType: desiredType})
       result.length.should.equal(1)
       result[0].type.should.equal(desiredType)
     })

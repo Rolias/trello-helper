@@ -93,12 +93,7 @@ class Trello {
   * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
   async get(pathOptions) {
-    tv.validatePathOptions(pathOptions)
-    const {path, options} = pathOptions
-    const getOptions = {
-      path,
-      options,
-    }
+    const getOptions = this.createGetDeleteOptions(pathOptions)
     const responseStr = await this.trelloRequest.get(getOptions)
       .catch(async error => {
         if (error.statusCode === this.getRateLimitError()) {
@@ -113,6 +108,31 @@ class Trello {
     return responseStr
   }
 
+  /** wrap the underlying makeRequest for delete 
+ * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
+ * @param {string} pathOptions.path
+ * @param {object} pathOptions.options
+* @return {Promise<any>}
+* @example  delete(getCardPrefixWithId(<cardId>)})
+*/
+  async delete(pathOptions) {
+    const deleteOptions = this.createGetDeleteOptions(pathOptions)
+    return await this.trelloRequest.delete(deleteOptions)
+  }
+
+  /**
+   * crate the  object needed by the get and delete calls
+   * @param {{path:string,options:string}} pathOptions 
+   */
+  createGetDeleteOptions(pathOptions) {
+    tv.validatePathOptions(pathOptions)
+    const {path, options} = pathOptions
+    return {
+      path,
+      options,
+    }
+  }
+
   /** wrap the underlying makeRequest for put 
    * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
    * @param {string} pathOptions.path
@@ -121,12 +141,7 @@ class Trello {
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   async put(pathOptions) {
-    tv.validatePathOptions(pathOptions)
-    const {path, options} = pathOptions
-    const putOptions = {
-      path,
-      body: options,
-    }
+    const putOptions = this.createPutAndPostOptions(pathOptions)
     return await this.trelloRequest.put(putOptions)
   }
 
@@ -139,30 +154,17 @@ class Trello {
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   async post(pathOptions) {
-    tv.validatePathOptions(pathOptions)
-    const {path, options} = pathOptions
-    const postOptions = {
-      path,
-      body: options,
-    }
+    const postOptions = this.createPutAndPostOptions(pathOptions)
     return await this.trelloRequest.post(postOptions)
   }
 
-  /** wrap the underlying makeRequest for delete 
-   * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
-   * @param {string} pathOptions.path
-   * @param {object} pathOptions.options
-  * @return {Promise<any>}
-  * @example  delete(getCardPrefixWithId(<cardId>)})
-  */
-  async delete(pathOptions) {
+  createPutAndPostOptions(pathOptions) {
     tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
-    const deleteOptions = {
+    return {
       path,
-      options,
+      body: options,
     }
-    return await this.trelloRequest.delete(deleteOptions)
   }
 
   /**
@@ -245,10 +247,33 @@ class Trello {
    * @example getCardsOnListWith({listId:'123',options:{customFieldItems:true}})
    */
   getCardsOnList(param) {
-    tv.validate({obj: param, reqKeys: ['listId', 'options']})
+    this.validateListIdAndOptions(param)
     const {listId, options} = param
     const path = `${Trello.getListCardCmd(listId)}`
     return this.get({path, options})
+  }
+
+  /**
+* Get all cards that are archived for the board
+* @param {object} param 
+* @param {string} param.listId
+* @param {object} param.options
+* @returns {Promise<Array.<Object>>} returns Promise to array of cards
+* @example getArchivedCards({boardId:'123',listId'456'})
+*/
+  async getArchivedCardsOnList(param) {
+    this.validateListIdAndOptions(param)
+    const {listId} = param
+    const options = {...param.options, filter: 'closed'}
+    return await this.getCardsOnList({listId, options})
+  }
+
+  /**
+   * Test that listId and options properties exist. Throw if not.
+   * @param {{listId:string, options:string}} param 
+   */
+  validateListIdAndOptions(param) {
+    tv.validate({obj: param, reqKeys: ['listId', 'options']})
   }
 
   /**
@@ -261,25 +286,10 @@ class Trello {
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    */
   getCardsOnBoard(param) {
-    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+    this.validateBoardIdAndOptions(param)
     const {boardId, options} = param
     const path = `${Trello.getBoardPrefixWithId(boardId)}/cards`
     return this.get({path, options})
-  }
-
-  /**
-  * Get all cards that are archived for the board
-  * @param {object} param 
-  * @param {string} param.listId
-  * @param {object} param.options
-  * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-  * @example getArchivedCards({boardId:'123',listId'456'})
-  */
-  async getArchivedCardsOnList(param) {
-    tv.validate({obj: param, reqKeys: ['listId', 'options']})
-    const {listId} = param
-    const options = {...param.options, filter: 'closed'}
-    return await this.getCardsOnList({listId, options})
   }
 
   /**
@@ -289,11 +299,20 @@ class Trello {
    * @example getArchivedCards({boardId:'123',listId'456'})
    */
   async getArchivedCardsOnBoard(param) {
-    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+    this.validateBoardIdAndOptions(param)
     const {boardId} = param
     const options = {...param.options, filter: 'closed'}
     return await this.getCardsOnBoard({boardId, options})
   }
+
+  /**
+ * Test that boardId and options properties exist. Throw if not.
+ * @param {{boardId:string, options:string}} param 
+ */
+  validateBoardIdAndOptions(param) {
+    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+  }
+
 
   /**
    * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())

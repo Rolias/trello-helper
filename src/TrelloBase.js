@@ -163,21 +163,6 @@ class TrelloBase {
 
 
   /**
- * Find actions in array whose `type` field matches the passed type property
- * @param {object} param 
- * @param {object[]} param.actions
- * @param {string} param.actions[].type
- * @param {string} param.filterType
- * @returns {Array<Object<string,any>>} - array of matching actions
- * @usage filterActionsByType({actions:[], filterType:'updateCard'})
- */
-  static filterActionsByType(param) {
-    tv.validate({obj: param, reqKeys: ['actions', 'filterType']})
-    return param.actions.filter(e => e.type === param.filterType)
-  }
-
-
-  /**
  * Find actions that indicate card was previously on the specified list name
  * @param {object} param
  * @param {object[]} param.actions
@@ -202,18 +187,6 @@ class TrelloBase {
     return param.actions.filter(e => e.data.listBefore === param.filterList)
   }
 
-  /**
- * Find any actions that are of type 'moveCardToBoard' and capture
- * the number found and the date of the first one found
- * @param {object[]} actions the action objects 
- * @param {string} actions[].type
- * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType 
- * will have count of number of actions found. Date has date of first object found
- * @example getMoveCardToBoardInfo([{actionObjects}])
- */
-  static getMoveCardToBoardActions(actions) {
-    return TrelloBase.filterActionsByType({actions, filterType: 'moveCardToBoard'})
-  }
 
 }
 

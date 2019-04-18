@@ -2,6 +2,7 @@
 /** @module trello */
 const moment = require('moment')
 const TrelloGet = require('./TrelloGet')
+const TrelloBase = require('./TrelloBase')
 const tv = require('./typeValidate')
 
 class Trello extends TrelloGet {
@@ -19,7 +20,7 @@ class Trello extends TrelloGet {
    * @param {object} customFieldObj.cardFieldObj
    * @param {string} customFieldObj.cardFieldObj.cardId
    * @param {string} customFieldObj.cardFieldObj.fieldId
-   * @param {string} customFieldObj.type see {@link Trello.customFieldType} enum below for valid types 
+   * @param {string} customFieldObj.type see {@link TrelloBase.customFieldType} enum below for valid types 
    * @param {string} customFieldObj.value what goes in this custom field (for a list field it's the ID of the list item) 
    * @returns {{}} an empty object- oh well so much for testing
    */
@@ -27,8 +28,8 @@ class Trello extends TrelloGet {
     tv.validate({obj: customFieldObj, reqKeys: ['cardFieldObj', 'type', 'value']})
     tv.validate({obj: customFieldObj.cardFieldObj, reqKeys: ['cardId', 'fieldId']})
 
-    const fieldType = Trello.customFieldType
-    const path = Trello.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
+    const fieldType = TrelloBase.customFieldType
+    const path = TrelloBase.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
     const valueObj = {}
     const {type, value} = customFieldObj
     // a list takes a simple {idValue:'value'}
@@ -41,25 +42,6 @@ class Trello extends TrelloGet {
     return this.put({path, options: valueObj})
   }
 
-
-  /**
-   * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())
-   * or from a list (getArchivedCardsOnList())  instead of this method
-   * Get all cards that are archived for the board
-   * @param {{boardId,listId}} param 
-   * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-   * @example getArchivedCards({boardId:'123',listId'456'})
-   */
-  async getArchivedCards(param) {
-    tv.validate({obj: param, reqKeys: ['boardId', 'listId']})
-    const options = {filter: 'closed'}
-    const {boardId, listId} = param
-    const archivedCards = await this.getCardsOnBoard({boardId, options})
-
-    if (archivedCards.length < 1) {return []}
-    const archivedOnList = archivedCards.filter(e => e.idList === listId)
-    return archivedOnList
-  }
 
   /**
    * Archive cards on list older than the passed relative date
@@ -94,7 +76,7 @@ class Trello extends TrelloGet {
     */
   async archiveCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId']})
-    const path = Trello.getCardPrefixWithId(param.cardId)
+    const path = TrelloBase.getCardPrefixWithId(param.cardId)
     const options = {closed: true}
     return this.put({path, options})
   }
@@ -107,7 +89,7 @@ class Trello extends TrelloGet {
    */
   async archiveAllCardsOnList(param) {
     tv.validate({obj: param, reqKeys: ['listId']})
-    const path = `${Trello.getListPrefixWithId(param.listId)}/archiveAllCards`
+    const path = `${TrelloBase.getListPrefixWithId(param.listId)}/archiveAllCards`
     return this.post({path, options: {}})
   }
 
@@ -138,7 +120,7 @@ class Trello extends TrelloGet {
    */
   setDueComplete(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'isComplete']})
-    const path = Trello.getCardPrefixWithId(param.cardId)
+    const path = TrelloBase.getCardPrefixWithId(param.cardId)
     const options = {dueComplete: param.isComplete}
     return this.put({path, options})
   }
@@ -152,7 +134,7 @@ class Trello extends TrelloGet {
   setClosedState(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'isClosed']})
     const {cardId, isClosed} = param
-    const path = Trello.getCardPrefixWithId(cardId)
+    const path = TrelloBase.getCardPrefixWithId(cardId)
     const options = {closed: isClosed}
     return this.put({path, options})
   }
@@ -168,7 +150,7 @@ class Trello extends TrelloGet {
    */
   addCard(options) {
     tv.validate({obj: options, reqKeys: ['idList', 'name', 'desc']})
-    return this.post({path: Trello.getBaseCardCmd(), options})
+    return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 
   /**
@@ -181,7 +163,7 @@ class Trello extends TrelloGet {
    */
   addCardWithMembers(options) {
     tv.validate({obj: options, reqKeys: ['idList', 'name', 'desc', 'idMembers']})
-    return this.post({path: Trello.getBaseCardCmd(), options})
+    return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 
   /**
@@ -194,7 +176,7 @@ class Trello extends TrelloGet {
    * @example addCardWithAnything({idList:123,name:'card name', due:true})
    */
   addCardWithAnything(options) {
-    return this.post({path: Trello.getBaseCardCmd(), options})
+    return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 
   /**
@@ -204,7 +186,7 @@ class Trello extends TrelloGet {
    */
   deleteCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId']})
-    const path = Trello.getCardPrefixWithId(param.cardId)
+    const path = TrelloBase.getCardPrefixWithId(param.cardId)
     return this.delete({path, options: {}})
   }
 
@@ -218,7 +200,7 @@ class Trello extends TrelloGet {
    */
   addCommentOnCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'text']})
-    const path = `${Trello.getCardPrefixWithId(param.cardId)}/actions/comments`
+    const path = `${TrelloBase.getCardPrefixWithId(param.cardId)}/actions/comments`
     const {text} = param
     return this.post({path, options: {text}})
   }
@@ -232,7 +214,7 @@ class Trello extends TrelloGet {
   addMemberToCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
-    const path = `${Trello.getCardPrefixWithId(cardId)}/members`
+    const path = `${TrelloBase.getCardPrefixWithId(cardId)}/members`
     return this.post({path, options: {value: memberId}})
   }
 
@@ -245,7 +227,7 @@ class Trello extends TrelloGet {
   removeMemberFromCard(param) {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
-    const path = `${Trello.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
+    const path = `${TrelloBase.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
     return this.delete({path, options: {}})
   }
 
@@ -257,7 +239,7 @@ class Trello extends TrelloGet {
    * @param {moment.DurationInputArg1} param.offset.count
    * @param {moment.DurationInputArg2} param.offset.units e.g. `days, months, years, quarters, hours, minutes` 
    * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
-   * @example await trello.addDueDateToCardByOffset({
+   * @example await addDueDateToCardByOffset({
         id: FAKE_ID,
         offset: {count: 7, units: 'days'},
       })
@@ -267,11 +249,37 @@ class Trello extends TrelloGet {
     tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
     // @ts-ignore
     const dueDate = moment().add(param.offset.count, param.offset.units)
-    const path = Trello.getCardDueCmd(param.cardId)
+    const path = TrelloBase.getCardDueCmd(param.cardId)
     return this.put({path, options: {value: dueDate.format()}})
   }
 
-}
+  /**
+ * Find actions in array whose `type` field matches the passed type property
+ * @param {object} param 
+ * @param {object[]} param.actions
+ * @param {string} param.actions[].type
+ * @param {string} param.filterType
+ * @returns {Array<Object<string,any>>} - array of matching actions
+ * @usage filterActionsByType({actions:[], filterType:'updateCard'})
+ */
+  static filterActionsByType(param) {
+    tv.validate({obj: param, reqKeys: ['actions', 'filterType']})
+    return param.actions.filter(e => e.type === param.filterType)
+  }
 
+  /**
+  * Find any actions that are of type 'moveCardToBoard' and capture
+  * the number found and the date of the first one found
+  * @param {object[]} actions the action objects 
+  * @param {string} actions[].type
+  * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType 
+  * will have count of number of actions found. Date has date of first object found
+  * @example getMoveCardToBoardInfo([{actionObjects}])
+  */
+  static getMoveCardToBoardActions(actions) {
+    return Trello.filterActionsByType({actions, filterType: 'moveCardToBoard'})
+  }
+
+}
 
 module.exports = Trello

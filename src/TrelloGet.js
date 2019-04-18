@@ -80,22 +80,6 @@ class TrelloGet extends TrelloBase {
   }
 
   /**
-   * Get all cards that are archived for the board
-   * @param {object} param 
-   * @param {string} param.listId
-   * @param {object} param.options
-   * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-   * @example getArchivedCards({boardId:'123',listId'456'})
-  */
-  async getArchivedCardsOnList(param) {
-    TrelloGet.validateListIdAndOptions(param)
-    const {listId} = param
-    const options = {...param.options, filter: 'closed'}
-    return await this.getCardsOnList({listId, options})
-  }
-
-
-  /**
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
    * fields:'name,desc'
@@ -111,6 +95,22 @@ class TrelloGet extends TrelloBase {
     return this.get({path, options})
   }
 
+
+  /**
+   * Get all cards that are archived for the board
+   * @param {object} param 
+   * @param {string} param.listId
+   * @param {object} param.options
+   * @returns {Promise<Array.<Object>>} returns Promise to array of cards
+   * @example getArchivedCards({boardId:'123',listId'456'})
+  */
+  async getArchivedCardsOnList(param) {
+    TrelloGet.validateListIdAndOptions(param)
+    const {listId} = param
+    const options = {...param.options, filter: 'closed'}
+    return await this.getCardsOnList({listId, options})
+  }
+
   /**
  * Get all cards that are archived for the board
  * @param {{boardId:string, options:object}} param 
@@ -123,6 +123,27 @@ class TrelloGet extends TrelloBase {
     const options = {...param.options, filter: 'closed'}
     return await this.getCardsOnBoard({boardId, options})
   }
+
+
+  /**
+   * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())
+   * or from a list (getArchivedCardsOnList())  instead of this method
+   * Get all cards that are archived for the board
+   * @param {{boardId,listId}} param 
+   * @returns {Promise<Array.<Object>>} returns Promise to array of cards
+   * @example getArchivedCards({boardId:'123',listId'456'})
+   */
+  async getArchivedCards(param) {
+    tv.validate({obj: param, reqKeys: ['boardId', 'listId']})
+    const options = {filter: 'closed'}
+    const {boardId, listId} = param
+    const archivedCards = await this.getCardsOnBoard({boardId, options})
+
+    if (archivedCards.length < 1) {return []}
+    const archivedOnList = archivedCards.filter(e => e.idList === listId)
+    return archivedOnList
+  }
+
 
   /**
    * Find the boardId for the given listID

@@ -38,14 +38,10 @@ class TrelloRequest {
   get(getOptions) {
     tv.validatePathOptions(getOptions)
     const {path, options} = getOptions
+    const rpnOptions = this.setupDefaultOption(path)
     const auth = this._getAuthObj()
     const fullQs = {...auth, ...options} // combine options with auth for query string
-    const rpnOptions = {
-      uri: `${this.uri}${path}`,
-      qs: fullQs,
-      json: true,
-      resolveWithFullResponse: this.doFullResponse,
-    }
+    rpnOptions.qs = fullQs
     return rpn.get(rpnOptions)
   }
 
@@ -56,15 +52,7 @@ class TrelloRequest {
    * @example put({path:' '/1/cards'/123}, body:{dueComplete:true}})
    */
   put(putOptions) {
-    tv.validate({obj: putOptions, reqKeys: ['path', 'body']})
-    const {path, body} = putOptions
-    const rpnOptions = {
-      uri: `${this.uri}${path}`,
-      body,
-      qs: this._getAuthObj(),
-      json: true,
-      resolveWithFullResponse: this.doFullResponse,
-    }
+    const rpnOptions = this.setupPutPostOptions(putOptions)
     return rpn.put(rpnOptions)
   }
 
@@ -75,15 +63,7 @@ class TrelloRequest {
    * @example post({path:'1/cards',body:{name:'card name'}})
    */
   post(postOptions) {
-    tv.validate({obj: postOptions, reqKeys: ['path', 'body']})
-    const {path, body} = postOptions
-    const rpnOptions = {
-      uri: `${this.uri}${path}`,
-      body,
-      qs: this._getAuthObj(),
-      json: true,
-      resolveWithFullResponse: this.doFullResponse,
-    }
+    const rpnOptions = this.setupPutPostOptions(postOptions)
     return rpn.post(rpnOptions)
   }
 
@@ -96,14 +76,37 @@ class TrelloRequest {
   delete(deleteOptions) {
     tv.validatePathOptions(deleteOptions)
     const {path, options} = deleteOptions
-    const rpnOptions = {
-      uri: `${this.uri}${path}`,
-      options,
-      qs: this._getAuthObj(),
-      resolveWithFullResponse: this.doFullResponse,
-      json: true,
-    }
+    const rpnOptions = this.setupDefaultOption(path)
+    rpnOptions.options = options
     return rpn.delete(rpnOptions)
+  }
+
+  /**
+   * The post and put set up an identical options object
+   * based on the body property of the options.
+   * @private
+   * @param {{path:string, body:string}} options 
+   */
+  setupPutPostOptions(options) {
+    tv.validate({obj: options, reqKeys: ['path', 'body']})
+    const {path, body} = options
+    const rpnOptions = this.setupDefaultOption(path)
+    rpnOptions.body = body
+    return rpnOptions
+  }
+
+  /**
+   * Set up the the most common set of options used by all verbs
+   * Each function can override the ones that vary. 
+   * @param {string} path 
+   */
+  setupDefaultOption(path) {
+    return {
+      uri: `${this.uri}${path}`,
+      qs: this._getAuthObj(),
+      json: true,
+      resolveWithFullResponse: this.doFullResponse,
+    }
   }
 
 }

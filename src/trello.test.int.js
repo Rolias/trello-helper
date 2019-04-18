@@ -96,9 +96,10 @@ describe('trello module INTEGRATION', function () {
   describe('getArchivedCardsOnBoard()', () => {
     let archiveResult
     beforeEach(async () => {
-      // FRAGILE - board must have one  archived carf
+      // FRAGILE - board must have one archived card
       archiveResult = await trello.getArchivedCardsOnBoard({
         boardId: BOARD_ID,
+        options: {},
       })
     })
     it('should return at least one archived card (make sure on exists)', () => {
@@ -238,7 +239,7 @@ describe('trello module INTEGRATION', function () {
 
   })
 
-  it.only('setClosedState ...', async () => {
+  it('setClosedState ...', async () => {
     let result = await trello.setClosedState({cardId: '5ca01ee36f576f22802d4afe', isClosed: true})
     result.closed.should.be.true
     result = await trello.setClosedState({cardId: '5ca01ee36f576f22802d4afe', isClosed: false})

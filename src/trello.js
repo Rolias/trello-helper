@@ -63,7 +63,7 @@ class Trello {
   static getCardPrefixWithId(cardId) {return `${Trello.getBaseCardCmd()}/${cardId}`}
   /** 
    * @param {string} cardId 
-   * @return {string} '/1/cards/[cardId]/due */
+   * @return {string} '/1/cards/[cardId]/due' */
   static getCardDueCmd(cardId) {return `${Trello.getCardPrefixWithId(cardId)}/due`}
   /** 
    * @param {string} listId 

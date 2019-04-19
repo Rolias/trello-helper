@@ -2,11 +2,11 @@
 const chai = require('chai')
 chai.should()
 const moment = require('moment')
-const TrelloRequest = require('./trelloRequest')
+const TrelloRequest = require('./TrelloRequest')
 
 const sinon = require('sinon')
 const sandbox = sinon.createSandbox()
-const Trello = require('./trello')
+const Trello = require('./Trello')
 const logger = require('./util/logger')
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'
@@ -19,6 +19,8 @@ const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
 const resolveEmptyObj = {}
+
+// TODO need to break this up to follow the new structure of TrelloBase, TrelloGet, and Trello
 
 // const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
@@ -267,24 +269,6 @@ describe('trello class UNIT TESTS', () => {
       sandbox.restore()
     })
 
-    // /** @deprecated */
-    // describe('getArchivedCards() should', () => {
-    //   let result
-    //   beforeEach(async () => {
-    //     result = await trello.getArchivedCards({boardId: FAKE_ID, listId: FAKE_ID})
-    //   })
-
-    //   it('have the expected path', () => {
-    //     getStub.calledWith(match({path: '/1/board/12345/cards'})).should.be.true
-    //   })
-    //   it('have an object of {filter:"closed"}', () => {
-    //     getStub.calledWith(match.hasNested('options.filter', 'closed')).should.be.true
-    //   })
-    //   it('should return only the card on the FAKE_ID idList ', () => {
-    //     result.length.should.equal(1)
-    //     result[0].idList.should.equal(FAKE_ID)
-    //   })
-    // })
 
     describe('getArchivedCardsOnBoard() should', () => {
       let result

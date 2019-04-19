@@ -9,6 +9,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - nyc --reporter=lcov npm run test
+  # run the test:unit which forbids only
+  - nyc --reporter=lcov npm run test:unit
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

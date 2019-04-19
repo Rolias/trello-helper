@@ -18,6 +18,7 @@
     "test:int": "mocha  --no-opts --use_strict 'src/**/*.int.js' ",
     "test:watch": "npm run test  -- --watch --reporter min",
     "test:cov": "nyc mocha --use_strict 'src/**/*.test.js'",
+    "test:unit": "mocha --use_strict --forbid-only 'src/**/*.test.js'",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",

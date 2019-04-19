@@ -2,7 +2,7 @@
 // @ts-check
 const chai = require('chai')
 const should = chai.should()
-const Trello = require('./trello')
+const Trello = require('./Trello')
 const logger = require('./util/logger')
 // @ts-ignore
 const testData = require('./test-data/integration.json')

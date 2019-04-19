@@ -53,7 +53,7 @@ class TrelloRequest {
    * @example put({path:' '/1/cards'/123}, body:{dueComplete:true}})
    */
   put(putOptions) {
-    const rpnOptions = this.setupPutPostOptions(putOptions)
+    const rpnOptions = this._setupPutPostOptions(putOptions)
     return rpn.put(rpnOptions)
   }
 
@@ -64,7 +64,7 @@ class TrelloRequest {
    * @example post({path:'1/cards',body:{name:'card name'}})
    */
   post(postOptions) {
-    const rpnOptions = this.setupPutPostOptions(postOptions)
+    const rpnOptions = this._setupPutPostOptions(postOptions)
     return rpn.post(rpnOptions)
   }
 
@@ -89,8 +89,9 @@ class TrelloRequest {
    * @param {{path:string, body:string}} options 
    * @example setupPutPostOptions({path:string, body:object})
    */
-  setupPutPostOptions(options) {
-    // TODO write a test that checks if this throws or really runs. only catching at integration right now 
+  _setupPutPostOptions(options) {
+    // TODO write a test that checks if this throws or really runs. 
+    // only catching at integration right now 
     tv.validateOptionsOrBody(options, tv.optionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)

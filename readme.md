@@ -1,8 +1,8 @@
-# Trello Helper - Simplifying the Trello API 
+# Trello Helper - Simplifying the Trello API
 
 This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.  
 
-[![NPM version](https://img.shields.io/npm/v/env-create.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper~) 
+[![NPM version](https://img.shields.io/npm/v/env-create.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper~)
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/maintainability)](https://codeclimate.com/github/Rolias/trello-helper/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/test_coverage)](https://codeclimate.com/github/Rolias/trello-helper/test_coverage)
@@ -18,13 +18,14 @@ getCardsOnList({listId:'123', options:{}})
 Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands. But, it also exposes many higher-level  commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
 
 ## Table of Contents
+
 - [Installation](#installation)  
 - [Cheat Sheet](#cheat-sheet)  
 - [Contributing](#contributing)  
 - [Testing](#testing)  
-- [Integration Tests](#integration-teests)  
+- [Integration Tests](#integration-tests)  
 - [Dependencies](#dependencies)  
-- [Available Functions and Documenation](#available-functions)  
+- [Available Functions and Documentation](#available-functions)  
 
 ---
 
@@ -39,7 +40,7 @@ Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands
 ```javascript
 const Trello = require('trello-helper')
 
-const trello = new Trello('/Users/ENV_VARS/trello.env.json') 
+const trello = new Trello('/Users/ENV_VARS/trello.env.json')
 // get all the cards on the list with id 123
 const cardsOnList = trello.getCardsOnList({listId:'123', options{}})
 // get all the actions on card 123 that are of type 'moveToBoard'
@@ -50,8 +51,8 @@ const actions = trello.getActionsOnCard({cardId:'123'})
 const cf = trello.getCustomFieldItemsOnCard({cardId:'123'})
 // set the value of a custom field  
 trello.setCustomFieldValueOnCard({cardFieldObj:{
-                                    {cardId:'123', fieldId:'456'}, 
-                                  type:'text', 
+                                    {cardId:'123', fieldId:'456'},
+                                  type:'text',
                                   value:'some data')
 ```
 
@@ -72,8 +73,8 @@ You can have other items in this file, but `trelloHelper` must be a top-level ob
 
 ## Contributing
 
-1. clone the repo
-2. npm install 
+1. clone the repository
+2. npm install
 
 Nothing else should be required. All the scripts are in the package.json
 
@@ -87,7 +88,7 @@ There are unit tests and integration tests
 `npm run test:all` runs them both  
 `npm run test:cov` runs them with coverage (by nyc)  
 `npm run test:watch` runs the unit tests in watch mode  
-`npm run watch` runs the unit tests and sslint in watch mode  
+`npm run watch` runs the unit tests and eslint in watch mode  
 `npm run lint` runs eslint  
 `npm run lint:watch` runs eslint in watch mode  
 

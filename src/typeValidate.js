@@ -1,8 +1,4 @@
-
-/**
- * @module 
- */
-
+/** @module */
 
 /**
  * @typedef {{cardId:string, fieldId:string}} cardFieldType 
@@ -15,6 +11,9 @@
 * @property {string} value
 */
 
+/**
+ * @typedef {{key:string, token:string}} keyTokenType
+ */
 /** 
   // @ts-ignore
  * @typedef {{path:string,options:Object}} pathOptionsType 
@@ -42,6 +41,19 @@
 
 /**
  * 
+ * @typedef {{listId:string, options:string}| {boardId:string, options:string}} listOrBoardType 
+ */
+
+/**
+ * @typedef {{options:string, body:string}} optionsBodyType
+ */
+const optionsBodyEnum = {
+  options: 'options',
+  body: 'body',
+}
+
+/**
+ * 
  * @param {validateType} param 
  */
 const validate = (param) => {
@@ -63,31 +75,31 @@ const validate = (param) => {
  * we
  * @param {Object}  param
  */
-const validatePathOptions = (param) => {
-  const pathOptions = {obj: param, reqKeys: ['path', 'options']}
-  validate(pathOptions)
-}
+const validatePathOptions = param => validate({obj: param, reqKeys: ['path', 'options']})
 
-const validateOptionsOrBody = (param, type) => {
-  if (type === 'options') {
-    const testObj = {obj: param, reqKeys: ['path', 'options']}
-    validate(testObj)
-    return
-  }
-  const testObj = {obj: param, reqKeys: ['path', 'body']}
-  validate(testObj)
-  return
-}
 
+/**
+ * Validate that object has either {path, options} or {path, body} properties 
+ * @param {{path:string, options:string}| {path:string, body:object}} param 
+ * @param {string} type 
+ */
+const validateOptionsOrBody = (param, type) => validate({obj: param, reqKeys: ['path', type]})
+
+
+/**
+ * Just make sure object has an options property
+ * @param {listOrBoardType} param 
+ */
 const validateOptions = (param) => {
   const pathOptions = {obj: param, reqKeys: ['options']}
   validate(pathOptions)
 }
+
 module.exports = {
   validate,
   validateOptions,
   validatePathOptions,
   validateOptionsOrBody,
-
+  optionsBodyEnum,
 
 }

@@ -37,7 +37,7 @@ class TrelloRequest {
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
   get(getOptions) {
-    tv.validateOptionsOrBody(getOptions, 'options')
+    tv.validateOptionsOrBody(getOptions, tv.optionsBodyEnum.options)
     const {path, options} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
     const auth = this._getAuthObj()
@@ -75,7 +75,7 @@ class TrelloRequest {
    * @example delete(path:'/1/cards/<id>' ,options:{})
    */
   delete(deleteOptions) {
-    tv.validateOptionsOrBody(deleteOptions, 'options')
+    tv.validateOptionsOrBody(deleteOptions, tv.optionsBodyEnum.options)
     const {path, options} = deleteOptions
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.options = options
@@ -90,7 +90,8 @@ class TrelloRequest {
    * @example setupPutPostOptions({path:string, body:object})
    */
   setupPutPostOptions(options) {
-    tv.validateOptionsOrBody(options, 'body')
+    // TODO write a test that checks if this throws or really runs. only catching at integration right now 
+    tv.validateOptionsOrBody(options, tv.optionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.body = body
@@ -98,11 +99,21 @@ class TrelloRequest {
   }
 
   /**
+   * @typedef defaultRestOption {object}
+   * @property {string} uri
+   * @property {tv.keyTokenType} qs
+   * @property {boolean} json
+   * @property {boolean} resolveWithFullResponse
+   * @property {string=} options
+   * @property {object=} body
+   */
+  /**
    * Set up the the most common set of options used by all verbs
    * Each function can override the ones that vary. For example the qs property
    * will get overwritten for get commands since options get added to the auth values
    * @param {string} path 
-   * @returns {{uri:string, qs:{key:string, token:string}, options?:string, json:boolean, resolveWithFullResponse:boolean}}  
+   * {{uri:string, qs:tv.keyTokenType, json:boolean, resolveWithFullResponse:boolean, options=:string, body=:any}}  
+   * @returns {defaultRestOption}
    * @example setDefaultOption(path)
    */
   setupDefaultOption(path) {

@@ -4,8 +4,10 @@ This project is designed to make using the Trello API a lot easier and to provid
 
 [![NPM version](https://img.shields.io/npm/v/env-create.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper~) 
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/maintainability)](https://codeclimate.com/github/Rolias/trello-helper/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/test_coverage)](https://codeclimate.com/github/Rolias/trello-helper/test_coverage)
 [![Inline docs](https://inch-ci.org/github/Rolias/env-create.svg?branch=master)](https://github.com/Rolias/env-create)
+
 
 ```javascript
 getCardsOnlist({listId:'123', options:{limit:10}})

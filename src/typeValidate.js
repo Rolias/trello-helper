@@ -68,7 +68,7 @@ const validatePathOptions = (param) => {
   validate(pathOptions)
 }
 
-const validateOptions = (param, type) => {
+const validateOptionsOrBody = (param, type) => {
   if (type === 'options') {
     const testObj = {obj: param, reqKeys: ['path', 'options']}
     validate(testObj)
@@ -79,9 +79,15 @@ const validateOptions = (param, type) => {
   return
 }
 
+const validateOptions = (param) => {
+  const pathOptions = {obj: param, reqKeys: ['options']}
+  validate(pathOptions)
+}
 module.exports = {
   validate,
-  validatePathOptions,
   validateOptions,
+  validatePathOptions,
+  validateOptionsOrBody,
+
 
 }

@@ -267,24 +267,24 @@ describe('trello class UNIT TESTS', () => {
       sandbox.restore()
     })
 
-    /** @deprecated */
-    describe('getArchivedCards() should', () => {
-      let result
-      beforeEach(async () => {
-        result = await trello.getArchivedCards({boardId: FAKE_ID, listId: FAKE_ID})
-      })
+    // /** @deprecated */
+    // describe('getArchivedCards() should', () => {
+    //   let result
+    //   beforeEach(async () => {
+    //     result = await trello.getArchivedCards({boardId: FAKE_ID, listId: FAKE_ID})
+    //   })
 
-      it('have the expected path', () => {
-        getStub.calledWith(match({path: '/1/board/12345/cards'})).should.be.true
-      })
-      it('have an object of {filter:"closed"}', () => {
-        getStub.calledWith(match.hasNested('options.filter', 'closed')).should.be.true
-      })
-      it('should return only the card on the FAKE_ID idList ', () => {
-        result.length.should.equal(1)
-        result[0].idList.should.equal(FAKE_ID)
-      })
-    })
+    //   it('have the expected path', () => {
+    //     getStub.calledWith(match({path: '/1/board/12345/cards'})).should.be.true
+    //   })
+    //   it('have an object of {filter:"closed"}', () => {
+    //     getStub.calledWith(match.hasNested('options.filter', 'closed')).should.be.true
+    //   })
+    //   it('should return only the card on the FAKE_ID idList ', () => {
+    //     result.length.should.equal(1)
+    //     result[0].idList.should.equal(FAKE_ID)
+    //   })
+    // })
 
     describe('getArchivedCardsOnBoard() should', () => {
       let result

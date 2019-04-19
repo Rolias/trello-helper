@@ -24,6 +24,7 @@ class TrelloRequest {
   /**
    * Get the key/token pair - internal helper function
    * @private 
+   * @returns {{key:string, token:string}}
    */
   _getAuthObj() {
     return {key: this.key, token: this.token}
@@ -86,6 +87,7 @@ class TrelloRequest {
    * based on the body property of the options.
    * @private
    * @param {{path:string, body:string}} options 
+   * @example setupPutPostOptions({path:string, body:object})
    */
   setupPutPostOptions(options) {
     tv.validateOptionsOrBody(options, 'body')
@@ -97,8 +99,11 @@ class TrelloRequest {
 
   /**
    * Set up the the most common set of options used by all verbs
-   * Each function can override the ones that vary. 
+   * Each function can override the ones that vary. For example the qs property
+   * will get overwritten for get commands since options get added to the auth values
    * @param {string} path 
+   * @returns {{uri:string, qs:{key:string, token:string}, options?:string, json:boolean, resolveWithFullResponse:boolean}}  
+   * @example setDefaultOption(path)
    */
   setupDefaultOption(path) {
     return {

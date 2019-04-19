@@ -44,7 +44,7 @@ class TrelloBase {
    * @param {string} boardId 
    * @return {string} '/1/boards/[boardId]' */
   static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
-
+  static getCardsOnBoardWithId(boardId) {return `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`}
   /** @param {tv.cardFieldType} cfp - the Card Field Parameter*/
   static getCustomFieldUpdateCmd(cfp) {
     tv.validate({obj: cfp, reqKeys: ['cardId', 'fieldId']})

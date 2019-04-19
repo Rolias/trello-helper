@@ -7,19 +7,12 @@ class TrelloGet extends TrelloBase {
   }
 
   /**
- * Test that listId and options properties exist. Throw if not.
- * @param {{listId:string, options:string}} param 
- */
-  static validateListIdAndOptions(param) {
-    tv.validate({obj: param, reqKeys: ['listId', 'options']})
-  }
-
-  /**
-   * Test that boardId and options properties exist. Throw if not.
-   * @param {{boardId:string, options:string}} param 
+   * 
+   * @param {{listId:string, options:string}| {boardId:string, options:string}} param 
+   * @param {string} idType listId or boardId 
    */
-  static validateBoardIdAndOptions(param) {
-    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+  static validateIdAndOptions(param, idType) {
+    tv.validate({obj: param, reqKeys: [idType, 'options']})
   }
 
 
@@ -73,12 +66,26 @@ class TrelloGet extends TrelloBase {
    * @example getCardsOnListWith({listId:'123',options:{customFieldItems:true}})
    */
   getCardsOnList(param) {
-    TrelloGet.validateListIdAndOptions(param)
-    const {listId, options} = param
-    const path = `${TrelloBase.getListCardCmd(listId)}`
-    return this.get({path, options})
+    return this.getCardsRecipe(param, 'listId', TrelloBase.getListCardCmd)
   }
 
+  /**
+   * Avoid repeating the common code where we need to first
+   * validate the parameters
+   * then extract the id
+   * then make a call to get the command with the id
+   * then go the get
+   * @param {{listId:string, options:string}| {boardId:string, options:string}} param   
+   * @param {string} type 'listId' or 'boardId' 
+   * @param {*} commandFunc a function(id) that returns a command string
+   */
+  getCardsRecipe(param, type, commandFunc) {
+    TrelloGet.validateIdAndOptions(param, type)
+    const {options} = param
+    const id = param[type]
+    const path = commandFunc(id)
+    return this.get({path, options})
+  }
   /**
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
@@ -89,10 +96,7 @@ class TrelloGet extends TrelloBase {
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    */
   getCardsOnBoard(param) {
-    TrelloGet.validateBoardIdAndOptions(param)
-    const {boardId, options} = param
-    const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`
-    return this.get({path, options})
+    return this.getCardsRecipe(param, 'boardId', TrelloBase.getCardsOnBoardWithId)
   }
 
 
@@ -105,7 +109,7 @@ class TrelloGet extends TrelloBase {
    * @example getArchivedCards({boardId:'123',listId'456'})
   */
   async getArchivedCardsOnList(param) {
-    TrelloGet.validateListIdAndOptions(param)
+    TrelloGet.validateIdAndOptions(param, 'listId')
     const {listId} = param
     const options = this.addFilterClosedToOptions(param.options)
     return await this.getCardsOnList({listId, options})
@@ -118,7 +122,7 @@ class TrelloGet extends TrelloBase {
  * @example getArchivedCards({boardId:'123',listId'456'})
  */
   async getArchivedCardsOnBoard(param) {
-    TrelloGet.validateBoardIdAndOptions(param)
+    TrelloGet.validateIdAndOptions(param, 'boardId')
     const {boardId} = param
     const options = this.addFilterClosedToOptions(param.options)
     return await this.getCardsOnBoard({boardId, options})
@@ -147,7 +151,6 @@ class TrelloGet extends TrelloBase {
     return archivedOnList
   }
 
-
   /**
    * Find the boardId for the given listID
    * @param {object} param 
@@ -172,7 +175,6 @@ class TrelloGet extends TrelloBase {
     const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/members`
     return this.get({path, options: {}})
   }
-
 
 }
 

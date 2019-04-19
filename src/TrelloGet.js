@@ -107,7 +107,7 @@ class TrelloGet extends TrelloBase {
   async getArchivedCardsOnList(param) {
     TrelloGet.validateListIdAndOptions(param)
     const {listId} = param
-    const options = {...param.options, filter: 'closed'}
+    const options = this.addFilterClosedToOptions(param.options)
     return await this.getCardsOnList({listId, options})
   }
 
@@ -120,10 +120,13 @@ class TrelloGet extends TrelloBase {
   async getArchivedCardsOnBoard(param) {
     TrelloGet.validateBoardIdAndOptions(param)
     const {boardId} = param
-    const options = {...param.options, filter: 'closed'}
+    const options = this.addFilterClosedToOptions(param.options)
     return await this.getCardsOnBoard({boardId, options})
   }
 
+  addFilterClosedToOptions(options) {
+    return {...options, filter: 'closed'}
+  }
 
   /**
    * @deprecated Get archived cards either directly from a board (getArchivedCardsOnBoard())

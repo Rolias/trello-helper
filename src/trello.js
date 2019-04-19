@@ -5,6 +5,10 @@ const TrelloGet = require('./TrelloGet')
 const TrelloBase = require('./TrelloBase')
 const tv = require('./typeValidate')
 
+// I want the user to just have to import Trello but I wanted to make the code easier
+// to manage so I split it up into various classes which just extend each other
+// TrelloGet extends TrelloBase. As this library grows I made to add more layers. The goal
+// is to keep each layer to 20 functions or fewer for improved maintainability.
 class Trello extends TrelloGet {
   /**
    * Create the TrelloPLus class to add more trello functions

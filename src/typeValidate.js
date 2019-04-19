@@ -68,9 +68,20 @@ const validatePathOptions = (param) => {
   validate(pathOptions)
 }
 
+const validateOptions = (param, type) => {
+  if (type === 'options') {
+    const testObj = {obj: param, reqKeys: ['path', 'options']}
+    validate(testObj)
+    return
+  }
+  const testObj = {obj: param, reqKeys: ['path', 'body']}
+  validate(testObj)
+  return
+}
 
 module.exports = {
   validate,
   validatePathOptions,
+  validateOptions,
 
 }

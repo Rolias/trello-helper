@@ -60,8 +60,8 @@ class TrelloBase {
 * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
 */
   async get(pathOptions) {
-    const getOptions = this.createGetDeleteOptions(pathOptions)
-    const responseStr = await this.trelloRequest.get(getOptions)
+    tv.validatePathOptions(pathOptions)
+    const responseStr = await this.trelloRequest.get(pathOptions)
       .catch(async error => {
         if (error.statusCode === TrelloBase.getRateLimitError()) {
           logger.error('Rate limit error - retrying...')
@@ -83,21 +83,8 @@ class TrelloBase {
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
   async delete(pathOptions) {
-    const deleteOptions = this.createGetDeleteOptions(pathOptions)
-    return await this.trelloRequest.delete(deleteOptions)
-  }
-
-  /**
-   * crate the  object needed by the get and delete calls
-   * @param {{path:string,options:string}} pathOptions 
-   */
-  createGetDeleteOptions(pathOptions) {
     tv.validatePathOptions(pathOptions)
-    const {path, options} = pathOptions
-    return {
-      path,
-      options,
-    }
+    return await this.trelloRequest.delete(pathOptions)
   }
 
   /** wrap the underlying makeRequest for put 
@@ -108,7 +95,7 @@ class TrelloBase {
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   async put(pathOptions) {
-    const putOptions = this.createPutAndPostOptions(pathOptions)
+    const putOptions = this.createBodyOptions(pathOptions)
     return await this.trelloRequest.put(putOptions)
   }
 
@@ -121,17 +108,19 @@ class TrelloBase {
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   async post(pathOptions) {
-    const postOptions = this.createPutAndPostOptions(pathOptions)
+    const postOptions = this.createBodyOptions(pathOptions)
     return await this.trelloRequest.post(postOptions)
   }
 
-  createPutAndPostOptions(pathOptions) {
+  /**
+   *  turn {path, options} into {path, body}
+   * @param {Object} pathOptions 
+   * @returns {{path:string, body:object}}
+   */
+  createBodyOptions(pathOptions) {
     tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
-    return {
-      path,
-      body: options,
-    }
+    return {path, body: options}
   }
 
 

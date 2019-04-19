@@ -36,7 +36,7 @@ class TrelloRequest {
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
   get(getOptions) {
-    tv.validatePathOptions(getOptions)
+    tv.validateOptions(getOptions, 'options')
     const {path, options} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
     const auth = this._getAuthObj()
@@ -74,7 +74,7 @@ class TrelloRequest {
    * @example delete(path:'/1/cards/<id>' ,options:{})
    */
   delete(deleteOptions) {
-    tv.validatePathOptions(deleteOptions)
+    tv.validateOptions(deleteOptions, 'options')
     const {path, options} = deleteOptions
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.options = options
@@ -88,7 +88,7 @@ class TrelloRequest {
    * @param {{path:string, body:string}} options 
    */
   setupPutPostOptions(options) {
-    tv.validate({obj: options, reqKeys: ['path', 'body']})
+    tv.validateOptions(options, 'body')
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.body = body

@@ -87,6 +87,13 @@ class TrelloBase {
     return await this.trelloRequest.delete(pathOptions)
   }
 
+  async putOrPost(pathOptions, op) {
+    const options = this.createBodyOptions(pathOptions)
+    if (op === 'put') {
+      return await this.trelloRequest.put(options)
+    }
+    return await this.trelloRequest.post(options)
+  }
   /** wrap the underlying makeRequest for put 
    * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
    * @param {string} pathOptions.path
@@ -95,8 +102,9 @@ class TrelloBase {
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   async put(pathOptions) {
-    const putOptions = this.createBodyOptions(pathOptions)
-    return await this.trelloRequest.put(putOptions)
+    return await this.putOrPost(pathOptions, 'put')
+    // const putOptions = this.createBodyOptions(pathOptions)
+    // return await this.trelloRequest.put(putOptions)
   }
 
   /**
@@ -108,8 +116,9 @@ class TrelloBase {
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   async post(pathOptions) {
-    const postOptions = this.createBodyOptions(pathOptions)
-    return await this.trelloRequest.post(postOptions)
+    return await this.putOrPost(pathOptions, 'post')
+    // const postOptions = this.createBodyOptions(pathOptions)
+    // return await this.trelloRequest.post(postOptions)
   }
 
   /**

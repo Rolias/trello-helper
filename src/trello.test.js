@@ -179,6 +179,9 @@ describe('trello class UNIT TESTS', () => {
 
     describe('archiveCardsOlderThan()', () => {
       beforeEach(async () => {
+        // sandbox.restore()
+        // sandbox.stub(TrelloRequest.prototype, 'get').onCall.call(0)
+        // .resolves(resolveArrayAsJson)
         sandbox.spy(Trello.prototype, 'getCardsOnList')
         sandbox.spy(Trello.prototype, 'archiveCard')
         await trello.archiveCardsOlderThan({listId: FAKE_ID, offset: {count: 2, units: 'days'}})

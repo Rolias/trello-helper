@@ -12,28 +12,24 @@ const TEST_PATH = '/1/cards'
 const EXPECTED_URI = `https://api.trello.com${TEST_PATH}`
 const {match} = sinon
 
-describe.only('TrelloRequest Unit Tests', () => {
-  before(() => {
-    // @ts-ignore
+describe('TrelloRequest Unit Tests', () => {
 
-  })
-  after(() =>
-    sandbox.restore()
-  )
   describe('get() should', () => {
     let getStub
     before(async () => {
-      // @ts-ignore
-      getStub = sandbox.stub(rpn, 'get').returns(Promise.resolve('get done'))
+      getStub = sandbox.stub(rpn, 'get').resolves()
       await trelloRequest.get({path: TEST_PATH, options: {limit: 10}})
+    })
+    after(() => {
+      sandbox.restore()
     })
     it('be passed the uri property', () => {
       getStub.calledWith(match.has('uri', EXPECTED_URI)).should.be.true
     })
-    it('be passed the auth object', () => {
+    it('be passed the auth object in the query string (qs) property', () => {
       getStub.calledWith(match.hasNested('qs.key', '123')).should.be.true
     })
-    it('be passed the limit  object', () => {
+    it('be passed the limit object as part of the query string property', () => {
       getStub.calledWith(match.hasNested('qs.limit', 10)).should.be.true
     })
     it('be passed the json property', () => {
@@ -47,16 +43,56 @@ describe.only('TrelloRequest Unit Tests', () => {
   describe('put() should', () => {
     let putStub
     before(async () => {
-      // @ts-ignore
-      putStub = sandbox.stub(rpn, 'put').returns(Promise.resolve('put done'))
+      putStub = sandbox.stub(rpn, 'put').resolves()
       await trelloRequest.put({path: TEST_PATH, body: {fields: 'name'}})
-      console.log(putStub.getCall(0).args)
+    })
+    after(() => {
+      sandbox.restore()
     })
     it('be passed the uri property', () => {
       putStub.calledWith(match.has('uri', EXPECTED_URI)).should.be.true
     })
     it('have a body object', () => {
       putStub.calledWith(match.hasNested('body', {fields: 'name'})).should.be.true
+    })
+  })
+
+  describe('post() should', () => {
+    let postStub
+
+    before(async () => {
+      // @ts-ignore
+      postStub = sandbox.stub(rpn, 'post').resolves()
+      await trelloRequest.post({path: TEST_PATH, body: {fields: 'name'}})
+    })
+    after(() => {
+      sandbox.restore()
+    })
+
+    it('be passed the uri property', () => {
+      postStub.calledWith(match.has('uri', EXPECTED_URI)).should.be.true
+    })
+    it('have a body object', () => {
+      postStub.calledWith(match.hasNested('body', {fields: 'name'})).should.be.true
+    })
+  })
+
+  describe('delete() should', () => {
+    let deleteStub
+    before(async () => {
+      // @ts-ignore
+      deleteStub = sandbox.stub(rpn, 'delete').returns(Promise.resolve('delete done'))
+      await trelloRequest.delete({path: TEST_PATH, options: {fields: 'name'}})
+    })
+    after(() => {
+      sandbox.restore()
+    })
+
+    it('be passed the uri property', () => {
+      deleteStub.calledWith(match.has('uri', EXPECTED_URI)).should.be.true
+    })
+    it('have an options object', () => {
+      deleteStub.calledWith(match.hasNested('options', {fields: 'name'})).should.be.true
     })
   })
 

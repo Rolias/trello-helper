@@ -90,8 +90,6 @@ class TrelloRequest {
    * @example setupPutPostOptions({path:string, body:object})
    */
   _setupPutPostOptions(options) {
-    // TODO write a test that checks if this throws or really runs. 
-    // only catching at integration right now 
     tv.validateOptionsOrBody(options, tv.optionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)

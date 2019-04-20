@@ -20,6 +20,7 @@ class TrelloBase {
     const trelloAuth = JSON.parse(process.env.trelloHelper)
     const {appKey: key, token} = trelloAuth
     this.trelloRequest = new TrelloRequest({key, token})
+    this.retryCounter = 0
   }
   /** @return {string} '/1/cards'  */
   static getBaseCardCmd() {return '/1/cards'}
@@ -52,26 +53,35 @@ class TrelloBase {
   }
 
   /**
-* Wrap the underlying makeRequest for get
-* @param {object} pathOptions technically an http path but to the Trello API its command
-* @param {string} pathOptions.path
-* @param {object} pathOptions.options
-* @return {Promise<any>}
-* @example get({path:this.getListCardCmd('123'),options: {limit:10}})
-*/
+  * Wrap the underlying makeRequest for get
+  * @param {object} pathOptions technically an http path but to the Trello API its command
+  * @param {string} pathOptions.path
+  * @param {object} pathOptions.options
+  * @return {Promise<any>}
+  * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
+  */
   async get(pathOptions) {
     tv.validatePathOptions(pathOptions)
     const responseStr = await this.trelloRequest.get(pathOptions)
       .catch(async error => {
+        // console.log('>>>', error.statusCode)
+        // console.log(TrelloBase.getRateLimitError())
         if (error.statusCode === TrelloBase.getRateLimitError()) {
+          if (this.retryCounter++ > 4) {
+            throw new Error(error)
+          }
           logger.error('Rate limit error - retrying...')
           await utils.delay(TrelloBase.getRateLimitDelayMs())
-          this.get(pathOptions)
+          await this.get(pathOptions)
+            .catch(error => {
+              logger.error(`unexpected catch block ${JSON.stringify(error, null, 2)}`)
+            })
         }
         else {
           throw error
         }
       })
+    this.retryCounter = 0
     return responseStr
   }
 

@@ -75,7 +75,7 @@ class TrelloGet extends TrelloBase {
   }
 
   /**
-   * Get all archived cards from the board that match the passed list id
+   * Get all cards on the passed list
    * @param {object} param  
    * @param {string} param.listId 
    * @param {object} param.options
@@ -116,7 +116,7 @@ class TrelloGet extends TrelloBase {
   }
 
   /**
-   * Get all cards that are archived for the board
+   * Get all cards that are archived for the passed List
    * @param {object} param 
    * @param {string} param.listId
    * @param {object} param.options

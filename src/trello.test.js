@@ -1,4 +1,3 @@
-// @ts-check
 const chai = require('chai')
 chai.should()
 const moment = require('moment')
@@ -19,8 +18,6 @@ const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
 const resolveEmptyObj = {}
-
-// TODO need to break this up to follow the new structure of TrelloBase, TrelloGet, and Trello
 
 // const resolveArrayAsString = JSON.stringify([{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}])
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
@@ -45,15 +42,14 @@ describe('trello class UNIT TESTS', () => {
 
   it('constructor should throw with no parameter and no local .env.json file', () => {
     sandbox.stub(logger, 'error')
-      // @ts-ignore
-      ; (() => {new Trello()}).should.throw()
+    {(() => {new Trello()}).should.throw()}
     sandbox.restore()
   })
 
   describe('using reject ', () => {
     beforeEach(() => {
       // @ts-ignore
-      sandbox.stub(TrelloRequest.prototype, 'get').returns(Promise.reject(rejectMsg))
+      sandbox.stub(TrelloRequest.prototype, 'get').rejects(rejectMsg)
     })
     afterEach(() => {
       sandbox.restore()
@@ -64,14 +60,14 @@ describe('trello class UNIT TESTS', () => {
         await trello.get({path: fakeCmd, options: {}})
         true.should.be.false('expected exception was not thrown')
       } catch (error) {
-        error.should.equal(rejectMsg)
+        error.name.should.equal(rejectMsg)
       }
     })
 
     it('getCardsOnList() should reject', async () => {
       await trello.getCardsOnList({listId: fakeCmd, options: {}})
         .catch((error) => {
-          error.should.equal(rejectMsg)
+          error.name.should.equal(rejectMsg)
         })
     })
   })
@@ -80,25 +76,6 @@ describe('trello class UNIT TESTS', () => {
 
     afterEach(() => {
       sandbox.restore()
-    })
-
-    describe('get requests', () => {
-      describe('getCard()', () => {
-        let getStub
-        beforeEach(async () => {
-          getStub = sandbox.stub(TrelloRequest.prototype, 'get')
-            // @ts-ignore
-            .returns(Promise.resolve(resolveObj))
-          await trello.getCard({cardId: FAKE_ID, options: {fields: 'name'}})
-        })
-        it('should have expected path parameter', () => {
-          const expected = Trello.getBoardPrefixWithId(FAKE_ID)
-          getStub.calledWith(match({path: expected})).should.be.true
-        })
-        it('should have an options:fields property set to name', () => {
-          getStub.calledWith(match.hasNested('options.fields', 'name')).should.be.true
-        })
-      })
     })
 
     describe('post requests', () => {
@@ -121,7 +98,6 @@ describe('trello class UNIT TESTS', () => {
         })
       })
     })
-
 
     describe('delete requests', () => {
       let deleteStub
@@ -190,116 +166,15 @@ describe('trello class UNIT TESTS', () => {
 
   })
 
-  describe('get functions', () => {
-    let getStub
-    beforeEach(() => {
-      getStub = sandbox.stub(TrelloRequest.prototype, 'get').resolves()
-    })
-    afterEach(() => {
-      sandbox.restore()
-    })
-
-    describe('getCardsOnList() with id and option properties', () => {
-      beforeEach(async () => {
-        await trello.getCardsOnList({listId: FAKE_ID, options: {limit: 10}})
-      })
-      it('should get a proper path ', async () => {
-        const expectedPath = Trello.getListCardCmd(FAKE_ID)
-        getStub.calledWith(match({path: expectedPath})).should.be.true
-
-      })
-      it('should have an option parameter equal to 10', async () => {
-        getStub.calledWith(match.hasNested('options.limit', 10)).should.be.true
-      })
-    })
-
-    describe('getCardsOnList() with id and empty option properties', () => {
-      beforeEach(async () => {
-        await trello.getCardsOnList({listId: FAKE_ID, options: {}})
-      })
-      it('should get a proper path ', async () => {
-        const expected = Trello.getListCardCmd(FAKE_ID)
-        getStub.calledWith(match({path: expected})).should.be.true
-      })
-      it('should have an option parameter equal to {}', async () => {
-        getStub.calledWith(match({options: {}})).should.be.true
-      })
-    })
-
-
-    describe('getCardsOnBoard() with id and option properties', () => {
-      beforeEach(async () => {
-        await trello.getCardsOnBoard({boardId: FAKE_ID, options: {limit: 10}})
-      })
-      it('should get a proper path ', async () => {
-        const expected = `/1/board/${FAKE_ID}/cards`
-        getStub.calledWith(match({path: expected})).should.be.true
-      })
-      it('should have an option parameter equal to 10', async () => {
-        getStub.calledWith(match.hasNested('options.limit', 10)).should.be.true
-      })
-    })
-
-    describe('getActionsOnCard() with blank filter should', () => {
-      beforeEach(async () => {
-        await trello.getActionsOnCard({cardId: FAKE_ID, options: {}})
-      })
-
-      it('have the expected path', async () => {
-        getStub.calledWith(match({path: '/1/cards/12345/actions'})).should.be.true
-      })
-      it('have an object property filter="all"}', async () => {
-        getStub.calledWith(match.hasNested('options.filter', 'all')).should.be.true
-      })
-      it('have an object property limit="1000" (the max)}', async () => {
-        getStub.calledWith(match.hasNested('options.limit', 1000)).should.be.true
-      })
-    })
-  })
-
-
   describe('get functions that resolve and return array', () => {
-    let getStub
+
     beforeEach(() => {
-      getStub = sandbox.stub(TrelloRequest.prototype, 'get')
+      sandbox.stub(TrelloRequest.prototype, 'get')
         // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
     })
     afterEach(() => {
       sandbox.restore()
-    })
-
-
-    describe('getArchivedCardsOnBoard() should', () => {
-      let result
-      beforeEach(async () => {
-        result = await trello.getArchivedCardsOnBoard({boardId: FAKE_ID, options: {}})
-      })
-      it('have the expected path', () => {
-        getStub.calledWith(sinon.match({path: '/1/board/12345/cards'})).should.be.true
-      })
-      it('have an object of {filter:"closed"}', () => {
-        getStub.calledWith(sinon.match.hasNested('options.filter', 'closed')).should.be.true
-      })
-      it('should return all cards in fake get', () => {
-        result.length.should.equal(resolveArrayAsJson.length)
-      })
-    })
-
-    describe('getArchivedCardsOnList() should', () => {
-      let result
-      beforeEach(async () => {
-        result = await trello.getArchivedCardsOnList({listId: FAKE_ID, options: {}})
-      })
-      it('have the expected path', () => {
-        getStub.calledWith(sinon.match({path: '/1/lists/12345/cards'})).should.be.true
-      })
-      it('have an object of {filter:"closed"}', () => {
-        getStub.calledWith(sinon.match.hasNested('options.filter', 'closed')).should.be.true
-      })
-      it('should return all cards in fake get', () => {
-        result.length.should.equal(resolveArrayAsJson.length)
-      })
     })
 
     describe('archiveCardsOlderThan()', () => {
@@ -317,12 +192,6 @@ describe('trello class UNIT TESTS', () => {
         // @ts-ignore
         trello.getCardsOnList.calledWith(sinon.match.hasNested('options.since')).should.be.true
       })
-    })
-
-    it('getCustomFieldsOnCard should return the expected path', async () => {
-      await trello.getCustomFieldItemsOnCard({cardId: FAKE_ID})
-      const expected = `${Trello.getCardPrefixWithId(FAKE_ID)}/customFieldItems`
-      getStub.calledWith(match({path: expected})).should.be.true
     })
 
   })
@@ -444,6 +313,36 @@ describe('trello class UNIT TESTS', () => {
       })
       it('have an object of {value:FAKE_MEMBER_ID}', async () => {
         postStub.calledWith(match.hasNested('body.value', FAKE_MEMBER_ID)).should.be.true
+      })
+    })
+
+    describe('addCardWithMembers() should', () => {
+      const options = {
+        idList: FAKE_ID,
+        name: 'Tod',
+        desc: 'description',
+        idMembers: '1,2,3',
+      }
+      beforeEach(async () => {
+        await trello.addCardWithMembers(options)
+      })
+      it('set the expected path property', () => {
+        const expected = {
+          path: '/1/cards',
+          body: options,
+        }
+        postStub.calledWith(expected).should.be.true
+      })
+      it('have a body property', () => {
+      })
+    })
+
+    describe('addCardWithAnything() should', () => {
+      beforeEach(async () => {
+        await trello.addCardWithAnything({idList: FAKE_ID})
+      })
+      it('should have a body property with and idList property', () => {
+        postStub.calledWith(match.hasNested('body.idList', FAKE_ID)).should.be.true
       })
     })
   })

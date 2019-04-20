@@ -161,12 +161,12 @@ class Trello extends TrelloGet {
    * like addCard() but takes a comma separated list of memberIds
    * @param {object} options 
    * @param {string} options.idList
-   * @param {string} options.name
-   * @param {string} options.desc
+   * @param {string=} options.name
+   * @param {string=} options.desc
    * @param {string} options.idMembers comma separated list of memberIds
    */
   addCardWithMembers(options) {
-    tv.validate({obj: options, reqKeys: ['idList', 'name', 'desc', 'idMembers']})
+    tv.validate({obj: options, reqKeys: ['idList', 'idMembers']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 
@@ -175,11 +175,15 @@ class Trello extends TrelloGet {
    * idLabels:comma separated string of Label IDs, pos ('top', 'bottom' or positive float),
    * due (when the card is due mm/dd/yyy),dueComplete:boolean ,subscribed:boolean
    * User is responsible for knowing the names of the api query params
+   * idList had a red asterisk in docs so I'm assuming that means it's required
    * https://developers.trello.com/reference/#cardsid-1
    * @param {object} options 
-   * @example addCardWithAnything({idList:123,name:'card name', due:true})
+   * @param {string} options.idList
+   * @param {string=}options.idMembers comma separate list of memberIds
+   * @example addCardWithAnything({idList:123,name:'card name', idMembers:'1,2,3'})
    */
   addCardWithAnything(options) {
+    tv.validate({obj: options, reqKeys: ['idList']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 

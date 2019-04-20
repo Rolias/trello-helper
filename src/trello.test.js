@@ -1,7 +1,7 @@
 const chai = require('chai')
 chai.should()
 const moment = require('moment')
-const TrelloRequest = require('./TrelloRequest')
+const TrelloRequest = require('./TrelloRequest1')
 
 const sinon = require('sinon')
 const sandbox = sinon.createSandbox()

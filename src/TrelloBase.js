@@ -1,5 +1,5 @@
 const tv = require('./typeValidate')
-const TrelloRequest = require('./TrelloRequest')
+const TrelloRequest = require('./TrelloRequest1')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const utils = require('./util/utils')

@@ -1,6 +1,7 @@
 
-Almost all this worked (not the list stuff) but it doesn't seem that it's worth doing this type of stuff
-through the API. Need to be able to read and write the custom fields but not create and manipulate them
+# Creating Custom Fields with API
+
+Almost of all the effort to add custom fields throught the API worked (not the list stuff) but it doesn't seem that it's worth doing. Need to be able to read and write the custom fields but not create and manipulate them through the API. (Turns out the list stuff was related to the underlying library I was using so I ditched it and now I just just the request native promises lib).
 
 ```javascript
  // ========================== Custom Fields ======================================

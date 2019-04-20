@@ -64,8 +64,6 @@ class TrelloBase {
     tv.validatePathOptions(pathOptions)
     const responseStr = await this.trelloRequest.get(pathOptions)
       .catch(async error => {
-        // console.log('>>>', error.statusCode)
-        // console.log(TrelloBase.getRateLimitError())
         if (error.statusCode === TrelloBase.getRateLimitError()) {
           if (this.retryCounter++ > 4) {
             throw new Error(error)

@@ -10,6 +10,6 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   # run the test:unit which forbids only
-  - nyc --reporter=lcov npm run test:unit
+  - nyc --reporter=lcov npm run test
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

@@ -43,11 +43,14 @@ These are just suggestions taken from the Angular guidelines on commit meessages
 ### Commit Message Format
 Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
 
-<type>: <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
+```text
+<type>: <subject>  
+<BLANK LINE>  
+<body>  
+<BLANK LINE>  
 <footer>
+```
+
 The header is mandatory and the scope of the header is optional.
 
 Any line of the commit message cannot be longer 100 characters! This allows the message to be easier to read on GitHub as well as in various git tools.
@@ -55,6 +58,7 @@ Any line of the commit message cannot be longer 100 characters! This allows the 
 The footer should contain a closing reference to an issue if any.
 
 Samples:
+
 ``` text
 docs(changelog): update changelog to beta.5
 

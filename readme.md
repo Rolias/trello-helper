@@ -1,6 +1,6 @@
 # Trello Helper - Simplifying the Trello API
 
-This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.  
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can often just set them to `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.  
 
 [![NPM version](https://img.shields.io/npm/v/trello-helper.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper)
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
@@ -8,13 +8,15 @@ This project is designed to make using the Trello API a lot easier and to provid
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/test_coverage)](https://codeclimate.com/github/Rolias/trello-helper/test_coverage)
 [![Inline docs](https://inch-ci.org/github/Rolias/trello-helper.svg?branch=master)](https://github.com/Rolias/trello-helper)
 
+## Example call to get cards on list with and without option property specified
+
 ```javascript
 getCardsOnlist({listId:'123', options:{limit:10}})
 // or
 getCardsOnList({listId:'123', options:{}})
 ```
 
-Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands. But, it also exposes many higher-level  commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
+Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands to the Trello API to take card of the authorization elements. But, it also exposes many higher-level  commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
 
 ## Table of Contents
 
@@ -72,32 +74,10 @@ You can have other items in this file, but `trelloHelper` must be a top-level ob
 
 ## Contributing
 
-1. clone the repository
-2. npm install
-
-Nothing else should be required. All the scripts are in the package.json
+See the [Contributing](./CONTRIBUTING.md) file.
 
 ---
 
-### Testing
-
-There are unit tests and integration tests  
-`npm test` runs the unit tests  
-`npm run test:int` runs the integration tests  
-`npm run test:all` runs them both  
-`npm run test:cov` runs them with coverage (by nyc)  
-`npm run test:watch` runs the unit tests in watch mode  
-`npm run watch` runs the unit tests and eslint in watch mode  
-`npm run lint` runs eslint  
-`npm run lint:watch` runs eslint in watch mode  
-
-[back to top](#table-of-contents)
-
----
-
-### Integration Tests
-
-The files that end with `test.int.js` do integration testing. In addition to being a useful test for development, they also serve as documentation for the provided functions. They are fragile in that they rely on specific ids that won't exist on your system. These ids and other fragile data are stored in the `test-data/integrations.json` file to make it easier to run your tests.
 
 ---
 

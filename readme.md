@@ -2,7 +2,7 @@
 
 This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. The options or body properties can often be set to just `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.  
 
-[![NPM version](https://img.shields.io/npm/v/env-create.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper~)
+[![NPM version](https://img.shields.io/npm/v/trello-helper.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper)
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/maintainability)](https://codeclimate.com/github/Rolias/trello-helper/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e47a44c7fddbfc81398f/test_coverage)](https://codeclimate.com/github/Rolias/trello-helper/test_coverage)

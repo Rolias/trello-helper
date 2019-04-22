@@ -8,17 +8,17 @@ Help me keep the discussion open and inclusive. Please read and follow the [Code
 
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-1. Fork the trello-helper repo.
+1. Fork the trello-helper repository.
 1. Make your changes in a new git branch:  
   `git checkout -b my-fix-branch master`  
 1. Create your patch, including appropriate test cases.
-1. Run the unit test suite. See the section below on [#testing]. You don't have to run the integration tests. 
+1. Run the unit test suite. See the section below on [#testing]. You don't have to run the integration tests.
 1. Commit your changes using a descriptive commit message.  
 `git commit -a`  
 Note: the optional commit -a command line option will automatically "add" and "rm" edited files.
 1. Push your branch to GitHub:  
 `git push origin my-fix-branch`
-1. In GitHub, send a pull request to trello-heper:master.
+1. In GitHub, send a pull request to trello-helper:master.
 
 ## Testing
 
@@ -38,9 +38,10 @@ The files that end with `test.int.js` do integration testing. In addition to bei
 
 ## Commit Message Guidelines
 
-These are just suggestions taken from the Angular guidelines on commit meessages.
+These are just suggestions taken from the Angular guidelines on commit massages.
 
 ### Commit Message Format
+
 Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
 
 ```text

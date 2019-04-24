@@ -49,4 +49,9 @@ describe('TrelloBase Unit Tests', () => {
       })
   })
 
+
+  it('force failure', () => {
+    true.should.be.false
+  })
+
 })

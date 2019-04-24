@@ -3,6 +3,7 @@ const TrelloRequest = require('./TrelloRequest');
 const envCreate = require('env-create');
 const logger = require('./util/logger');
 const utils = require('./util/utils');
+// import {ICardFieldType} from './Interfaces'
 class TrelloBase {
     constructor(pathString) {
         const param = {};
@@ -43,7 +44,7 @@ class TrelloBase {
      * @return {string} '/1/boards/[boardId]' */
     static getBoardPrefixWithId(boardId) { return `/1/board/${boardId}`; }
     static getCardsOnBoardWithId(boardId) { return `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`; }
-    /** @param {tv.cardFieldType} cfp - the Card Field Parameter*/
+    /** @param {{cardId:string, fieldId:string}}  cfp - the Card Field Parameter*/
     static getCustomFieldUpdateCmd(cfp) {
         tv.validate({ obj: cfp, reqKeys: ['cardId', 'fieldId'] });
         return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`;
@@ -166,7 +167,7 @@ class TrelloBase {
    * @example actionWasOnList({actions,filterList:'idOfList'})
    */
     static actionWasOnList(param) {
-        /** @type tv.validateType */
+        /** @type {any} {(obj:object,reqKeys:string[]}} IValidateType */
         const tvObj = {
             obj: param,
             reqKeys: ['actions', 'filterList'],

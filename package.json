@@ -14,7 +14,7 @@
     "security-check": "npm audit",
     "lint": "esw src  --color",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha --use_strict 'src/**/*.test.js' ",
+    "test": "mocha --use_strict 'build/**/*.test.js' ",
     "test:int": "mocha  --no-opts --use_strict 'src/**/*.int.js' ",
     "test:watch": "npm run test  -- --watch --reporter min",
     "test:cov": "nyc mocha --use_strict 'src/**/*.test.js'",

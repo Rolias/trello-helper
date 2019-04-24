@@ -1,8 +1,8 @@
-const chai = require('chai')
+import * as chai from 'chai'
 const should = chai.should()
-const tv = require('./typeValidate')
+import * as tv from './typeValidate'
 
-// NOTE - the majority of the validate module is tested by higher level 
+// NOTE - the majority of the validate module is tested by higher level
 // modules. This is just for testing that it throws with bad input
 describe('validate (wee bits) UNIT TEST', () => {
   it('validate() should throw when expected property not found', () => {

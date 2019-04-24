@@ -3,6 +3,7 @@ node_modules
 .environment
 _local/
 coverage
+/build/*
 !.eslintrc
 !.travis.yml
 !.gitignore

@@ -3,9 +3,9 @@ const TrelloRequest = require('./TrelloRequest')
 const envCreate = require('env-create')
 const logger = require('./util/logger')
 const utils = require('./util/utils')
+// import {ICardFieldType} from './Interfaces'
 
 class TrelloBase {
-
   constructor(pathString) {
     const param = {}
     if (pathString !== undefined) {
@@ -25,28 +25,28 @@ class TrelloBase {
   /** @return {string} '/1/cards'  */
   static getBaseCardCmd() {return '/1/cards'}
 
-  /** 
-   * @param {string} cardId 
+  /**
+   * @param {string} cardId
    * @return {string} '/1/cards/[cardId]' */
   static getCardPrefixWithId(cardId) {return `${TrelloBase.getBaseCardCmd()}/${cardId}`}
-  /** 
-   * @param {string} cardId 
+  /**
+   * @param {string} cardId
    * @return {string} '/1/cards/[cardId]/due' */
   static getCardDueCmd(cardId) {return `${TrelloBase.getCardPrefixWithId(cardId)}/due`}
-  /** 
-   * @param {string} listId 
+  /**
+   * @param {string} listId
    * @return {string} '/1/lists/[listId]' */
   static getListPrefixWithId(listId) {return `/1/lists/${listId}`}
-  /** 
-   * @param {string} listId 
+  /**
+   * @param {string} listId
    * @return {string} '/1/lists/[listId]/cards' */
   static getListCardCmd(listId) {return `${TrelloBase.getListPrefixWithId(listId)}/cards`}
   /**
-   * @param {string} boardId 
+   * @param {string} boardId
    * @return {string} '/1/boards/[boardId]' */
   static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
   static getCardsOnBoardWithId(boardId) {return `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`}
-  /** @param {tv.cardFieldType} cfp - the Card Field Parameter*/
+  /** @param {{cardId:string, fieldId:string}}  cfp - the Card Field Parameter*/
   static getCustomFieldUpdateCmd(cfp) {
     tv.validate({obj: cfp, reqKeys: ['cardId', 'fieldId']})
     return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`
@@ -83,8 +83,8 @@ class TrelloBase {
     return responseStr
   }
 
-  /** wrap the underlying makeRequest for delete 
-  * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
+  /** wrap the underlying makeRequest for delete
+  * @param {object} pathOptions  technically an http path but to the Trello API it's a command
   * @param {string} pathOptions.path
   * @param {object} pathOptions.options
   * @return {Promise<any>}
@@ -98,18 +98,18 @@ class TrelloBase {
   async putOrPost(pathOptions, op) {
     const options = this.createBodyOptions(pathOptions)
     switch (op) {
-      case TrelloBase.restCommands.put:
-        return await this.trelloRequest.put(options)
+    case TrelloBase.restCommands.put:
+      return await this.trelloRequest.put(options)
 
-      case TrelloBase.restCommands.post:
-        return await this.trelloRequest.post(options)
+    case TrelloBase.restCommands.post:
+      return await this.trelloRequest.post(options)
 
-      default:
-        throw new TypeError(`Unexpected type for test operation:${op}`)
+    default:
+      throw new TypeError(`Unexpected type for test operation:${op}`)
     }
   }
-  /** wrap the underlying makeRequest for put 
-   * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
+  /** wrap the underlying makeRequest for put
+   * @param {object} pathOptions  technically an http path but to the Trello API it's a command
    * @param {string} pathOptions.path
    * @param {object} pathOptions.options
    * @return {Promise<any>}
@@ -123,7 +123,7 @@ class TrelloBase {
 
   /**
   * Wrap the underlying makeRequest for post
-   * @param {object} pathOptions  technically an http path but to the Trello API it's a command 
+   * @param {object} pathOptions  technically an http path but to the Trello API it's a command
    * @param {string} pathOptions.path
    * @param {object} pathOptions.options
   * @return {Promise<any>}
@@ -137,7 +137,7 @@ class TrelloBase {
 
   /**
    *  turn {path, options} into {path, body}
-   * @param {Object} pathOptions 
+   * @param {Object} pathOptions
    * @returns {{path:string, body:object}}
    */
   createBodyOptions(pathOptions) {
@@ -152,7 +152,7 @@ class TrelloBase {
   /**
    * Turn on full responses for the http command responses. Intended for debugging
    * troubleshooting only at this point as it hasn't been tested.
-   * @param {boolean} enable - set to true to enable full response (off by default) 
+   * @param {boolean} enable - set to true to enable full response (off by default)
    */
   enableFullResponse(enable) {
     this.trelloRequest.doFullResponse = enable
@@ -180,12 +180,12 @@ class TrelloBase {
  * @param {object[]} param.actions
  * @param {object} param.actions[].data
  * @param {string} param.actions[].data.listBefore
- * @param {string} param.filterList 
+ * @param {string} param.filterList
  * @return {Array<Object>} the array of actions that fit the criteria
  * @example actionWasOnList({actions,filterList:'idOfList'})
  */
   static actionWasOnList(param) {
-    /** @type tv.validateType */
+    /** @type {any} {(obj:object,reqKeys:string[]}} IValidateType */
     const tvObj = {
       obj: param,
       reqKeys: ['actions', 'filterList'],
@@ -198,10 +198,9 @@ class TrelloBase {
     }
     return param.actions.filter(e => e.data.listBefore === param.filterList)
   }
-
 }
 
-/** 
+/**
  *  A static helper enumeration so users don't have to hard code magic strings
  * @static
 */
@@ -215,7 +214,7 @@ TrelloBase.customFieldType = {
 }
 
 /**
- *@static 
+ *@static
  */
 TrelloBase.restCommands = {
   delete: 'delete',

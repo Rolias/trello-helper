@@ -1,5 +1,6 @@
 const rpn = require('request-promise-native')
 const tv = require('./typeValidate')
+const {OptionsBodyEnum} = require('./Interfaces')
 
 class TrelloRequest {
   /** @param {{key:string,token:string}} keyTokenPair  */
@@ -23,7 +24,7 @@ class TrelloRequest {
 
   /**
    * Get the key/token pair - internal helper function
-   * @private 
+   * @private
    * @returns {{key:string, token:string}}
    */
   _getAuthObj() {
@@ -32,12 +33,12 @@ class TrelloRequest {
 
   /**
    * Send a get command
-   * @param {{path:string,options:object}} getOptions 
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object 
+   * @param {{path:string,options:object}} getOptions
+   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
   get(getOptions) {
-    tv.validateOptionsOrBody(getOptions, tv.optionsBodyEnum.options)
+    tv.validateOptionsOrBody(getOptions, OptionsBodyEnum.options)
     const {path, options} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
     const auth = this._getAuthObj()
@@ -48,8 +49,8 @@ class TrelloRequest {
 
   /**
    * Send a put command
-   * @param {{path:string, body:object}} putOptions 
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object 
+   * @param {{path:string, body:object}} putOptions
+   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example put({path:' '/1/cards'/123}, body:{dueComplete:true}})
    */
   put(putOptions) {
@@ -59,8 +60,8 @@ class TrelloRequest {
 
   /**
    * Send a post command
-   * @param {{path:string, body:object}} postOptions 
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object 
+   * @param {{path:string, body:object}} postOptions
+   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example post({path:'1/cards',body:{name:'card name'}})
    */
   post(postOptions) {
@@ -70,12 +71,12 @@ class TrelloRequest {
 
   /**
    * Send a delete command
-   * @param {{path:string, options:object}} deleteOptions 
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object 
+   * @param {{path:string, options:object}} deleteOptions
+   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example delete(path:'/1/cards/<id>' ,options:{})
    */
   delete(deleteOptions) {
-    tv.validateOptionsOrBody(deleteOptions, tv.optionsBodyEnum.options)
+    tv.validateOptionsOrBody(deleteOptions, OptionsBodyEnum.options)
     const {path, options} = deleteOptions
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.options = options
@@ -86,11 +87,11 @@ class TrelloRequest {
    * The post and put set up an identical options object
    * based on the body property of the options.
    * @private
-   * @param {{path:string, body:string}} options 
+   * @param {{path:string, body:string}} options
    * @example setupPutPostOptions({path:string, body:object})
    */
   _setupPutPostOptions(options) {
-    tv.validateOptionsOrBody(options, tv.optionsBodyEnum.body)
+    tv.validateOptionsOrBody(options, OptionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.body = body
@@ -100,7 +101,7 @@ class TrelloRequest {
   /**
    * @typedef defaultRestOption {object}
    * @property {string} uri
-   * @property {tv.keyTokenType} qs
+   * @property {{key:string, token:string}} qs
    * @property {boolean} json
    * @property {boolean} resolveWithFullResponse
    * @property {string=} options
@@ -110,8 +111,8 @@ class TrelloRequest {
    * Set up the the most common set of options used by all verbs
    * Each function can override the ones that vary. For example the qs property
    * will get overwritten for get commands since options get added to the auth values
-   * @param {string} path 
-   * {{uri:string, qs:tv.keyTokenType, json:boolean, resolveWithFullResponse:boolean, options=:string, body=:any}}  
+   * @param {string} path
+   * {{uri:string, qs:tv.keyTokenType, json:boolean, resolveWithFullResponse:boolean, options=:string, body=:any}}
    * @returns {defaultRestOption}
    * @example setDefaultOption(path)
    */
@@ -123,7 +124,6 @@ class TrelloRequest {
       resolveWithFullResponse: this.doFullResponse,
     }
   }
-
 }
 
 module.exports = TrelloRequest

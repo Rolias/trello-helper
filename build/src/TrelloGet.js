@@ -6,7 +6,7 @@ class TrelloGet extends TrelloBase {
     }
     /**
      *
-     * @param {tv.listOrBoardType} param
+     * @param {object} param :IListOrBoardType
      * @param {string} idType listId or boardId
      */
     static validateIdAndOptions(param, idType) {
@@ -18,7 +18,7 @@ class TrelloGet extends TrelloBase {
    * then extract the id
    * then make a call to get the command with the id
    * then go the get
-   * @param {tv.listOrBoardType} param
+   * @param {object} param:IListOrBoardType
    * @param {string} idType 'listId' or 'boardId'
    * @param {*} commandFunc a function(id) that returns a command string
    */
@@ -56,7 +56,7 @@ class TrelloGet extends TrelloBase {
         options.limit = options.limit || 1000;
         return this.get({ path, options });
     }
-    // ========================= Custom Field Setters/Getters =====================  
+    // ========================= Custom Field Setters/Getters =====================
     /**
      * Get the array of custom field items on the card.
      * @param {object} param
@@ -94,7 +94,7 @@ class TrelloGet extends TrelloBase {
      * Calls to retrieve archived cards from lists or boards use the same "recipe"
      * i.e. series of steps in a particular sequence. This recipe executes those
      * calls
-     * @param {tv.listOrBoardType} param can have any other additional properties
+     * @param {object} param :IListOrBoardType can have any other additional properties
      * @param {string} idType  only expecting 'listId' and 'boardId'
      * @param {*} func
      */

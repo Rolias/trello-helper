@@ -1,5 +1,6 @@
 const rpn = require('request-promise-native');
 const tv = require('./typeValidate');
+const { OptionsBodyEnum } = require('./Interfaces');
 class TrelloRequest {
     /** @param {{key:string,token:string}} keyTokenPair  */
     constructor(keyTokenPair) {
@@ -33,7 +34,7 @@ class TrelloRequest {
      * @example get(path:'/1/lists/123',options:{limit:10})
      */
     get(getOptions) {
-        tv.validateOptionsOrBody(getOptions, tv.optionsBodyEnum.options);
+        tv.validateOptionsOrBody(getOptions, OptionsBodyEnum.options);
         const { path, options } = getOptions;
         const rpnOptions = this.setupDefaultOption(path);
         const auth = this._getAuthObj();
@@ -68,7 +69,7 @@ class TrelloRequest {
      * @example delete(path:'/1/cards/<id>' ,options:{})
      */
     delete(deleteOptions) {
-        tv.validateOptionsOrBody(deleteOptions, tv.optionsBodyEnum.options);
+        tv.validateOptionsOrBody(deleteOptions, OptionsBodyEnum.options);
         const { path, options } = deleteOptions;
         const rpnOptions = this.setupDefaultOption(path);
         rpnOptions.options = options;
@@ -82,7 +83,7 @@ class TrelloRequest {
      * @example setupPutPostOptions({path:string, body:object})
      */
     _setupPutPostOptions(options) {
-        tv.validateOptionsOrBody(options, tv.optionsBodyEnum.body);
+        tv.validateOptionsOrBody(options, OptionsBodyEnum.body);
         const { path, body } = options;
         const rpnOptions = this.setupDefaultOption(path);
         rpnOptions.body = body;
@@ -91,7 +92,7 @@ class TrelloRequest {
     /**
      * @typedef defaultRestOption {object}
      * @property {string} uri
-     * @property {tv.keyTokenType} qs
+     * @property {{key:string, token:string}} qs
      * @property {boolean} json
      * @property {boolean} resolveWithFullResponse
      * @property {string=} options

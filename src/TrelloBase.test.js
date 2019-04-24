@@ -1,5 +1,5 @@
 const chai = require('chai')
- chai.should()
+chai.should()
 const sinon = require('sinon')
 const sandbox = sinon.createSandbox()
 const TrelloBase = require('./TrelloBase')
@@ -50,10 +50,4 @@ describe('TrelloBase Unit Tests', () => {
         error.message.should.equal('Unexpected type for test operation:invalid')
       })
   })
-
-
-  it('force failure', () => {
-    true.should.be.false
-  })
-
 })

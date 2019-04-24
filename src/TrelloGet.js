@@ -7,9 +7,9 @@ class TrelloGet extends TrelloBase {
   }
 
   /**
-   * 
-   * @param {tv.listOrBoardType} param 
-   * @param {string} idType listId or boardId 
+   *
+   * @param {object} param :IListOrBoardType
+   * @param {string} idType listId or boardId
    */
   static validateIdAndOptions(param, idType) {
     tv.validate({obj: param, reqKeys: [idType, 'options']})
@@ -21,8 +21,8 @@ class TrelloGet extends TrelloBase {
  * then extract the id
  * then make a call to get the command with the id
  * then go the get
- * @param {tv.listOrBoardType} param   
- * @param {string} idType 'listId' or 'boardId' 
+ * @param {object} param:IListOrBoardType
+ * @param {string} idType 'listId' or 'boardId'
  * @param {*} commandFunc a function(id) that returns a command string
  */
   getCardsRecipe(param, idType, commandFunc) {
@@ -62,10 +62,10 @@ class TrelloGet extends TrelloBase {
     return this.get({path, options})
   }
 
-  // ========================= Custom Field Setters/Getters =====================  
+  // ========================= Custom Field Setters/Getters =====================
   /**
    * Get the array of custom field items on the card.
-   * @param {object} param 
+   * @param {object} param
    * @param {string} param.cardId
    * @returns {Promise<Array<object>>}
    */
@@ -76,8 +76,8 @@ class TrelloGet extends TrelloBase {
 
   /**
    * Get all cards on the passed list
-   * @param {object} param  
-   * @param {string} param.listId 
+   * @param {object} param
+   * @param {string} param.listId
    * @param {object} param.options
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({listId:'123',options:{customFieldItems:true}})
@@ -91,7 +91,7 @@ class TrelloGet extends TrelloBase {
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
    * fields:'name,desc'
-   * @param {object} param 
+   * @param {object} param
    * @param {string} param.boardId
    * @param {object} param.options
    * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
@@ -104,9 +104,9 @@ class TrelloGet extends TrelloBase {
    * Calls to retrieve archived cards from lists or boards use the same "recipe"
    * i.e. series of steps in a particular sequence. This recipe executes those
    * calls
-   * @param {tv.listOrBoardType} param can have any other additional properties 
+   * @param {object} param :IListOrBoardType can have any other additional properties
    * @param {string} idType  only expecting 'listId' and 'boardId'
-   * @param {*} func 
+   * @param {*} func
    */
   async getArchivedCardsRecipe(param, idType, func) {
     tv.validateOptions(param)
@@ -117,7 +117,7 @@ class TrelloGet extends TrelloBase {
 
   /**
    * Get all cards that are archived for the passed List
-   * @param {object} param 
+   * @param {object} param
    * @param {string} param.listId
    * @param {object} param.options
    * @returns {Promise<Array.<Object>>} returns Promise to array of cards
@@ -129,7 +129,7 @@ class TrelloGet extends TrelloBase {
 
   /**
  * Get all cards that are archived for the board
- * @param {{boardId:string, options:object}} param 
+ * @param {{boardId:string, options:object}} param
  * @returns {Promise<Array.<Object>>} returns Promise to array of cards
  * @example getArchivedCards({boardId:'123',listId'456'})
  */
@@ -143,7 +143,7 @@ class TrelloGet extends TrelloBase {
 
   /**
    * Find the boardId for the given listID
-   * @param {object} param 
+   * @param {object} param
    * @param {string} param.listId
    */
   async getBoardIdFromListId(param) {
@@ -155,7 +155,7 @@ class TrelloGet extends TrelloBase {
 
   /**
    * Get all the members on the passed board
-   * @param {object} param 
+   * @param {object} param
    * @param {string} param.boardId
    * @returns {Promise<Array<{id:string, fullName:string, username:string}>>}
    */
@@ -165,7 +165,6 @@ class TrelloGet extends TrelloBase {
     const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/members`
     return this.get({path, options: {}})
   }
-
 }
 
 module.exports = TrelloGet

@@ -1,10 +1,10 @@
-const chai = require('chai')
+import * as chai from 'chai'
 chai.should()
-const sinon = require('sinon')
+import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
 // const TrelloRequest = require('./trelloRequest')
-const rpn = require('request-promise-native')
-const TrelloRequest = require('./TrelloRequest')
+import * as rpn from 'request-promise-native'
+import TrelloRequest from './TrelloRequest'
 const fakeCreds = {key: '123', token: 'token'}
 const trelloRequest = new TrelloRequest(fakeCreds)
 

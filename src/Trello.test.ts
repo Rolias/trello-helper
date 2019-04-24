@@ -1,12 +1,13 @@
-const chai = require('chai')
+import * as chai from 'chai'
 chai.should()
 const moment = require('moment')
-const TrelloRequest = require('./TrelloRequest')
+import TrelloRequest from'./TrelloRequest'
 
-const sinon = require('sinon')
+import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
-const Trello = require('./Trello')
-const {logger} = require('./util/logger')
+import Trello from'./Trello'
+import {logger} from './util/logger'
+import { CustomFieldType } from './Interfaces';
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'
 const FAKE_COMMENT = 'Message for Comment'
@@ -122,13 +123,13 @@ describe('trello class UNIT TESTS', () => {
           .returns(Promise.resolve(resolveEmptyObj))
       })
       describe('setCustomFieldValueOnCard()', () => {
-        const fieldType = Trello.customFieldType
+       
         let customFieldObj = {
           cardFieldObj: {
             cardId: FAKE_ID,
             fieldId: FAKE_ID,
           },
-          type: fieldType.text,
+          type: CustomFieldType.text,
           value: 'A value for custom text field',
         }
         const resetObj = {...customFieldObj}
@@ -154,7 +155,7 @@ describe('trello class UNIT TESTS', () => {
         })
 
         it(' should set an idValue for a list type field', async () => {
-          customFieldObj.type = Trello.customFieldType.list
+          customFieldObj.type = CustomFieldType.list
           customFieldObj.value = FAKE_ID
           await trello.setCustomFieldValueOnCard(customFieldObj)
           putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true

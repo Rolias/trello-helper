@@ -1,10 +1,10 @@
-const chai = require('chai')
+import * as chai from 'chai'
 chai.should()
-const sinon = require('sinon')
+import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
-const TrelloBase = require('./TrelloBase')
-const TrelloGet = require('./TrelloGet')
-const TrelloRequest = require('./TrelloRequest')
+import TrelloBase from './TrelloBase'
+import TrelloGet from './TrelloGet'
+import TrelloRequest from './TrelloRequest'
 const FAKE_ID = '12345'
 
 const {match} = sinon

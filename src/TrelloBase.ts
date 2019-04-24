@@ -1,13 +1,17 @@
-const tv = require('./typeValidate')
-const TrelloRequest = require('./TrelloRequest')
-const envCreate = require('env-create')
-const {logger} = require('./util/logger')
-const utils = require('./util/utils')
+import {RestCommands} from './Interfaces'
+
+import * as tv  from  './typeValidate'
+import TrelloRequest  from './TrelloRequest'
+import * as envCreate  from 'env-create'
+import {logger} from './util/logger'
+import * as utils from './util/utils'
 // import {ICardFieldType} from './Interfaces'
 
-class TrelloBase {
-  constructor(pathString) {
-    const param = {}
+export default class TrelloBase {
+  trelloRequest: TrelloRequest;
+  retryCounter: number;
+  constructor(pathString:string) {
+    const param = {path:''}
     if (pathString !== undefined) {
       param.path = pathString
     }
@@ -98,10 +102,10 @@ class TrelloBase {
   async putOrPost(pathOptions, op) {
     const options = this.createBodyOptions(pathOptions)
     switch (op) {
-      case TrelloBase.restCommands.put:
+      case RestCommands.put:
         return await this.trelloRequest.put(options)
 
-      case TrelloBase.restCommands.post:
+      case RestCommands.post:
         return await this.trelloRequest.post(options)
 
       default:
@@ -116,7 +120,7 @@ class TrelloBase {
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   async put(pathOptions) {
-    return await this.putOrPost(pathOptions, TrelloBase.restCommands.put)
+    return await this.putOrPost(pathOptions, RestCommands.put)
     // const putOptions = this.createBodyOptions(pathOptions)
     // return await this.trelloRequest.put(putOptions)
   }
@@ -130,7 +134,7 @@ class TrelloBase {
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   async post(pathOptions) {
-    return await this.putOrPost(pathOptions, TrelloBase.restCommands.post)
+    return await this.putOrPost(pathOptions, RestCommands.post)
     // const postOptions = this.createBodyOptions(pathOptions)
     // return await this.trelloRequest.post(postOptions)
   }
@@ -200,27 +204,27 @@ class TrelloBase {
   }
 }
 
-/**
- *  A static helper enumeration so users don't have to hard code magic strings
- * @static
-*/
-TrelloBase.customFieldType = {
-  /** @type {string} */
-  list: 'list', // this one gets special handling
-  text: 'text',
-  number: 'number', // still takes a string as a value
-  date: 'date', // also takes a string
-  checkbox: 'checked', // takes a string of 'true' or 'false'
-}
+// /**
+//  *  A static helper enumeration so users don't have to hard code magic strings
+//  * @static
+// */
+// TrelloBase.customFieldType = {
+//   /** @type {string} */
+//   list: 'list', // this one gets special handling
+//   text: 'text',
+//   number: 'number', // still takes a string as a value
+//   date: 'date', // also takes a string
+//   checkbox: 'checked', // takes a string of 'true' or 'false'
+// }
 
-/**
- *@static
- */
-TrelloBase.restCommands = {
-  delete: 'delete',
-  get: 'get',
-  post: 'post',
-  put: 'put',
-}
+// /**
+//  *@static
+//  */
+// TrelloBase.restCommands = {
+//   delete: 'delete',
+//   get: 'get',
+//   post: 'post',
+//   put: 'put',
+// }
 
-module.exports = TrelloBase
+// module.exports = TrelloBase

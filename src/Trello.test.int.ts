@@ -1,11 +1,13 @@
 /* eslint-disable prefer-arrow-callback */
 // @ts-check
-const chai = require('chai')
+import * as chai from 'chai'
 const should = chai.should()
-const Trello = require('./Trello')
-const {logger} = require('./util/logger')
+import Trello from './Trello'
+import  {logger} from './util/logger'
 // @ts-ignore
-const testData = require('./test-data/integration.json')
+import  testData  from './test-data/integration.json'
+import { CustomFieldType } from './Interfaces'
+
 const BOARD_ID = testData.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
 const LIST_ID = testData.ids.list
 const ARCHIVE_LIST_ID = testData.ids.archiveList
@@ -220,7 +222,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom text field', async () => {
     const fieldId = CUSTOM_FIELD_TEXT
     const cardId = CARD_ID
-    const type = Trello.customFieldType.text
+    const type = CustomFieldType.text
     const value = 'Tod Gentille'
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })
@@ -228,7 +230,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom list field', async () => {
     const fieldId = CUSTOM_FIELD_LIST
     const cardId = CARD_ID
-    const type = Trello.customFieldType.list
+    const type = CustomFieldType.list
     const value = CUSTOM_FIELD_LIST_VALUE // low priority
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })

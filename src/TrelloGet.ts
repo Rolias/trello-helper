@@ -1,7 +1,7 @@
-const TrelloBase = require('./TrelloBase')
+import TrelloBase from './TrelloBase'
 const tv = require('./typeValidate')
 
-class TrelloGet extends TrelloBase {
+export default class TrelloGet extends TrelloBase {
   constructor(pathString) {
     super(pathString)
   }
@@ -166,5 +166,3 @@ class TrelloGet extends TrelloBase {
     return this.get({path, options: {}})
   }
 }
-
-module.exports = TrelloGet

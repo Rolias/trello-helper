@@ -1,8 +1,14 @@
-const rpn = require('request-promise-native')
-const tv = require('./typeValidate')
+import { IPathBodyType, IOptionsOrBodyType, IDefaultRestOption } from './Interfaces';
+
+import * as rpn from 'request-promise-native'
+import * as tv from './typeValidate'
 const {OptionsBodyEnum} = require('./Interfaces')
 
-class TrelloRequest {
+export default class TrelloRequest {
+  key: string
+  token: string
+  uri: string
+  doFullResponse: boolean
   /** @param {{key:string,token:string}} keyTokenPair  */
   constructor(keyTokenPair) {
     tv.validate({obj: keyTokenPair, reqKeys: ['key', 'token']})
@@ -90,7 +96,7 @@ class TrelloRequest {
    * @param {{path:string, body:string}} options
    * @example setupPutPostOptions({path:string, body:object})
    */
-  _setupPutPostOptions(options) {
+  _setupPutPostOptions(options:IPathBodyType) {
     tv.validateOptionsOrBody(options, OptionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)
@@ -116,7 +122,7 @@ class TrelloRequest {
    * @returns {defaultRestOption}
    * @example setDefaultOption(path)
    */
-  setupDefaultOption(path) {
+  setupDefaultOption(path:string):IDefaultRestOption {
     return {
       uri: `${this.uri}${path}`,
       qs: this._getAuthObj(),
@@ -125,5 +131,3 @@ class TrelloRequest {
     }
   }
 }
-
-module.exports = TrelloRequest

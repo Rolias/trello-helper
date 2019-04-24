@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
+    "outDir": "./build",
+    // "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "checkJs": true,
+    "allowJs": true,
+    "noUnusedLocals": true,
+    "target": "es2018",
+    "noImplicitAny": false,
+    "watch": false,
+    "strictNullChecks": false
+  },
+  "typedocOptions": {
+    "mode": "modules",
+    "out": "documentation"
+  },
+  "include": ["./**/*.*", "../tsconfig.json"]
+}

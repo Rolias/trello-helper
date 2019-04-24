@@ -279,7 +279,7 @@ class Trello extends TrelloGet {
   * Find any actions that are of type 'moveCardToBoard' and capture
   * the number found and the date of the first one found
   * @param {object[]} actions the action objects 
-  * @param {string} actions[].type
+
   * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType 
   * will have count of number of actions found. Date has date of first object found
   * @example getMoveCardToBoardInfo([{actionObjects}])

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    // "baseUrl": ".",
+    // "paths": { "*": ["types/*"] },
+    "outDir": "./build",
+    // "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "checkJs": true,
+    "allowJs": true,
+    "noUnusedLocals": false,
+    "target": "es2018",
+    "noImplicitAny": false,
+    "watch": true,
+    "strictNullChecks": false
+  },
+  // "typedocOptions": {
+  //   "mode": "modules",
+  //   "out": "documentation"
+  // },
+  "include": ["./**/*.*"]
+}

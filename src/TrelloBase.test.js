@@ -37,7 +37,9 @@ describe('TrelloBase Unit Tests', () => {
         console.log('caught', error)
       })
     getStub.callCount.should.be.gt(4)
+    // @ts-ignore
     TrelloBase.getRateLimitError.called.should.be.true
+    // @ts-ignore
     TrelloBase.getRateLimitDelayMs.called.should.be.true
   })
 

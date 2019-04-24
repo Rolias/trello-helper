@@ -39,7 +39,7 @@ class TrelloBase {
   static getListPrefixWithId(listId) {return `/1/lists/${listId}`}
   /** 
    * @param {string} listId 
-   * @return {string} '/1/lists/[listId]/cards */
+   * @return {string} '/1/lists/[listId]/cards' */
   static getListCardCmd(listId) {return `${TrelloBase.getListPrefixWithId(listId)}/cards`}
   /**
    * @param {string} boardId 

@@ -3,7 +3,7 @@
 const chai = require('chai')
 const should = chai.should()
 const Trello = require('./Trello')
-const logger = require('./util/logger')
+const {logger} = require('./util/logger')
 // @ts-ignore
 const testData = require('./test-data/integration.json')
 const BOARD_ID = testData.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
@@ -19,7 +19,6 @@ const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json
 
 
 describe('trello module INTEGRATION', function () {
-
   this.timeout(20000)
   before(() => {
     logger.level = 'info'
@@ -41,7 +40,6 @@ describe('trello module INTEGRATION', function () {
 
 
   describe('getCardsOnList() should', () => {
-
     it('process withOptions{} object', async () => {
       const result = await trello.getCardsOnList({
         listId: '5c4b6f254a94846d2f0c65df',
@@ -55,7 +53,6 @@ describe('trello module INTEGRATION', function () {
     })
 
     it('can get back customFieldItems', async () => {
-
       const result = await trello.getCardsOnList({
         listId: LIST_ID,
         options: {
@@ -153,7 +150,6 @@ describe('trello module INTEGRATION', function () {
         await trello.deleteCard({cardId: card.id})
       }
     })
-
   })
 
   describe('Archiving/Unarchiving', () => {
@@ -178,7 +174,6 @@ describe('trello module INTEGRATION', function () {
       const afterArchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
       afterArchive.length.should.equal(0)
     })
-
   })
 
 
@@ -236,7 +231,6 @@ describe('trello module INTEGRATION', function () {
     const type = Trello.customFieldType.list
     const value = CUSTOM_FIELD_LIST_VALUE // low priority
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
-
   })
 
   it('setClosedState ...', async () => {

@@ -3,12 +3,6 @@ import {IValidateType,
   IOptionsOrBodyType,
   IListOrBoardType} from './Interfaces'
 
-// export const optionsBodyEnum = {
-//   options: 'options',
-//   body: 'body',
-// }
-
-
 /**
  * @param {validateType} param
  */

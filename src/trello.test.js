@@ -6,7 +6,7 @@ const TrelloRequest = require('./TrelloRequest')
 const sinon = require('sinon')
 const sandbox = sinon.createSandbox()
 const Trello = require('./Trello')
-const logger = require('./util/logger')
+const {logger} = require('./util/logger')
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'
 const FAKE_COMMENT = 'Message for Comment'
@@ -26,7 +26,6 @@ const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idLis
 let putStub
 
 describe('trello class UNIT TESTS', () => {
-
   it('enableFullResponse() should change request to full', () => {
     trello.enableFullResponse(true)
     trello.isInFullResponseMode().should.be.true
@@ -73,7 +72,6 @@ describe('trello class UNIT TESTS', () => {
   })
 
   describe('trello functions that return card object resolve', () => {
-
     afterEach(() => {
       sandbox.restore()
     })
@@ -120,7 +118,7 @@ describe('trello class UNIT TESTS', () => {
       let putStub
       beforeEach(() => {
         putStub = sandbox.stub(TrelloRequest.prototype, 'put').returnsArg(0)
-          // @ts-ignore  
+          // @ts-ignore
           .returns(Promise.resolve(resolveEmptyObj))
       })
       describe('setCustomFieldValueOnCard()', () => {
@@ -163,11 +161,9 @@ describe('trello class UNIT TESTS', () => {
         })
       })
     })
-
   })
 
   describe('get functions that resolve and return array', () => {
-
     beforeEach(() => {
       sandbox.stub(TrelloRequest.prototype, 'get')
         // @ts-ignore
@@ -196,7 +192,6 @@ describe('trello class UNIT TESTS', () => {
         trello.getCardsOnList.calledWith(sinon.match.hasNested('options.since')).should.be.true
       })
     })
-
   })
 
 
@@ -244,7 +239,6 @@ describe('trello class UNIT TESTS', () => {
 
       it('have the expected path', async () => {
         putStub.calledWith(match({path: '/1/cards/12345'})).should.be.true
-
       })
       it('have an object of {filter:"all"}', async () => {
         putStub.calledWith(match.hasNested('body.dueComplete', true)).should.be.true
@@ -258,14 +252,11 @@ describe('trello class UNIT TESTS', () => {
       it('should have the expected path', () => {
         const expected = Trello.getCardPrefixWithId(FAKE_ID)
         putStub.calledWith(sinon.match.has('path', expected)).should.be.true
-
       })
       it('should get called with a body:{closed:true} nested property', () => {
         putStub.calledWith(sinon.match.hasNested('body.closed', true)).should.be.true
       })
     })
-
-
   })
 
   describe('post functions', () => {
@@ -379,7 +370,6 @@ describe('trello class UNIT TESTS', () => {
         // @ts-ignore
         .returns(Promise.resolve(resolveArrayAsJson))
       putStub = sandbox.stub(TrelloRequest.prototype, 'put')
-
     })
     afterEach(() => {
       sandbox.restore()
@@ -443,9 +433,5 @@ describe('trello class UNIT TESTS', () => {
       result.length.should.equal(1)
       result[0].type.should.equal(moveCardToBoardType)
     })
-
-
   })
-
-
 })

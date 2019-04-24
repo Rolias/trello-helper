@@ -1,7 +1,7 @@
 const tv = require('./typeValidate')
 const TrelloRequest = require('./TrelloRequest')
 const envCreate = require('env-create')
-const logger = require('./util/logger')
+const {logger} = require('./util/logger')
 const utils = require('./util/utils')
 // import {ICardFieldType} from './Interfaces'
 
@@ -98,14 +98,14 @@ class TrelloBase {
   async putOrPost(pathOptions, op) {
     const options = this.createBodyOptions(pathOptions)
     switch (op) {
-    case TrelloBase.restCommands.put:
-      return await this.trelloRequest.put(options)
+      case TrelloBase.restCommands.put:
+        return await this.trelloRequest.put(options)
 
-    case TrelloBase.restCommands.post:
-      return await this.trelloRequest.post(options)
+      case TrelloBase.restCommands.post:
+        return await this.trelloRequest.post(options)
 
-    default:
-      throw new TypeError(`Unexpected type for test operation:${op}`)
+      default:
+        throw new TypeError(`Unexpected type for test operation:${op}`)
     }
   }
   /** wrap the underlying makeRequest for put

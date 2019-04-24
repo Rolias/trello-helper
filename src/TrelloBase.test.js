@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const sandbox = sinon.createSandbox()
 const TrelloBase = require('./TrelloBase')
 const utils = require('./util/utils')
-const logger = require('./util/logger')
+const {logger} = require('./util/logger')
 
 const TrelloRequest = require('./TrelloRequest')
 const FAKE_ID = '12345'

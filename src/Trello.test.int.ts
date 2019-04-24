@@ -5,18 +5,18 @@ const should = chai.should()
 import Trello from './Trello'
 import  {logger} from './util/logger'
 // @ts-ignore
-import  testData  from './test-data/integration.json'
+import  {trelloTestIds}  from './test-data/integration'
 import { CustomFieldType } from './Interfaces'
 
-const BOARD_ID = testData.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
-const LIST_ID = testData.ids.list
-const ARCHIVE_LIST_ID = testData.ids.archiveList
-const CUSTOM_FIELD_TEXT = testData.ids.customFieldText
-const CUSTOM_FIELD_LIST = testData.ids.customFieldList
-const CUSTOM_FIELD_LIST_VALUE = testData.ids.customFieldListValue
+const BOARD_ID = trelloTestIds.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
+const LIST_ID = trelloTestIds.ids.list
+const ARCHIVE_LIST_ID = trelloTestIds.ids.archiveList
+const CUSTOM_FIELD_TEXT = trelloTestIds.ids.customFieldText
+const CUSTOM_FIELD_LIST = trelloTestIds.ids.customFieldList
+const CUSTOM_FIELD_LIST_VALUE = trelloTestIds.ids.customFieldListValue
 
-const CARD_ID = testData.ids.card
-const MEMBER_ID = testData.ids.member
+const CARD_ID = trelloTestIds.ids.card
+const MEMBER_ID = trelloTestIds.ids.member
 const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
 
 

@@ -1,4 +1,4 @@
-{
+const trelloTestIds= {
   "ids": {
     "board": "5c9a9d82c644b836cfbe9a85",
     "list": "5c9a9d8afcf46f3f1fdb6698",
@@ -11,3 +11,4 @@
   },
   "authPath": "/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json"
 }
+export {trelloTestIds}

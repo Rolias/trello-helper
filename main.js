@@ -1,2 +1,2 @@
-const Trello = require('./src/trello')
+const Trello = require('./src/Trello')
 module.exports = Trello

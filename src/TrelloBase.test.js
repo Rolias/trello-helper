@@ -1,5 +1,5 @@
 const chai = require('chai')
-const should = chai.should()
+ chai.should()
 const sinon = require('sinon')
 const sandbox = sinon.createSandbox()
 const TrelloBase = require('./TrelloBase')
@@ -9,7 +9,7 @@ const logger = require('./util/logger')
 const TrelloRequest = require('./TrelloRequest')
 const FAKE_ID = '12345'
 
-const {match} = sinon
+
 const trelloBase = new TrelloBase('./src/test-data/unit-test-fake-credentials.json')
 const status429 = {
 

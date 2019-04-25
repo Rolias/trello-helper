@@ -110,7 +110,7 @@ describe('Trello class UNIT TESTS', () => {
 
       describe('deleteCard()', () => {
         it('should get the proper path for deleting a card', async () => {
-          await trello.deleteCard({idCard: FAKE_ID})
+          await trello.deleteCard({cardId: FAKE_ID})
           const expected = Trello.getCardPrefixWithId(FAKE_ID)
           deleteStub.calledWith(match.has('path', expected))
         })

@@ -132,7 +132,7 @@ describe('trello module INTEGRATION', function () {
         result = await trello.addCard(param)
       })
       after(async () => {
-        await trello.deleteCard({idCard: result.id})
+        await trello.deleteCard({cardId: result.id})
       })
       it('should add a card with id specified', async () => {
         should.exist(result.id)
@@ -150,7 +150,7 @@ describe('trello module INTEGRATION', function () {
       const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {since: recent}})
       console.log('number found = ', result.length)
       for (const card of result) {
-        await trello.deleteCard({idCard: card.id})
+        await trello.deleteCard({cardId: card.id})
       }
     })
   })

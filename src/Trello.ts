@@ -158,9 +158,9 @@ export default class Trello extends TrelloGet {
   /**
    * Delete the card with the passed Id
    */
-  public deleteCard(param: {idCard: string}): IRestPromise {
-    tv.validate({obj: param, reqKeys: ['idCard']})
-    const path = TrelloBase.getCardPrefixWithId(param.idCard)
+  public deleteCard(param: {cardId: string}): IRestPromise {
+    tv.validate({obj: param, reqKeys: ['cardId']})
+    const path = TrelloBase.getCardPrefixWithId(param.cardId)
     return this.delete({path, options: {}})
   }
 

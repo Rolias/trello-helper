@@ -3,7 +3,7 @@ import { IListOptions, IListOrBoardType, IDictObj, ITrelloMemberData, IBoardOpti
 const tv = require('./typeValidate')
 
 export default class TrelloGet extends TrelloBase {
-  public constructor(pathString:string) {
+  public constructor(pathString?:string) {
     super(pathString)
   }
 

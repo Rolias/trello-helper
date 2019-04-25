@@ -10,7 +10,7 @@ import * as utils from './util/utils'
 export default class TrelloBase {
   trelloRequest: TrelloRequest;
   retryCounter: number;
-  constructor(pathString:string) {
+  constructor(pathString?:string) {
     const param = {path:''}
     if (pathString !== undefined) {
       param.path = pathString
@@ -21,7 +21,7 @@ export default class TrelloBase {
       logger.error(errorMsg)
       throw (errorMsg)
     }
-    const trelloAuth = JSON.parse(process.env.trelloHelper)
+    const trelloAuth :{appKey:string, token:string} = JSON.parse(process.env.trelloHelper as string)
     const {appKey: key, token} = trelloAuth
     this.trelloRequest = new TrelloRequest({key, token})
     this.retryCounter = 0

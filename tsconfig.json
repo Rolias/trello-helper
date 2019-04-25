@@ -15,7 +15,7 @@
     "target": "es2018",
     "noImplicitAny": true,
     "watch": true,
-    "strictNullChecks": false
+    "strictNullChecks": true
   },
   // "typedocOptions": {
   //   "mode": "modules",

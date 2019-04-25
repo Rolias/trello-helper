@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    // "experimentalDecorators": true,
     "paths": { "*": ["types/*"] },
     // "baseUrl": ".",
     // "paths": { "*": ["types/*"] },

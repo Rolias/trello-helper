@@ -1,6 +1,6 @@
 # Trello Helper - Simplifying the Trello API
 
-This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can often just set them to `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.  
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can often just set them to `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.
 
 [![NPM version](https://img.shields.io/npm/v/trello-helper.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper)
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
@@ -11,22 +11,22 @@ This project is designed to make using the Trello API a lot easier and to provid
 ## Example call to get cards on list with and without option property specified
 
 ```javascript
-getCardsOnlist({listId:'123', options:{limit:10}})
+getCardsOnlist({ listId: "123", options: { limit: 10 } });
 // or
-getCardsOnList({listId:'123', options:{}})
+getCardsOnList({ listId: "123", options: {} });
 ```
 
-Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands to the Trello API to take card of the authorization elements. But, it also exposes many higher-level  commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
+Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands to the Trello API to take card of the authorization elements. But, it also exposes many higher-level commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
 
 ## Table of Contents
 
-- [Installation](#installation)  
-- [Cheat Sheet](#cheat-sheet)  
-- [Contributing](#contributing)  
-- [Testing](#testing)  
-- [Integration Tests](#integration-tests)  
-- [Dependencies](#dependencies)  
-- [Available Functions and Documentation](#available-functions)  
+- [Installation](#installation)
+- [Cheat Sheet](#cheat-sheet)
+- [Contributing](#contributing)
+- [Testing](#testing)
+- [Integration Tests](#integration-tests)
+- [Dependencies](#dependencies)
+- [Available Functions and Documentation](#available-functions)
 
 ---
 
@@ -50,7 +50,7 @@ const mtbActions = trello.getActionsOnCard({listId:'123', filter:'moveToBoard'})
 const actions = trello.getActionsOnCard({cardId:'123'})
 // get all the custom field data for a card
 const cf = trello.getCustomFieldItemsOnCard({cardId:'123'})
-// set the value of a custom field  
+// set the value of a custom field
 trello.setCustomFieldValueOnCard({cardFieldObj:{
                                     {cardId:'123', fieldId:'456'},
                                   type:'text',
@@ -68,7 +68,7 @@ If you pass an empty string to the `Trello` constructor, it will look for your c
 }
 ```
 
-You can have other items in this file, but `trelloHelper` must be a top-level object in the file with the 'appKey' and 'token' property names. Of course, you must put in a valid app key and token strings for both properties.  
+You can have other items in this file, but `trelloHelper` must be a top-level object in the file with the 'appKey' and 'token' property names. Of course, you must put in a valid app key and token strings for both properties.
 
 ---
 
@@ -78,12 +78,9 @@ See the [Contributing](./CONTRIBUTING.md) file.
 
 ---
 
-
----
-
 ## Dependencies
 
-[winston](https://www.npmjs.com/package/winston)  logging tool  
+[winston](https://www.npmjs.com/package/winston) logging tool  
 [env-create](https://www.npmjs.com/package/env-create) reads a JSON file and turns top level elements into environment variables  
 [moment](https://www.npmjs.com/package/moment) flexible handling of JavaScript dates and times  
 [request](https://www.npmjs.com/package/request)
@@ -93,7 +90,8 @@ See the [Contributing](./CONTRIBUTING.md) file.
 
 ## Available Functions
 
-See the [GitHub documentation]( https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/documentation/module-src_trello-TrelloPlus.html) for the list of available functions and their signatures. Look for the example usage. The param section was optimized for code assistance and type script and it makes the JSDoc runner just show a type of `Object` even though the underlying comment spells out all the proper property names. I figured you'll use the code assist feature a lot more than the documentation but the @example tags do show all the property names.
+See the [GitHub documentation](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/documentation/module-src_trello-TrelloPlus.html) for the list of available functions and their signatures. Look for the example usage. The param section was optimized for code assistance and type script and it makes the JSDoc runner just show a type of `Object` even though the underlying comment spells out all the proper property names. I figured you'll use the code assist feature a lot more than the documentation but the @example tags do show all the property names.
 
 ---
+
 [back to top](#table-of-contents)

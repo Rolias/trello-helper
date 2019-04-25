@@ -56,10 +56,6 @@ export default class TrelloBase {
 
   /**
   * Wrap the underlying makeRequest for get
-  * @param {object} pathOptions technically an http path but to the Trello API its command
-  * @param {string} pathOptions.path
-  * @param {object} pathOptions.options
-  * @return {Promise<any>}
   * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
   public async get(pathOptions: IPathOptionsType): IRestPromise {
@@ -73,6 +69,9 @@ export default class TrelloBase {
           logger.error('Rate limit error - retrying...')
           await utils.delay(TrelloBase.getRateLimitDelayMs())
           await this.get(pathOptions)
+          // .catch((error): void => {
+          //   console.log(`Nested Catch ${JSON.stringify(error, null, 2)}`)
+          // })
         }
         else {
           throw error

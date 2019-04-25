@@ -118,6 +118,8 @@ export default class Trello extends TrelloGet {
 
   /**
    * Add the card to the specified list. Use name and  description
+   * Note that Trello expects an option with the key 'idList' whereas our
+   * code used listId when referencing a top level list in Trello.
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
   public addCard(options: {idList: string, name: string}): IRestPromise {
@@ -127,9 +129,6 @@ export default class Trello extends TrelloGet {
 
   /**
    * like addCard() but takes a comma separated list of memberIds
-   * @param {object} options
-   * @param {string} options.idList
-   * @param {string} options.idMembers comma separated list of memberIds
    */
   public addCardWithMembers(options: {idList: string, idMembers: string}): IRestPromise {
     tv.validate({obj: options, reqKeys: ['idList', 'idMembers']})
@@ -149,11 +148,6 @@ export default class Trello extends TrelloGet {
     tv.validate({obj: options, reqKeys: ['idList']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
-
-
-  // TODO change cardId to be idCard to be consistent with idList
-  // also avoids the problem of users typing cardID instead of cardId
-
 
   /**
    * Delete the card with the passed Id
@@ -222,8 +216,6 @@ export default class Trello extends TrelloGet {
   /**
   * Find any actions that are of type 'moveCardToBoard' and capture
   * the number found and the date of the first one found
-  * @param {object[]} actions the action objects
-  * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType
   * will have count of number of actions found. Date has date of first object found
   * @example getMoveCardToBoardInfo([{actionObjects}])
   */

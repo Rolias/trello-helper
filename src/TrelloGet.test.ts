@@ -5,15 +5,16 @@ const sandbox = sinon.createSandbox()
 import TrelloBase from './TrelloBase'
 import TrelloGet from './TrelloGet'
 import TrelloRequest from './TrelloRequest'
+import {pathToCreds} from './test-data/testDataConst'
 const FAKE_ID = '12345'
 
 const {match} = sinon
-const trelloGet = new TrelloGet('./src/test-data/unit-test-fake-credentials.json')
+const trelloGet = new TrelloGet(pathToCreds)
 
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 // let getStub
 describe('TrelloGet Unit Tests', () => {
-  let getStub
+  let getStub:sinon.SinonStub
   before(() => {
     getStub = sandbox.stub(TrelloRequest.prototype, 'get')
       // @ts-ignore

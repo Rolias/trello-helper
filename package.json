@@ -14,6 +14,7 @@
     "security-check": "npm audit",
     "lint": "esw src  --color",
     "lint:watch": "npm run lint -- --watch",
+    "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/test-data/",
     "test": "mocha --use_strict 'build/**/*.test.js' ",
     "test:int": "mocha  --no-opts --use_strict 'build/**/*.int.js' ",
     "test:watch": "npm run test  -- --watch --reporter min",

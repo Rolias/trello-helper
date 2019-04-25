@@ -1,10 +1,10 @@
-// @ts-check
 /** @module trello */
 import * as moment from 'moment'
 import TrelloGet from './TrelloGet'
 import TrelloBase from './TrelloBase'
 import * as tv from './typeValidate'
-import { CustomFieldType } from './Interfaces';
+import { CustomFieldType, IArchiveOffset, IDictObj, 
+  IActionFilterType, IRestPromise, ITrelloAction, ICardDueDateOffset, ICardMemberType, IListId, ICardId, ICustomFieldType } from './Interfaces';
 
 // I want the user to just have to import Trello but I wanted to make the code easier
 // to manage so I split it up into various classes which just extend each other
@@ -21,20 +21,14 @@ export default class Trello extends TrelloGet {
 
   /**
    * Set the value of a custom Field object
-   * @param {object} customFieldObj
-   * @param {object} customFieldObj.cardFieldObj
-   * @param {string} customFieldObj.cardFieldObj.cardId
-   * @param {string} customFieldObj.cardFieldObj.fieldId
-   * @param {string} customFieldObj.type see Interfaces.tx enum CustomFieldType for valid types
-   * @param {string} customFieldObj.value what goes in this custom field (for a list field it's the ID of the list item)
-   * @returns {{}} an empty object- oh well so much for testing
+      * @returns Promise<{}> an empty object- oh well so much for testing
    */
-  setCustomFieldValueOnCard(customFieldObj) {
+  setCustomFieldValueOnCard(customFieldObj:ICustomFieldType) :IRestPromise{
     tv.validate({obj: customFieldObj, reqKeys: ['cardFieldObj', 'type', 'value']})
     tv.validate({obj: customFieldObj.cardFieldObj, reqKeys: ['cardId', 'fieldId']})
 
     const path = TrelloBase.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
-    const valueObj :{idValue?:string, value?:object}= {}
+    const valueObj :{idValue?:string, value?:any}= {}
     const {type, value} = customFieldObj
     // a list takes a simple {idValue:'value'}
     if (type === CustomFieldType.list) {
@@ -49,13 +43,8 @@ export default class Trello extends TrelloGet {
 
   /**
    * Archive cards on list older than the passed relative date
-   * @param {object} param
-   * @param {string} param.listId
-   * @param {object} param.offset
-   * @param {moment.DurationInputArg1} param.offset.count
-   * @param {moment.DurationInputArg2} param.offset.units
    */
-  async archiveCardsOlderThan(param) {
+  async archiveCardsOlderThan(param:IArchiveOffset): Promise<any> {
     tv.validate({obj: param, reqKeys: ['listId', 'offset']})
     tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
     const {listId, offset} = param
@@ -65,7 +54,7 @@ export default class Trello extends TrelloGet {
 
     const allCards = await this.getCardsOnList({listId, options: {}})
     const newerCards = await this.getCardsOnList({listId, options: {since: cutoffDate}})
-    const olderCards = allCards.filter(card => !newerCards.includes(card))
+    const olderCards:IDictObj[] = allCards.filter(card => !newerCards.includes(card))
 
     for (const card of olderCards) {
       await this.archiveCard({cardId: card.id})
@@ -74,11 +63,8 @@ export default class Trello extends TrelloGet {
 
   /**
     * Archive the card with the passed ID
-    * @param {object} param
-    * @param {string} param.cardId
-    * @returns {Promise<object>}
     */
-  async archiveCard(param) {
+  async archiveCard(param:ICardId):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId']})
     const path = TrelloBase.getCardPrefixWithId(param.cardId)
     const options = {closed: true}
@@ -87,11 +73,8 @@ export default class Trello extends TrelloGet {
 
   /**
    * Archives all the cards on the passed list id
-   * @param {object} param
-   * @param {string} param.listId
-   * @returns {Promise<object>}
    */
-  async archiveAllCardsOnList(param) {
+  async archiveAllCardsOnList(param:IListId):IRestPromise {
     tv.validate({obj: param, reqKeys: ['listId']})
     const path = `${TrelloBase.getListPrefixWithId(param.listId)}/archiveAllCards`
     return this.post({path, options: {}})
@@ -99,11 +82,8 @@ export default class Trello extends TrelloGet {
 
   /**
     * Unarchive all the cards on a particular list (set closed state to false)
-    * @param {object} param
-    * @param {string} param.listId
-    * @returns {Promise}
     */
-  async unarchiveAllCardsOnList(param) {
+  async unarchiveAllCardsOnList(param:IListId): Promise<any> {
     tv.validate({obj: param, reqKeys: ['listId']})
     const {listId} = param
     const archivedCards = await this.getArchivedCardsOnList({listId, options: {fields: 'name'}})
@@ -116,13 +96,10 @@ export default class Trello extends TrelloGet {
   /**
    * Set the due date on card as complete when isComplete:true or clear it if
    * isComplete:false
-   * @param {object} param
-   * @param {string} param.cardId
-   * @param {boolean} param.isComplete
    * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example setDueComplete({id:'123', isComplete:true})
    */
-  setDueComplete(param) {
+  setDueComplete(param:{cardId:string, isComplete:boolean}):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'isComplete']})
     const path = TrelloBase.getCardPrefixWithId(param.cardId)
     const options = {dueComplete: param.isComplete}
@@ -135,7 +112,7 @@ export default class Trello extends TrelloGet {
    * @param {string} param.cardId
    * @param {boolean} param.isClosed
    */
-  setClosedState(param) {
+  setClosedState(param:{cardId:string, isClosed:boolean}):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'isClosed']})
     const {cardId, isClosed} = param
     const path = TrelloBase.getCardPrefixWithId(cardId)
@@ -145,15 +122,10 @@ export default class Trello extends TrelloGet {
 
   /**
    * Add the card to the specified list. Use name and  description
-   * @param {object} options
-   * @param {string} options.idList
-   * @param {string} options.name
-   * @param {string} options.desc
-   * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
-  addCard(options) {
-    tv.validate({obj: options, reqKeys: ['idList', 'name', 'desc']})
+  addCard(options:{idList:string, name:string}): IRestPromise {
+    tv.validate({obj: options, reqKeys: ['idList', 'name']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 
@@ -161,11 +133,9 @@ export default class Trello extends TrelloGet {
    * like addCard() but takes a comma separated list of memberIds
    * @param {object} options
    * @param {string} options.idList
-   * @param {string=} options.name
-   * @param {string=} options.desc
    * @param {string} options.idMembers comma separated list of memberIds
    */
-  addCardWithMembers(options) {
+  addCardWithMembers(options:{idList:string, idMembers:string}):IRestPromise {
     tv.validate({obj: options, reqKeys: ['idList', 'idMembers']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
@@ -177,22 +147,22 @@ export default class Trello extends TrelloGet {
    * User is responsible for knowing the names of the api query params
    * idList had a red asterisk in docs so I'm assuming that means it's required
    * https://developers.trello.com/reference/#cardsid-1
-   * @param {object} options
-   * @param {string} options.idList
-   * @param {string=}options.idMembers comma separate list of memberIds
    * @example addCardWithAnything({idList:123,name:'card name', idMembers:'1,2,3'})
    */
-  addCardWithAnything(options) {
+  addCardWithAnything(options:{idList:string, [key: string]: any}) {
     tv.validate({obj: options, reqKeys: ['idList']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
 
+
+    // TODO change cardId to be idCard to be consistent with idList
+  // also avoids the problem of users typing cardID instead of cardId
+
+
   /**
    * Delete the card with the passed Id
-   * @param {object} param  pass in object with id of the card
-   * @param {string} param.cardId
    */
-  deleteCard(param) {
+  deleteCard(param:{cardId:string}):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId']})
     const path = TrelloBase.getCardPrefixWithId(param.cardId)
     return this.delete({path, options: {}})
@@ -200,13 +170,9 @@ export default class Trello extends TrelloGet {
 
   /**
    * Add a comment to the card
-   * @param {object} param
-   * @param {string} param.cardId id of the card
-   * @param {string} param.text text for the comment
-   * @returns {Promise<Object<string,any>>} a Promise of a card object
    * @example addCommentOnCard({cardId:'123',text:"message for comment"})
    */
-  addCommentOnCard(param) {
+  addCommentOnCard(param:{cardId:string, text:string}):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'text']})
     const path = `${TrelloBase.getCardPrefixWithId(param.cardId)}/actions/comments`
     const {text} = param
@@ -215,11 +181,8 @@ export default class Trello extends TrelloGet {
 
   /**
    * Add a member to a card using the member's id
-   * @param {object} param
-   * @param {string} param.cardId
-   * @param {string} param.memberId
    */
-  addMemberToCard(param) {
+  addMemberToCard(param:ICardMemberType):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
     const path = `${TrelloBase.getCardPrefixWithId(cardId)}/members`
@@ -228,11 +191,8 @@ export default class Trello extends TrelloGet {
 
   /**
    * Remove member from the card
-   * @param {object} param
-   * @param {string} param.cardId
-   * @param {string} param.memberId
    */
-  removeMemberFromCard(param) {
+  removeMemberFromCard(param:ICardMemberType): IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
     const path = `${TrelloBase.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
@@ -241,21 +201,16 @@ export default class Trello extends TrelloGet {
 
   /**
    * Add due date to a card using a relative offset
-   * @param {object} param
-   * @param {string} param.cardId
-   * @param {object} param.offset
-   * @param {moment.DurationInputArg1} param.offset.count
-   * @param {moment.DurationInputArg2} param.offset.units e.g. `days, months, years, quarters, hours, minutes`
    * @returns {Promise<Object<string,any>>} a Promise of a card object - card will updated due date
    * @example await addDueDateToCardByOffset({
         id: FAKE_ID,
         offset: {count: 7, units: 'days'},
       })
    */
-  addDueDateToCardByOffset(param) {
+  addDueDateToCardByOffset(param:ICardDueDateOffset):IRestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'offset']})
     tv.validate({obj: param.offset, reqKeys: ['count', 'units']})
-    // @ts-ignore
+
     const dueDate = moment().add(param.offset.count, param.offset.units)
     const path = TrelloBase.getCardDueCmd(param.cardId)
     return this.put({path, options: {value: dueDate.format()}})
@@ -270,21 +225,20 @@ export default class Trello extends TrelloGet {
  * @returns {Array<Object<string,any>>} - array of matching actions
  * @usage filterActionsByType({actions:[], filterType:'updateCard'})
  */
-  static filterActionsByType(param) {
+  static filterActionsByType(param: IActionFilterType): IDictObj[] {
     tv.validate({obj: param, reqKeys: ['actions', 'filterType']})
-    return param.actions.filter(e => e.type === param.filterType)
+    return param.actions.filter((e:{type:string}):boolean => e.type === param.filterType)
   }
 
   /**
   * Find any actions that are of type 'moveCardToBoard' and capture
   * the number found and the date of the first one found
   * @param {object[]} actions the action objects
-
   * @returns {Array.<Object<string,any>>} array of actions of the moveCardToBoardType
   * will have count of number of actions found. Date has date of first object found
   * @example getMoveCardToBoardInfo([{actionObjects}])
   */
-  static getMoveCardToBoardActions(actions) {
+  static getMoveCardToBoardActions(actions: ITrelloAction[]): IDictObj[] {
     return Trello.filterActionsByType({actions, filterType: 'moveCardToBoard'})
   }
 }

@@ -1,13 +1,18 @@
+import * as moment from 'moment'
+
 export interface IDictObj{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
 
 export interface IOptions{
-  options: string
+  options: IDictObj
 }
-export interface ICardFieldType{
-  cardId: string
+
+export interface ICardId{
+  cardId:string
+}
+export interface ICardFieldType extends ICardId{
   fieldId: string
 }
 
@@ -28,17 +33,20 @@ export interface IPathOptionsType extends IOptions{
 
 export interface IPathBodyType {
   path: string
-  body: string
+  body: IDictObj
 }
 
 export type IOptionsOrBodyType = IPathOptionsType | IPathBodyType
 
-export interface ICardParam extends IOptions{
+export interface ICardOptionsType extends IOptions{
   cardId: string
 }
 
-export interface IActionFilterType{
-  actions: IDictObj[]
+export interface ITrelloAction {
+ type: string
+}
+export interface IActionFilterType {
+  actions: ITrelloAction[]
   filterType: string
 }
 
@@ -47,23 +55,24 @@ export interface IActionFilterListType{
   filterList: string
 }
 
-export interface IHttpCommandType extends IOptions{
+export interface IHttpCommandType {
   cmd: string
+  options: string
 }
 
 export interface IOptionsBodyType{
   options: string
   body: string
 }
-export interface IBoardOptions{
+export interface IBoardOptions extends IOptions, IDictObj{
   boardId: string
-  options: string
 }
 
-export interface IListOptions{
-  listId: string
-  options: string
+export interface IListId{
+  listId:string
 }
+
+export type IListOptions =IListId & IOptions & IDictObj
 
 export interface IValidateType{
   obj: object
@@ -77,9 +86,49 @@ export interface IDefaultRestOption{
   qs: IKeyTokenType
   json: boolean
   resolveWithFullResponse: boolean
-  options?: string
-  body?: string
+  options?: IDictObj
+  body?: IDictObj
 }
+
+export interface IArchiveOffset{
+  listId: string,
+  offset:{
+    count: moment.DurationInputArg1,
+    units: moment.DurationInputArg2,
+  }
+}
+
+export interface ICardDueDateOffset{
+  cardId: string
+  offset :{
+    count: moment.DurationInputArg1
+    units: moment.DurationInputArg2 // e.g. `days, months, years, quarters, hours, minutes`
+  }
+}
+
+export interface ICardMemberType{
+  cardId:string
+  memberId: string
+}
+
+export interface ITrelloMemberData{
+  id: string,
+  fullName: string, 
+  username: string,
+}
+
+export interface ITrelloListBefore{
+  actions :
+    {
+      data:{
+        listBefore:string
+      }
+    }[]
+  ,
+  filterList:string
+}
+export type ITrelloPromise = Promise<IDictObj[]>
+export type IRestPromise = Promise<any>
 
 export enum OptionsBodyEnum {
   options = 'options',

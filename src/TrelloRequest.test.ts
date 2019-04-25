@@ -15,7 +15,7 @@ const {match} = sinon
 describe('TrelloRequest Unit Tests', () => {
 
   describe('get() should', () => {
-    let getStub
+    let getStub: sinon.SinonStub
     before(async () => {
       getStub = sandbox.stub(rpn, 'get').resolves()
       await trelloRequest.get({path: TEST_PATH, options: {limit: 10}})
@@ -41,7 +41,7 @@ describe('TrelloRequest Unit Tests', () => {
   })
 
   describe('put() should', () => {
-    let putStub
+    let putStub: sinon.SinonStub
     before(async () => {
       putStub = sandbox.stub(rpn, 'put').resolves()
       await trelloRequest.put({path: TEST_PATH, body: {fields: 'name'}})
@@ -58,7 +58,7 @@ describe('TrelloRequest Unit Tests', () => {
   })
 
   describe('post() should', () => {
-    let postStub
+    let postStub: sinon.SinonStub
 
     before(async () => {
       // @ts-ignore
@@ -78,7 +78,7 @@ describe('TrelloRequest Unit Tests', () => {
   })
 
   describe('delete() should', () => {
-    let deleteStub
+    let deleteStub :sinon.SinonStub
     before(async () => {
       // @ts-ignore
       deleteStub = sandbox.stub(rpn, 'delete').returns(Promise.resolve('delete done'))

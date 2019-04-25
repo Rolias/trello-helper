@@ -6,7 +6,7 @@ import Trello from './Trello'
 import  {logger} from './util/logger'
 // @ts-ignore
 import  {trelloTestIds}  from './test-data/integration'
-import { CustomFieldType } from './Interfaces'
+import { CustomFieldType, IDictObj, ITrelloAction } from './Interfaces'
 
 const BOARD_ID = trelloTestIds.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
 const LIST_ID = trelloTestIds.ids.list
@@ -36,7 +36,7 @@ describe('trello module INTEGRATION', function () {
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
     const actions = await trello.getActionsOnCard({cardId: CARD_ID, options: {filter: 'moveCardToBoard'}})
-    const result = await Trello.getMoveCardToBoardActions(actions)
+    const result = await Trello.getMoveCardToBoardActions(actions as ITrelloAction[])
     result.length.should.be.gt(0)
   })
 
@@ -93,7 +93,7 @@ describe('trello module INTEGRATION', function () {
   // })
 
   describe('getArchivedCardsOnBoard()', () => {
-    let archiveResult
+    let archiveResult:IDictObj
     beforeEach(async () => {
       // FRAGILE - board must have one archived card
       archiveResult = await trello.getArchivedCardsOnBoard({
@@ -105,7 +105,7 @@ describe('trello module INTEGRATION', function () {
       archiveResult.length.should.be.gt(0)
     })
     it('should show that every returned card is closed', () => {
-      archiveResult.every(e => e.closed).should.be.true
+      archiveResult.every((e:{closed:boolean}) => e.closed).should.be.true
     })
   })
 
@@ -125,7 +125,7 @@ describe('trello module INTEGRATION', function () {
     }
 
     describe('addCard()', () => {
-      let result
+      let result :IDictObj
       before(async () => {
         result = await trello.addCard(param)
       })

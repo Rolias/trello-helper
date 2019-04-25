@@ -1,4 +1,4 @@
-import {RestCommands} from './Interfaces'
+import {RestCommands, IPathOptionsType, IDictObj, IValidateType, ITrelloListBefore, IPathBodyType, IRestPromise, ICardFieldType} from './Interfaces'
 
 import * as tv  from  './typeValidate'
 import TrelloRequest  from './TrelloRequest'
@@ -27,31 +27,26 @@ export default class TrelloBase {
     this.retryCounter = 0
   }
   /** @return {string} '/1/cards'  */
-  static getBaseCardCmd() {return '/1/cards'}
+  static getBaseCardCmd():string {return '/1/cards'}
 
   /**
-   * @param {string} cardId
    * @return {string} '/1/cards/[cardId]' */
-  static getCardPrefixWithId(cardId) {return `${TrelloBase.getBaseCardCmd()}/${cardId}`}
+  static getCardPrefixWithId(cardId:string):string {return `${TrelloBase.getBaseCardCmd()}/${cardId}`}
   /**
-   * @param {string} cardId
    * @return {string} '/1/cards/[cardId]/due' */
-  static getCardDueCmd(cardId) {return `${TrelloBase.getCardPrefixWithId(cardId)}/due`}
+  static getCardDueCmd(cardId:string):string {return `${TrelloBase.getCardPrefixWithId(cardId)}/due`}
   /**
-   * @param {string} listId
    * @return {string} '/1/lists/[listId]' */
-  static getListPrefixWithId(listId) {return `/1/lists/${listId}`}
+  static getListPrefixWithId(listId:string):string {return `/1/lists/${listId}`}
   /**
-   * @param {string} listId
+
    * @return {string} '/1/lists/[listId]/cards' */
-  static getListCardCmd(listId) {return `${TrelloBase.getListPrefixWithId(listId)}/cards`}
+  static getListCardCmd(listId:string):string {return `${TrelloBase.getListPrefixWithId(listId)}/cards`}
   /**
-   * @param {string} boardId
    * @return {string} '/1/boards/[boardId]' */
-  static getBoardPrefixWithId(boardId) {return `/1/board/${boardId}`}
-  static getCardsOnBoardWithId(boardId) {return `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`}
-  /** @param {{cardId:string, fieldId:string}}  cfp - the Card Field Parameter*/
-  static getCustomFieldUpdateCmd(cfp) {
+  static getBoardPrefixWithId(boardId:string):string {return `/1/board/${boardId}`}
+  static getCardsOnBoardWithId(boardId:string):string {return `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`}
+  static getCustomFieldUpdateCmd(cfp:ICardFieldType):string {
     tv.validate({obj: cfp, reqKeys: ['cardId', 'fieldId']})
     return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`
   }
@@ -64,7 +59,7 @@ export default class TrelloBase {
   * @return {Promise<any>}
   * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
-  async get(pathOptions) {
+  async get(pathOptions:IPathOptionsType):Promise<IDictObj[]> {
     tv.validatePathOptions(pathOptions)
     const responseStr = await this.trelloRequest.get(pathOptions)
       .catch(async error => {
@@ -74,7 +69,7 @@ export default class TrelloBase {
           }
           logger.error('Rate limit error - retrying...')
           await utils.delay(TrelloBase.getRateLimitDelayMs())
-          await this.get(pathOptions)
+          await this.get(pathOptions) // TODO given this is a recursive call look at removing this catch.
             .catch(error => {
               logger.error(`unexpected catch block ${JSON.stringify(error, null, 2)}`)
             })
@@ -84,22 +79,18 @@ export default class TrelloBase {
         }
       })
     this.retryCounter = 0
-    return responseStr
+    return responseStr as IDictObj[]
   }
 
   /** wrap the underlying makeRequest for delete
-  * @param {object} pathOptions  technically an http path but to the Trello API it's a command
-  * @param {string} pathOptions.path
-  * @param {object} pathOptions.options
-  * @return {Promise<any>}
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
-  async delete(pathOptions) {
+  async delete(pathOptions:IPathOptionsType):IRestPromise {
     tv.validatePathOptions(pathOptions)
     return await this.trelloRequest.delete(pathOptions)
   }
 
-  async putOrPost(pathOptions, op) {
+  async putOrPost(pathOptions:IPathOptionsType, op:RestCommands):IRestPromise {
     const options = this.createBodyOptions(pathOptions)
     switch (op) {
       case RestCommands.put:
@@ -113,13 +104,9 @@ export default class TrelloBase {
     }
   }
   /** wrap the underlying makeRequest for put
-   * @param {object} pathOptions  technically an http path but to the Trello API it's a command
-   * @param {string} pathOptions.path
-   * @param {object} pathOptions.options
-   * @return {Promise<any>}
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
-  async put(pathOptions) {
+  async put(pathOptions:IPathOptionsType):IRestPromise{
     return await this.putOrPost(pathOptions, RestCommands.put)
     // const putOptions = this.createBodyOptions(pathOptions)
     // return await this.trelloRequest.put(putOptions)
@@ -133,7 +120,7 @@ export default class TrelloBase {
   * @return {Promise<any>}
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
-  async post(pathOptions) {
+  async post(pathOptions:IPathOptionsType): IRestPromise{
     return await this.putOrPost(pathOptions, RestCommands.post)
     // const postOptions = this.createBodyOptions(pathOptions)
     // return await this.trelloRequest.post(postOptions)
@@ -141,10 +128,8 @@ export default class TrelloBase {
 
   /**
    *  turn {path, options} into {path, body}
-   * @param {Object} pathOptions
-   * @returns {{path:string, body:object}}
    */
-  createBodyOptions(pathOptions) {
+  createBodyOptions(pathOptions: IPathOptionsType): IPathBodyType {
     tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
     return {path, body: options}
@@ -158,22 +143,22 @@ export default class TrelloBase {
    * troubleshooting only at this point as it hasn't been tested.
    * @param {boolean} enable - set to true to enable full response (off by default)
    */
-  enableFullResponse(enable) {
+  enableFullResponse(enable: boolean):void {
     this.trelloRequest.doFullResponse = enable
   }
 
-  isInFullResponseMode() {
+  isInFullResponseMode():boolean {
     return this.trelloRequest.doFullResponse
   }
 
   // --------------------------------------------------------------------------
 
 
-  static getRateLimitError() {
+  static getRateLimitError() :number{
     return TrelloRequest.getRateLimitError()
   }
 
-  static getRateLimitDelayMs() {
+  static getRateLimitDelayMs():number {
     return TrelloRequest.getRateLimitDelayMs()
   }
 
@@ -188,9 +173,8 @@ export default class TrelloBase {
  * @return {Array<Object>} the array of actions that fit the criteria
  * @example actionWasOnList({actions,filterList:'idOfList'})
  */
-  static actionWasOnList(param) {
-    /** @type {any} {(obj:object,reqKeys:string[]}} IValidateType */
-    const tvObj = {
+  static actionWasOnList(param:ITrelloListBefore): IDictObj[] {
+    const tvObj :IValidateType = {
       obj: param,
       reqKeys: ['actions', 'filterList'],
     }
@@ -200,7 +184,7 @@ export default class TrelloBase {
       tvObj.reqKeys = ['data']
       tv.validate(tvObj)
     }
-    return param.actions.filter(e => e.data.listBefore === param.filterList)
+    return param.actions.filter((e: { data: { listBefore: any; }; }):boolean => e.data.listBefore === param.filterList)
   }
 }
 

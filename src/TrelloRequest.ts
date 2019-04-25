@@ -1,4 +1,4 @@
-import { IPathBodyType, IOptionsOrBodyType, IDefaultRestOption } from './Interfaces';
+import { IPathBodyType, IDefaultRestOption, IKeyTokenType, IPathOptionsType, IDictObj } from './Interfaces';
 
 import * as rpn from 'request-promise-native'
 import * as tv from './typeValidate'
@@ -9,8 +9,8 @@ export default class TrelloRequest {
   token: string
   uri: string
   doFullResponse: boolean
-  /** @param {{key:string,token:string}} keyTokenPair  */
-  constructor(keyTokenPair) {
+
+  constructor(keyTokenPair: IKeyTokenType)  {
     tv.validate({obj: keyTokenPair, reqKeys: ['key', 'token']})
     this.key = keyTokenPair.key
     this.token = keyTokenPair.token
@@ -22,7 +22,7 @@ export default class TrelloRequest {
     this.doFullResponse = false
   }
   /** @returns the Trello api error when the rate is exceeded */
-  static getRateLimitError() {return 429}
+  static getRateLimitError():number {return 429}
   /** @returns the suggested delay in MS based on 2X the API docs
    * http://help.trello.com/article/838-api-rate-limits
   */
@@ -30,20 +30,16 @@ export default class TrelloRequest {
 
   /**
    * Get the key/token pair - internal helper function
-   * @private
-   * @returns {{key:string, token:string}}
    */
-  _getAuthObj() {
+  private _getAuthObj(): IKeyTokenType {
     return {key: this.key, token: this.token}
   }
 
   /**
    * Send a get command
-   * @param {{path:string,options:object}} getOptions
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
-  get(getOptions) {
+  get(getOptions:IPathOptionsType): rpn.RequestPromise<IDictObj[]> {
     tv.validateOptionsOrBody(getOptions, OptionsBodyEnum.options)
     const {path, options} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
@@ -55,33 +51,27 @@ export default class TrelloRequest {
 
   /**
    * Send a put command
-   * @param {{path:string, body:object}} putOptions
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example put({path:' '/1/cards'/123}, body:{dueComplete:true}})
    */
-  put(putOptions) {
+  public put(putOptions: IPathBodyType): rpn.RequestPromise<any> {
     const rpnOptions = this._setupPutPostOptions(putOptions)
     return rpn.put(rpnOptions)
   }
 
   /**
    * Send a post command
-   * @param {{path:string, body:object}} postOptions
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example post({path:'1/cards',body:{name:'card name'}})
    */
-  post(postOptions) {
+  public post(postOptions: IPathBodyType): rpn.RequestPromise<any> {
     const rpnOptions = this._setupPutPostOptions(postOptions)
     return rpn.post(rpnOptions)
   }
 
   /**
    * Send a delete command
-   * @param {{path:string, options:object}} deleteOptions
-   * @returns {rpn.RequestPromise<object>} the promise resolves to a json object
    * @example delete(path:'/1/cards/<id>' ,options:{})
    */
-  delete(deleteOptions) {
+  public delete(deleteOptions: IPathOptionsType): rpn.RequestPromise<any> {
     tv.validateOptionsOrBody(deleteOptions, OptionsBodyEnum.options)
     const {path, options} = deleteOptions
     const rpnOptions = this.setupDefaultOption(path)
@@ -96,7 +86,7 @@ export default class TrelloRequest {
    * @param {{path:string, body:string}} options
    * @example setupPutPostOptions({path:string, body:object})
    */
-  _setupPutPostOptions(options:IPathBodyType) {
+  private _setupPutPostOptions(options:IPathBodyType):IDefaultRestOption {
     tv.validateOptionsOrBody(options, OptionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)

@@ -8,14 +8,15 @@ const sandbox = sinon.createSandbox()
 import Trello from'./Trello'
 import {logger} from './util/logger'
 import { CustomFieldType } from './Interfaces';
+import {pathToCreds} from './test-data/testDataConst'
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'
 const FAKE_COMMENT = 'Message for Comment'
 
 const {match} = sinon
-const trello = new Trello('./src/test-data/unit-test-fake-credentials.json')
+const trello = new Trello(pathToCreds)
 
-const fakeCmd = 'fake command'
+const fakeCmd = 'fake command' 
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
 const resolveEmptyObj = {}
@@ -24,9 +25,9 @@ const resolveEmptyObj = {}
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 // let getStub
 
-let putStub
+let putStub: sinon.SinonStub
 
-describe('trello class UNIT TESTS', () => {
+describe('Trello class UNIT TESTS', () => {
   it('enableFullResponse() should change request to full', () => {
     trello.enableFullResponse(true)
     trello.isInFullResponseMode().should.be.true
@@ -78,7 +79,7 @@ describe('trello class UNIT TESTS', () => {
     })
 
     describe('post requests', () => {
-      let postStub
+      let postStub: sinon.SinonStub
       beforeEach(() => {
         postStub = sandbox.stub(TrelloRequest.prototype, 'post')
           // @ts-ignore
@@ -99,7 +100,7 @@ describe('trello class UNIT TESTS', () => {
     })
 
     describe('delete requests', () => {
-      let deleteStub
+      let deleteStub: sinon.SinonStub
       beforeEach(() => {
         deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
           // @ts-ignore
@@ -116,11 +117,10 @@ describe('trello class UNIT TESTS', () => {
     })
 
     describe('put requests', () => {
-      let putStub
+      let putStub : sinon.SinonStub
       beforeEach(() => {
-        putStub = sandbox.stub(TrelloRequest.prototype, 'put').returnsArg(0)
-          // @ts-ignore
-          .returns(Promise.resolve(resolveEmptyObj))
+        putStub = sandbox.stub(TrelloRequest.prototype, 'put')
+          .resolves(resolveEmptyObj)
       })
       describe('setCustomFieldValueOnCard()', () => {
        
@@ -150,7 +150,7 @@ describe('trello class UNIT TESTS', () => {
           })
           it('should have a body with the expect text value', () => {
             const expectedBody = {value: {text: 'A value for custom text field'}}
-            putStub.calledWith(match.has('body', expectedBody)).should.be.true
+            putStub.calledWith(match.hasNested('body', expectedBody)).should.be.true
           })
         })
 
@@ -261,7 +261,7 @@ describe('trello class UNIT TESTS', () => {
   })
 
   describe('post functions', () => {
-    let postStub
+    let postStub :sinon.SinonStub
     beforeEach(() => {
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
     })
@@ -343,7 +343,7 @@ describe('trello class UNIT TESTS', () => {
   })
 
   describe('delete functions', () => {
-    let deleteStub
+    let deleteStub :sinon.SinonStub
     beforeEach(() => {
       deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
     })
@@ -364,7 +364,7 @@ describe('trello class UNIT TESTS', () => {
   })
 
   describe('get/put that resolve and return array', () => {
-    let putStub
+    let putStub :sinon.SinonStub
 
     beforeEach(() => {
       sandbox.stub(TrelloRequest.prototype, 'get')

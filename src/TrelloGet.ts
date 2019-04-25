@@ -1,6 +1,8 @@
 import TrelloBase from './TrelloBase'
-import {IListOrBoardType, ITrelloMemberData,  CmdFunc, hasListId} from './Interfaces'
+import {GetCommandString} from './functionTypes'
+import {hasListId} from './typeGuards'
 import * as I from './Interfaces'
+
 import * as  tv from './typeValidate'
 
 export default class TrelloGet extends TrelloBase {
@@ -9,7 +11,7 @@ export default class TrelloGet extends TrelloBase {
     super(pathString)
   }
 
-  private static validateAndGetId(param: IListOrBoardType): string {
+  private static validateAndGetId(param: I.IListOrBoardType): string {
     if (hasListId(param)) {
       tv.validate({obj: param, reqKeys: ['listId', 'options']})
       return param.listId
@@ -25,7 +27,7 @@ export default class TrelloGet extends TrelloBase {
    * make a call to get the command with the id
    * issue the get command
    */
-  private getCardsRecipe(param: I.IListOrBoardType,  commandFunc: CmdFunc): I.IRestPromise {
+  private getCardsRecipe(param: I.IListOrBoardType,  commandFunc: GetCommandString): I.IRestPromise {
     const id = TrelloGet.validateAndGetId(param)
     const {options} = param
     const path: string = commandFunc(id)
@@ -86,7 +88,7 @@ export default class TrelloGet extends TrelloBase {
    * i.e. series of steps in a particular sequence. This recipe executes those
    * calls
    */
-  private async getArchivedCardsRecipe(param: I.IListOrBoardType, func: CmdFunc): I.IRestPromise {
+  private async getArchivedCardsRecipe(param: I.IListOrBoardType, func: GetCommandString): I.IRestPromise {
     tv.validateOptions(param)
     const options = this.addFilterClosedToOptions(param.options)
     param.options = options
@@ -130,10 +132,10 @@ export default class TrelloGet extends TrelloBase {
   /**
    * Get all the members on the passed board
    */
-  public getMembersOnBoard(param: {boardId: string}): Promise<ITrelloMemberData[]> {
+  public getMembersOnBoard(param: {boardId: string}): Promise<I.ITrelloMemberData[]> {
     tv.validate({obj: param, reqKeys: ['boardId']})
     const {boardId} = param
     const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/members`
-    return this.get({path, options: {}}) as Promise<ITrelloMemberData[]>
+    return this.get({path, options: {}}) as Promise<I.ITrelloMemberData[]>
   }
 }

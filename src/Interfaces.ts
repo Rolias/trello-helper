@@ -1,6 +1,5 @@
 import * as moment from 'moment'
 
-export type CmdFunc = (id: string) => string
 export interface IDictObj{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
@@ -79,9 +78,6 @@ export interface IValidateType{
   obj: object
   reqKeys: string[]
 }
-// type guard to tell if it's  IListOptions object
-export const hasListId = (item: IListOrBoardType): item is IListOptions => (item as IListOptions).listId !== undefined
-
 export type IListOrBoardType = IBoardOptions | IListOptions
 
 export interface IDefaultRestOption{
@@ -138,23 +134,3 @@ export interface ITrelloListBefore {
 export type ITrelloPromise = Promise<IDictObj[]>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type IRestPromise = Promise<any>
-
-export enum OptionsBodyEnum {
-  options = 'options',
-  body ='body',
-}
-
-export enum RestCommands{
-  delete = 'delete',
-  get= 'get',
-  post = 'post',
-  put ='put'
-}
-
-export enum CustomFieldType{
-  list = 'list',
-  text = 'text',
-  number = 'number',
-  date = 'date',
-  checkbox = 'checked'
-}

@@ -1,4 +1,4 @@
-export enum OptionsBodyEnum {
+export enum OptionsBody {
   options = 'options',
   body = 'body'
 }

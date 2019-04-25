@@ -1,6 +1,5 @@
-import {IPathOptionsType, IDictObj, IValidateType, ITrelloListBefore,
-  IPathBodyType, IRestPromise, ICardFieldType, IListBefore} from './Interfaces'
-import {RestCommands} from './enums'
+import * as I from './Interfaces'
+import * as Enum from './enums'
 
 import * as tv  from  './typeValidate'
 import TrelloRequest  from './TrelloRequest'
@@ -50,7 +49,7 @@ export default class TrelloBase {
    *returns '/1/boards/[boardId]' */
   public  static getBoardPrefixWithId(boardId: string): string {return `/1/board/${boardId}`}
   public  static getCardsOnBoardWithId(boardId: string): string {return `${TrelloBase.getBoardPrefixWithId(boardId)}/cards`}
-  public static getCustomFieldUpdateCmd(cfp: ICardFieldType): string {
+  public static getCustomFieldUpdateCmd(cfp: I.ICardFieldType): string {
     tv.validate({obj: cfp, reqKeys: ['cardId', 'fieldId']})
     return `/1/cards/${cfp.cardId}/customField/${cfp.fieldId}/item`
   }
@@ -59,10 +58,10 @@ export default class TrelloBase {
   * Wrap the underlying makeRequest for get
   * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
-  public async get(pathOptions: IPathOptionsType): IRestPromise {
+  public async get(pathOptions: I.IPathOptionsType): I.IRestPromise {
     tv.validatePathOptions(pathOptions)
     const responseStr = await this.trelloRequest.get(pathOptions)
-      .catch(async (error: IDictObj): IRestPromise => {
+      .catch(async (error: I.IDictObj): I.IRestPromise => {
         if (error.statusCode === TrelloBase.getRateLimitError()) {
           if (this.retryCounter++ > 4) {
             throw new Error('Rate limit error hit too many times. Giving up.')
@@ -79,24 +78,24 @@ export default class TrelloBase {
         }
       })
     this.retryCounter = 0
-    return responseStr as IDictObj[]
+    return responseStr as I.IDictObj[]
   }
 
   /** wrap the underlying makeRequest for delete
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
-  public async delete(pathOptions: IPathOptionsType): IRestPromise {
+  public async delete(pathOptions: I.IPathOptionsType): I.IRestPromise {
     tv.validatePathOptions(pathOptions)
     return await this.trelloRequest.delete(pathOptions)
   }
 
-  public async putOrPost(pathOptions: IPathOptionsType, op: RestCommands): IRestPromise {
+  public async putOrPost(pathOptions: I.IPathOptionsType, op: Enum.RestCommands): I.IRestPromise {
     const options = this.createBodyOptions(pathOptions)
     switch (op) {
-    case RestCommands.put:
+    case Enum.RestCommands.put:
       return await this.trelloRequest.put(options)
 
-    case RestCommands.post:
+    case Enum.RestCommands.post:
       return await this.trelloRequest.post(options)
 
     default:
@@ -106,16 +105,16 @@ export default class TrelloBase {
   /** wrap the underlying makeRequest for put
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
-  public async put(pathOptions: IPathOptionsType): IRestPromise {
-    return await this.putOrPost(pathOptions, RestCommands.put)
+  public async put(pathOptions: I.IPathOptionsType): I.IRestPromise {
+    return await this.putOrPost(pathOptions, Enum.RestCommands.put)
   }
 
   /**
   * Wrap the underlying makeRequest for post
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
-  public async post(pathOptions: IPathOptionsType): IRestPromise {
-    return await this.putOrPost(pathOptions, RestCommands.post)
+  public async post(pathOptions: I.IPathOptionsType): I.IRestPromise {
+    return await this.putOrPost(pathOptions, Enum.RestCommands.post)
   }
 
   // --------------------------------------------------------------------------
@@ -137,7 +136,7 @@ export default class TrelloBase {
   /**
    *  turn {path, options} into {path, body}
    */
-  private createBodyOptions(pathOptions: IPathOptionsType): IPathBodyType {
+  private createBodyOptions(pathOptions: I.IPathOptionsType): I.IPathBodyType {
     tv.validatePathOptions(pathOptions)
     const {path, options} = pathOptions
     return {path, body: options}
@@ -156,8 +155,8 @@ export default class TrelloBase {
  * Find actions that indicate card was previously on the specified list name
  * @example actionWasOnList({actions,filterList:'idOfList'})
  */
-  public static actionWasOnList(param: ITrelloListBefore): IDictObj[] {
-    const tvObj: IValidateType = {
+  public static actionWasOnList(param: I.ITrelloListBefore): I.IDictObj[] {
+    const tvObj: I.IValidateType = {
       obj: param,
       reqKeys: ['actions', 'filterList'],
     }
@@ -167,6 +166,6 @@ export default class TrelloBase {
       tvObj.reqKeys = ['data']
       tv.validate(tvObj)
     }
-    return param.actions.filter((e: IListBefore): boolean => e.data.listBefore === param.filterList)
+    return param.actions.filter((e: I.IListBefore): boolean => e.data.listBefore === param.filterList)
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as chai from 'chai'
 chai.should()
 import * as sinon from 'sinon'
@@ -13,7 +14,6 @@ const EXPECTED_URI = `https://api.trello.com${TEST_PATH}`
 const {match} = sinon
 
 describe('TrelloRequest Unit Tests', () => {
-
   describe('get() should', () => {
     let getStub: sinon.SinonStub
     before(async () => {
@@ -78,7 +78,7 @@ describe('TrelloRequest Unit Tests', () => {
   })
 
   describe('delete() should', () => {
-    let deleteStub :sinon.SinonStub
+    let deleteStub: sinon.SinonStub
     before(async () => {
       // @ts-ignore
       deleteStub = sandbox.stub(rpn, 'delete').returns(Promise.resolve('delete done'))
@@ -95,5 +95,4 @@ describe('TrelloRequest Unit Tests', () => {
       deleteStub.calledWith(match.hasNested('options', {fields: 'name'})).should.be.true
     })
   })
-
 })

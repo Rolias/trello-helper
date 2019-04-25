@@ -7,8 +7,8 @@ import Trello from './Trello'
 import  {logger} from './util/logger'
 // @ts-ignore
 import  {trelloTestIds}  from './test-data/integration'
-import {IDictObj, ITrelloAction} from './Interfaces'
-import {CustomFieldType} from './enums'
+import * as I from './Interfaces'
+import * as Enum  from './enums'
 import * as moment from 'moment'
 
 const BOARD_ID = trelloTestIds.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
@@ -39,7 +39,7 @@ describe('trello module INTEGRATION', function () {
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
     const actions = await trello.getActionsOnCard({cardId: CARD_ID, options: {filter: 'moveCardToBoard'}})
-    const result = await Trello.getMoveCardToBoardActions(actions as ITrelloAction[])
+    const result = await Trello.getMoveCardToBoardActions(actions as I.ITrelloAction[])
     result.length.should.be.gt(0)
   })
 
@@ -96,7 +96,7 @@ describe('trello module INTEGRATION', function () {
   // })
 
   describe('getArchivedCardsOnBoard()', () => {
-    let archiveResult: IDictObj
+    let archiveResult: I.IDictObj
     beforeEach(async () => {
       // FRAGILE - board must have one archived card
       archiveResult = await trello.getArchivedCardsOnBoard({
@@ -128,7 +128,7 @@ describe('trello module INTEGRATION', function () {
     }
 
     describe('addCard()', () => {
-      let result: IDictObj
+      let result: I.IDictObj
       before(async () => {
         result = await trello.addCard(param)
       })
@@ -224,7 +224,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom text field', async () => {
     const fieldId = CUSTOM_FIELD_TEXT
     const cardId = CARD_ID
-    const type = CustomFieldType.text
+    const type = Enum.CustomFieldType.text
     const value = 'Tod Gentille'
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })
@@ -232,7 +232,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom list field', async () => {
     const fieldId = CUSTOM_FIELD_LIST
     const cardId = CARD_ID
-    const type = CustomFieldType.list
+    const type = Enum.CustomFieldType.list
     const value = CUSTOM_FIELD_LIST_VALUE // low priority
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })

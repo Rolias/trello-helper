@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    // "experimentalDecorators": true,
+    "paths": { "*": ["types/*"] },
+    // "baseUrl": ".",
+    "outDir": "./build",
+    "sourceMap": true,
+    // "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "checkJs": false,
+    "allowJs": false,
+    "noUnusedLocals": true,
+    "target": "es2018",
+    "noImplicitAny": true,
+    "watch": true,
+    "strictNullChecks": true
+  },
+  // "typedocOptions": {
+  //   "mode": "modules",
+  //   "out": "documentation"
+  // },
+  "include": ["src/**/*"]
+}

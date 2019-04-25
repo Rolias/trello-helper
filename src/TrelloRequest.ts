@@ -4,11 +4,13 @@ import * as tv from './typeValidate'
 import * as Enum from './enums'
 
 export default class TrelloRequest {
+  // 🔏
   private key: string
   private token: string
   private uri: string
   private _doFullResponse: boolean
 
+  //  🏗
   public constructor(keyTokenPair: I.IKeyTokenType)  {
     tv.validate({obj: keyTokenPair, reqKeys: ['key', 'token']})
     this.key = keyTokenPair.key

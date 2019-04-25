@@ -12,8 +12,9 @@ import * as Enum from './enums'
 // is to keep each layer to 20 functions or fewer for improved maintainability.
 export default class Trello extends TrelloGet {
   /**
-   * Create the TrelloPLus class to add more trello functions
-   * @param {string=} pathString path to the trello JSON credentials file
+   *  🏗
+   * Extends TrelloGet to do all the non-get() type Trello calls
+   * pathString path to the trello JSON credentials file
    */
   public constructor(pathString?: string) {
     super(pathString)

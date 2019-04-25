@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable prefer-arrow-callback */
 // @ts-check
 import * as chai from 'chai'
@@ -6,7 +7,8 @@ import Trello from './Trello'
 import  {logger} from './util/logger'
 // @ts-ignore
 import  {trelloTestIds}  from './test-data/integration'
-import { CustomFieldType, IDictObj, ITrelloAction } from './Interfaces'
+import {CustomFieldType, IDictObj, ITrelloAction} from './Interfaces'
+import * as moment from 'moment'
 
 const BOARD_ID = trelloTestIds.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85
 const LIST_ID = trelloTestIds.ids.list
@@ -93,7 +95,7 @@ describe('trello module INTEGRATION', function () {
   // })
 
   describe('getArchivedCardsOnBoard()', () => {
-    let archiveResult:IDictObj
+    let archiveResult: IDictObj
     beforeEach(async () => {
       // FRAGILE - board must have one archived card
       archiveResult = await trello.getArchivedCardsOnBoard({
@@ -105,7 +107,7 @@ describe('trello module INTEGRATION', function () {
       archiveResult.length.should.be.gt(0)
     })
     it('should show that every returned card is closed', () => {
-      archiveResult.every((e:{closed:boolean}) => e.closed).should.be.true
+      archiveResult.every((e: {closed: boolean}) => e.closed).should.be.true
     })
   })
 
@@ -125,12 +127,12 @@ describe('trello module INTEGRATION', function () {
     }
 
     describe('addCard()', () => {
-      let result :IDictObj
+      let result: IDictObj
       before(async () => {
         result = await trello.addCard(param)
       })
       after(async () => {
-        await trello.deleteCard({cardId: result.id})
+        await trello.deleteCard({idCard: result.id})
       })
       it('should add a card with id specified', async () => {
         should.exist(result.id)
@@ -143,13 +145,12 @@ describe('trello module INTEGRATION', function () {
       })
     })
     it(' Delete any cards created in the last week', async () => {
-      const moment = require('moment')
       const recent = moment().subtract(14, 'days')
         .toISOString()
       const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {since: recent}})
       console.log('number found = ', result.length)
       for (const card of result) {
-        await trello.deleteCard({cardId: card.id})
+        await trello.deleteCard({idCard: card.id})
       }
     })
   })

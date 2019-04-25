@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as chai from 'chai'
 chai.should()
-const moment = require('moment')
-import TrelloRequest from'./TrelloRequest'
+import * as moment from 'moment'
+import TrelloRequest from './TrelloRequest'
 
 import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
-import Trello from'./Trello'
+import Trello from './Trello'
 import {logger} from './util/logger'
-import { CustomFieldType } from './Interfaces';
+import {CustomFieldType} from './Interfaces'
 import {pathToCreds} from './test-data/testDataConst'
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'
@@ -16,7 +17,7 @@ const FAKE_COMMENT = 'Message for Comment'
 const {match} = sinon
 const trello = new Trello(pathToCreds)
 
-const fakeCmd = 'fake command' 
+const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'
 const resolveObj = '{id:"123"}'
 const resolveEmptyObj = {}
@@ -109,7 +110,7 @@ describe('Trello class UNIT TESTS', () => {
 
       describe('deleteCard()', () => {
         it('should get the proper path for deleting a card', async () => {
-          await trello.deleteCard({cardId: FAKE_ID})
+          await trello.deleteCard({idCard: FAKE_ID})
           const expected = Trello.getCardPrefixWithId(FAKE_ID)
           deleteStub.calledWith(match.has('path', expected))
         })
@@ -117,13 +118,12 @@ describe('Trello class UNIT TESTS', () => {
     })
 
     describe('put requests', () => {
-      let putStub : sinon.SinonStub
+      let putStub: sinon.SinonStub
       beforeEach(() => {
         putStub = sandbox.stub(TrelloRequest.prototype, 'put')
           .resolves(resolveEmptyObj)
       })
       describe('setCustomFieldValueOnCard()', () => {
-       
         let customFieldObj = {
           cardFieldObj: {
             cardId: FAKE_ID,
@@ -261,7 +261,7 @@ describe('Trello class UNIT TESTS', () => {
   })
 
   describe('post functions', () => {
-    let postStub :sinon.SinonStub
+    let postStub: sinon.SinonStub
     beforeEach(() => {
       postStub = sandbox.stub(TrelloRequest.prototype, 'post')
     })
@@ -343,7 +343,7 @@ describe('Trello class UNIT TESTS', () => {
   })
 
   describe('delete functions', () => {
-    let deleteStub :sinon.SinonStub
+    let deleteStub: sinon.SinonStub
     beforeEach(() => {
       deleteStub = sandbox.stub(TrelloRequest.prototype, 'delete')
     })
@@ -364,7 +364,7 @@ describe('Trello class UNIT TESTS', () => {
   })
 
   describe('get/put that resolve and return array', () => {
-    let putStub :sinon.SinonStub
+    let putStub: sinon.SinonStub
 
     beforeEach(() => {
       sandbox.stub(TrelloRequest.prototype, 'get')

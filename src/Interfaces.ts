@@ -1,5 +1,6 @@
 import * as moment from 'moment'
 
+export type CmdFunc = (id: string) => string
 export interface IDictObj{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
@@ -10,7 +11,7 @@ export interface IOptions{
 }
 
 export interface ICardId{
-  cardId:string
+  cardId: string
 }
 export interface ICardFieldType extends ICardId{
   fieldId: string
@@ -43,7 +44,7 @@ export interface ICardOptionsType extends IOptions{
 }
 
 export interface ITrelloAction {
- type: string
+  type: string
 }
 export interface IActionFilterType {
   actions: ITrelloAction[]
@@ -69,7 +70,7 @@ export interface IBoardOptions extends IOptions, IDictObj{
 }
 
 export interface IListId{
-  listId:string
+  listId: string
 }
 
 export type IListOptions =IListId & IOptions & IDictObj
@@ -92,7 +93,7 @@ export interface IDefaultRestOption{
 
 export interface IArchiveOffset{
   listId: string,
-  offset:{
+  offset: {
     count: moment.DurationInputArg1,
     units: moment.DurationInputArg2,
   }
@@ -100,34 +101,40 @@ export interface IArchiveOffset{
 
 export interface ICardDueDateOffset{
   cardId: string
-  offset :{
+  offset: {
     count: moment.DurationInputArg1
     units: moment.DurationInputArg2 // e.g. `days, months, years, quarters, hours, minutes`
   }
 }
 
 export interface ICardMemberType{
-  cardId:string
+  cardId: string
   memberId: string
 }
 
 export interface ITrelloMemberData{
   id: string,
-  fullName: string, 
+  fullName: string,
   username: string,
 }
 
-export interface ITrelloListBefore{
-  actions :
-    {
-      data:{
-        listBefore:string
-      }
-    }[]
+export interface IListBefore{
+  data: {
+    listBefore: string
+  }
+}
+export interface ITrelloListBefore {
+  actions:
+  {
+    data: {
+      listBefore: string
+    }
+  }[]
   ,
-  filterList:string
+  filterList: string
 }
 export type ITrelloPromise = Promise<IDictObj[]>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type IRestPromise = Promise<any>
 
 export enum OptionsBodyEnum {

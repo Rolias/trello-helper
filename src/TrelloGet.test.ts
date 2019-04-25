@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as chai from 'chai'
 chai.should()
 import * as sinon from 'sinon'
@@ -14,7 +15,7 @@ const trelloGet = new TrelloGet(pathToCreds)
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 // let getStub
 describe('TrelloGet Unit Tests', () => {
-  let getStub:sinon.SinonStub
+  let getStub: sinon.SinonStub
   before(() => {
     getStub = sandbox.stub(TrelloRequest.prototype, 'get')
       // @ts-ignore
@@ -73,7 +74,6 @@ describe('TrelloGet Unit Tests', () => {
     it('should get a proper path ', async () => {
       const expectedPath = TrelloBase.getListCardCmd(FAKE_ID)
       getStub.calledWith(match({path: expectedPath})).should.be.true
-
     })
     it('should have an option parameter equal to 10', async () => {
       getStub.calledWith(match.hasNested('options.limit', 10)).should.be.true
@@ -144,5 +144,4 @@ describe('TrelloGet Unit Tests', () => {
     getStub.calledWith(match({path: expected})).should.be.true
     getStub.calledWith(match.has('options', {fields: 'id'})).should.be.true
   })
-
 })

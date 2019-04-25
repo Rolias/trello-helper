@@ -1,45 +1,36 @@
 import TrelloBase from './TrelloBase'
-import { IListOptions, IListOrBoardType, IDictObj, ITrelloMemberData, IBoardOptions, ICardOptionsType, ITrelloPromise } from './Interfaces';
-const tv = require('./typeValidate')
+import {IListOptions, IListOrBoardType, IDictObj, ITrelloMemberData, IBoardOptions, ICardOptionsType, ITrelloPromise, IRestPromise, CmdFunc} from './Interfaces'
+import * as  tv from './typeValidate'
 
 export default class TrelloGet extends TrelloBase {
-  public constructor(pathString?:string) {
+  //  🏗
+  public constructor(pathString?: string) {
     super(pathString)
   }
 
-  /**
-   *
-   * @param {object} param :IListOrBoardType
-   * @param {string} idType listId or boardId
-   */
-  static validateIdAndOptions(param: IListOrBoardType, idType: string): void {
+  private static validateIdAndOptions(param: IListOrBoardType, idType: string): void {
     tv.validate({obj: param, reqKeys: [idType, 'options']})
   }
 
   /**
- * Avoid repeating the common code where we need to first
- * validate the parameters
- * then extract the id
- * then make a call to get the command with the id
- * then go the get
- * @param {object} param:IListOrBoardType
- * @param {string} idType 'listId' or 'boardId'
- * @param {*} commandFunc a function(id) that returns a command string
- */
-  getCardsRecipe(param:IListOrBoardType, idType:string, commandFunc:any): Promise<IDictObj[]> {
+   * Avoid repeating the common code where we need to do the following sequence:
+   * validate the parameters
+   * extract the id
+   * make a call to get the command with the id
+   * issue the get command
+   */
+  private getCardsRecipe(param: IListOrBoardType, idType: string, commandFunc: CmdFunc): IRestPromise {
     TrelloGet.validateIdAndOptions(param, idType)
     const {options} = param
-    const id:string = param[idType] 
-    const path:string = commandFunc(id)
+    const id: string = param[idType]
+    const path: string = commandFunc(id)
     return this.get({path, options})
   }
 
   /**
- * @param {Object} cardParam the id and options for the card
- * @param {string} cardParam.cardId
- * @param {object} cardParam.options
- */
-  getCard(cardParam:ICardOptionsType): ITrelloPromise {
+   * Get a card based on passed Id and options
+   */
+  public getCard(cardParam: ICardOptionsType): ITrelloPromise {
     tv.validate({obj: cardParam, reqKeys: ['cardId', 'options']})
     const {cardId, options} = cardParam
     const path = TrelloBase.getBoardPrefixWithId(cardId)
@@ -47,14 +38,10 @@ export default class TrelloGet extends TrelloBase {
   }
 
   /** Get the actions on the card. Filter by tye action type if desired
-   * defaults to 'all' for all action types see
+   * defaults to 'all'. For all action types see
    * https://developers.trello.com/reference/#action-types
-   * @param {object} param
-   * @param {string} param.cardId
-   * @param {object} param.options
-   * @returns {Promise<Array.<Object<string,any>>>}
    */
-  getActionsOnCard(param:ICardOptionsType) :ITrelloPromise {
+  public getActionsOnCard(param: ICardOptionsType): ITrelloPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'options']})
     const {cardId, options} = param
     const path = `${TrelloBase.getCardPrefixWithId(cardId)}/actions`
@@ -66,38 +53,26 @@ export default class TrelloGet extends TrelloBase {
   // ========================= Custom Field Setters/Getters =====================
   /**
    * Get the array of custom field items on the card.
-   * @param {object} param
-   * @param {string} param.cardId
-   * @returns {Promise<Array<object>>}
    */
-  getCustomFieldItemsOnCard(param:{cardId:string}):ITrelloPromise {
+  public getCustomFieldItemsOnCard(param: {cardId: string}): ITrelloPromise {
     const path = `${TrelloBase.getCardPrefixWithId(param.cardId)}/customFieldItems`
     return this.get({path, options: {}})
   }
 
   /**
    * Get all cards on the passed list
-   * @param {object} param
-   * @param {string} param.listId
-   * @param {object} param.options
-   * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    * @example getCardsOnListWith({listId:'123',options:{customFieldItems:true}})
    */
-  getCardsOnList(param:IListOptions): ITrelloPromise {
+  public getCardsOnList(param: IListOptions): ITrelloPromise {
     return this.getCardsRecipe(param, 'listId', TrelloBase.getListCardCmd)
   }
-
 
   /**
    * Get all the cards on the board. Two useful options are
    * limit:x to limit the number of cards (1 to 1000) coming back and
    * fields:'name,desc'
-   * @param {object} param
-   * @param {string} param.boardId
-   * @param {object} param.options
-   * @returns {Promise<Array<Object<string,any>>>} a Promise of an array of card objects
    */
-  getCardsOnBoard(param: IBoardOptions): ITrelloPromise {
+  public getCardsOnBoard(param: IBoardOptions): ITrelloPromise {
     return this.getCardsRecipe(param, 'boardId', TrelloBase.getCardsOnBoardWithId)
   }
 
@@ -105,11 +80,8 @@ export default class TrelloGet extends TrelloBase {
    * Calls to retrieve archived cards from lists or boards use the same "recipe"
    * i.e. series of steps in a particular sequence. This recipe executes those
    * calls
-   * @param {object} param :IListOrBoardType can have any other additional properties
-   * @param {string} idType  only expecting 'listId' and 'boardId'
-   * @param {*} func
    */
-  async getArchivedCardsRecipe(param: IListOrBoardType, idType: string, func: any) {
+  private async getArchivedCardsRecipe(param: IListOrBoardType, idType: string, func: CmdFunc): IRestPromise {
     tv.validateOptions(param)
     const options = this.addFilterClosedToOptions(param.options)
     param.options = options
@@ -124,30 +96,26 @@ export default class TrelloGet extends TrelloBase {
    * @returns {Promise<Array.<Object>>} returns Promise to array of cards
    * @example getArchivedCards({boardId:'123',listId'456'})
   */
-  async getArchivedCardsOnList(param: IListOptions): Promise<IDictObj[]> {
+  public async getArchivedCardsOnList(param: IListOptions): IRestPromise {
     return await this.getArchivedCardsRecipe(param, 'listId', TrelloBase.getListCardCmd)
   }
 
   /**
  * Get all cards that are archived for the board
- * @param {{boardId:string, options:object}} param
- * @returns {Promise<Array.<Object>>} returns Promise to array of cards
  * @example getArchivedCards({boardId:'123',listId'456'})
  */
-  async getArchivedCardsOnBoard(param: IBoardOptions): Promise<Array<IDictObj>> {
+  public async getArchivedCardsOnBoard(param: IBoardOptions): IRestPromise {
     return await this.getArchivedCardsRecipe(param, 'boardId', TrelloBase.getCardsOnBoardWithId)
   }
 
-  addFilterClosedToOptions(options:IDictObj): IDictObj {
+  public addFilterClosedToOptions(options: IDictObj): IDictObj {
     return {...options, filter: 'closed'}
   }
 
   /**
    * Find the boardId for the given listID
-   * @param {object} param
-   * @param {string} param.listId
    */
-  async getBoardIdFromListId(param: {listId:string}) : Promise<IDictObj[]> {
+  public async getBoardIdFromListId(param: {listId: string}): IRestPromise {
     tv.validate({obj: param, reqKeys: ['listId']})
     const {listId} = param
     const path = `${TrelloBase.getListPrefixWithId(listId)}/board`
@@ -157,7 +125,7 @@ export default class TrelloGet extends TrelloBase {
   /**
    * Get all the members on the passed board
    */
-  getMembersOnBoard(param:{boardId:string}): Promise<ITrelloMemberData[]> {
+  public getMembersOnBoard(param: {boardId: string}): Promise<ITrelloMemberData[]> {
     tv.validate({obj: param, reqKeys: ['boardId']})
     const {boardId} = param
     const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/members`

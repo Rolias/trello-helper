@@ -12,7 +12,7 @@
     "start:build": "node build/main.js",
     "start:loop": "nodemon src/main.js",
     "security-check": "npm audit",
-    "lint": "esw src  --color",
+    "lint": "esw src/**/*.ts  --color",
     "lint:watch": "npm run lint -- --watch",
     "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/test-data/",
     "test": "mocha --use_strict 'build/**/*.test.js' ",

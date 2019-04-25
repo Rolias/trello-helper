@@ -79,6 +79,8 @@ export interface IValidateType{
   obj: object
   reqKeys: string[]
 }
+// type guard to tell if it's  IListOptions object
+export const hasListId = (item: IListOrBoardType): item is IListOptions => (item as IListOptions).listId !== undefined
 
 export type IListOrBoardType = IBoardOptions | IListOptions
 

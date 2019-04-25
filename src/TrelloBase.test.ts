@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as  chai from 'chai'
 chai.should()
 import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
 import TrelloBase from './TrelloBase'
-import * as  utils from'./util/utils'
+import * as  utils from './util/utils'
 import {logger} from './util/logger'
 import {pathToCreds} from './test-data/testDataConst'
 import TrelloRequest from './TrelloRequest'
-import { RestCommands } from './Interfaces';
+import {RestCommands} from './enums'
 const FAKE_ID = '12345'
 
 

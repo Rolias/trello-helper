@@ -8,7 +8,7 @@ import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
 import Trello from './Trello'
 import {logger} from './util/logger'
-import {CustomFieldType} from './Interfaces'
+import {CustomFieldType} from './enums'
 import {pathToCreds} from './test-data/testDataConst'
 const FAKE_ID = '12345'
 const FAKE_MEMBER_ID = '5678'

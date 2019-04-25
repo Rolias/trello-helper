@@ -3,8 +3,9 @@ import * as moment from 'moment'
 import TrelloGet from './TrelloGet'
 import TrelloBase from './TrelloBase'
 import * as tv from './typeValidate'
-import {CustomFieldType, IArchiveOffset, IDictObj, IActionFilterType, IRestPromise,
+import {IArchiveOffset, IDictObj, IActionFilterType, IRestPromise,
   ITrelloAction, ICardDueDateOffset, ICardMemberType, IListId, ICardId, ICustomFieldType} from './Interfaces'
+import {CustomFieldType} from './enums'
 
 // I want the user to just have to import Trello but I wanted to make the code easier
 // to manage so I split it up into various classes which just extend each other

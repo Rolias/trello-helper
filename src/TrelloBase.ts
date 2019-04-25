@@ -1,5 +1,6 @@
-import {RestCommands, IPathOptionsType, IDictObj, IValidateType, ITrelloListBefore,
+import {IPathOptionsType, IDictObj, IValidateType, ITrelloListBefore,
   IPathBodyType, IRestPromise, ICardFieldType, IListBefore} from './Interfaces'
+import {RestCommands} from './enums'
 
 import * as tv  from  './typeValidate'
 import TrelloRequest  from './TrelloRequest'

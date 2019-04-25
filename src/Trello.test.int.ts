@@ -7,7 +7,8 @@ import Trello from './Trello'
 import  {logger} from './util/logger'
 // @ts-ignore
 import  {trelloTestIds}  from './test-data/integration'
-import {CustomFieldType, IDictObj, ITrelloAction} from './Interfaces'
+import {IDictObj, ITrelloAction} from './Interfaces'
+import {CustomFieldType} from './enums'
 import * as moment from 'moment'
 
 const BOARD_ID = trelloTestIds.ids.board // https://trello.com/b/5c9a9d82c644b836cfbe9a85

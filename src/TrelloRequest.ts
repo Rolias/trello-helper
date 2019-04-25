@@ -1,16 +1,16 @@
-import { IPathBodyType, IDefaultRestOption, IKeyTokenType, IPathOptionsType, IDictObj } from './Interfaces';
+import {IPathBodyType, IDefaultRestOption, IKeyTokenType, IPathOptionsType, IDictObj} from './Interfaces'
 
 import * as rpn from 'request-promise-native'
 import * as tv from './typeValidate'
-const {OptionsBodyEnum} = require('./Interfaces')
+import {OptionsBodyEnum} from './enums'
 
 export default class TrelloRequest {
-  key: string
-  token: string
-  uri: string
-  doFullResponse: boolean
+  private key: string
+  private token: string
+  private uri: string
+  private _doFullResponse: boolean
 
-  constructor(keyTokenPair: IKeyTokenType)  {
+  public constructor(keyTokenPair: IKeyTokenType)  {
     tv.validate({obj: keyTokenPair, reqKeys: ['key', 'token']})
     this.key = keyTokenPair.key
     this.token = keyTokenPair.token
@@ -19,19 +19,28 @@ export default class TrelloRequest {
     // set doFullResponse to true if you want the full request
     // The caller will need to specify the result.resultCode or result.body
     // or any other property needed on the returned object
-    this.doFullResponse = false
+    this._doFullResponse = false
   }
-  /** @returns the Trello api error when the rate is exceeded */
-  static getRateLimitError():number {return 429}
-  /** @returns the suggested delay in MS based on 2X the API docs
+
+  public get doFullResponse(): boolean {
+    return this._doFullResponse
+  }
+
+  public set doFullResponse(value: boolean) {
+    this._doFullResponse = value
+  }
+
+  /** returns the Trello api error when the rate is exceeded */
+  public static getRateLimitError(): number {return 429}
+  /** returns a suggested delay in MS for more info see the  API docs
    * http://help.trello.com/article/838-api-rate-limits
   */
-  static getRateLimitDelayMs() {return 500}
+  public static getRateLimitDelayMs(): number {return 500}
 
   /**
    * Get the key/token pair - internal helper function
    */
-  private _getAuthObj(): IKeyTokenType {
+  private getAuthObj(): IKeyTokenType {
     return {key: this.key, token: this.token}
   }
 
@@ -39,11 +48,11 @@ export default class TrelloRequest {
    * Send a get command
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
-  get(getOptions:IPathOptionsType): rpn.RequestPromise<IDictObj[]> {
+  public get(getOptions: IPathOptionsType): rpn.RequestPromise<IDictObj[]> {
     tv.validateOptionsOrBody(getOptions, OptionsBodyEnum.options)
     const {path, options} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
-    const auth = this._getAuthObj()
+    const auth = this.getAuthObj()
     const fullQs = {...auth, ...options} // combine options with auth for query string
     rpnOptions.qs = fullQs
     return rpn.get(rpnOptions)
@@ -53,6 +62,7 @@ export default class TrelloRequest {
    * Send a put command
    * @example put({path:' '/1/cards'/123}, body:{dueComplete:true}})
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public put(putOptions: IPathBodyType): rpn.RequestPromise<any> {
     const rpnOptions = this._setupPutPostOptions(putOptions)
     return rpn.put(rpnOptions)
@@ -62,6 +72,7 @@ export default class TrelloRequest {
    * Send a post command
    * @example post({path:'1/cards',body:{name:'card name'}})
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public post(postOptions: IPathBodyType): rpn.RequestPromise<any> {
     const rpnOptions = this._setupPutPostOptions(postOptions)
     return rpn.post(rpnOptions)
@@ -71,6 +82,7 @@ export default class TrelloRequest {
    * Send a delete command
    * @example delete(path:'/1/cards/<id>' ,options:{})
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public delete(deleteOptions: IPathOptionsType): rpn.RequestPromise<any> {
     tv.validateOptionsOrBody(deleteOptions, OptionsBodyEnum.options)
     const {path, options} = deleteOptions
@@ -82,11 +94,9 @@ export default class TrelloRequest {
   /**
    * The post and put set up an identical options object
    * based on the body property of the options.
-   * @private
-   * @param {{path:string, body:string}} options
    * @example setupPutPostOptions({path:string, body:object})
    */
-  private _setupPutPostOptions(options:IPathBodyType):IDefaultRestOption {
+  private _setupPutPostOptions(options: IPathBodyType): IDefaultRestOption {
     tv.validateOptionsOrBody(options, OptionsBodyEnum.body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)
@@ -95,29 +105,17 @@ export default class TrelloRequest {
   }
 
   /**
-   * @typedef defaultRestOption {object}
-   * @property {string} uri
-   * @property {{key:string, token:string}} qs
-   * @property {boolean} json
-   * @property {boolean} resolveWithFullResponse
-   * @property {string=} options
-   * @property {object=} body
-   */
-  /**
    * Set up the the most common set of options used by all verbs
    * Each function can override the ones that vary. For example the qs property
    * will get overwritten for get commands since options get added to the auth values
-   * @param {string} path
-   * {{uri:string, qs:tv.keyTokenType, json:boolean, resolveWithFullResponse:boolean, options=:string, body=:any}}
-   * @returns {defaultRestOption}
    * @example setDefaultOption(path)
    */
-  setupDefaultOption(path:string):IDefaultRestOption {
+  public setupDefaultOption(path: string): IDefaultRestOption {
     return {
       uri: `${this.uri}${path}`,
-      qs: this._getAuthObj(),
+      qs: this.getAuthObj(),
       json: true,
-      resolveWithFullResponse: this.doFullResponse,
+      resolveWithFullResponse: this._doFullResponse,
     }
   }
 }

@@ -4,6 +4,7 @@ node_js:
   - "11"
 dist: trusty
 before_script:
+  - tsc
   - npm -g install nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter 
   - chmod +x ./cc-test-reporter

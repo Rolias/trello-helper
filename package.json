@@ -1,6 +1,6 @@
 {
   "name": "trello-helper",
-  "version": "3.0.0-alpha.01",
+  "version": "3.0.0-alpha-ts.01",
   "engines": {
     "node": ">10.0.0"
   },

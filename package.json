@@ -12,11 +12,11 @@
     "lint": "esw src/**/*.ts  --color",
     "lint:watch": "npm run lint -- --watch",
     "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/src/test-data/",
-    "test": "mocha --use_strict 'build/**/*.test.js' ",
-    "test:int": "mocha  --no-opts --use_strict 'build/**/*.int.js' ",
+    "test": "mocha -r ts-node/register  'src/**/*.test.ts' ",
+    "test:int": "mocha  -r ts-node/register --no-opts --use_strict 'src/**/*.int.ts' ",
     "test:watch": "npm run test  -- --watch --reporter min",
     "test:cov": "nyc mocha --use_strict 'build/**/*.test.js'",
-    "test:unit": "mocha --use_strict --forbid-only 'build/**/*.test.js'",
+    "test:unit": "mocha  --forbid-only 'src/**/*.test.ts'",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
@@ -69,12 +69,12 @@
     "eslint-plugin-chai-expect": "^2.0.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-watch": "x",
-    "jsdoc": "^3.5.5",
     "mocha": "^6.1.4",
     "nodemon": "^1.18.10",
     "npm-run-all": "x",
     "nyc": "x",
     "sinon": "^7.3.1",
+    "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
   }
 }

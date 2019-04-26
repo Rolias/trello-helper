@@ -13,7 +13,7 @@
     "lint:watch": "npm run lint -- --watch",
     "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/src/test-data/",
     "test": "mocha -r ts-node/register  'src/**/*.test.ts' ",
-    "test:int": "mocha  -r ts-node/register --no-opts --use_strict 'src/**/*.int.ts' ",
+    "test:int": "mocha -r ts-node/register --no-opts --use_strict 'src/**/*.int.ts' ",
     "test:watch": "npm run test  -- --watch --reporter min",
     "test:cov": "nyc mocha --use_strict 'build/**/*.test.js'",
     "test:unit": "mocha  --forbid-only 'src/**/*.test.ts'",
@@ -24,7 +24,7 @@
     "build:pub": "npm publish ",
     "build:commit": "git commit --all -m 'build commit'",
     "build:push": "git push",
-    "build": "npm-run-all --parallel lint test:all doc    --serial build:commit build:ver build:pub "
+    "build": "npm-run-all --parallel lint test:all doc  --serial build:commit build:ver build:pub "
   },
   "repository": {
     "type": "git",

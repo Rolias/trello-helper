@@ -14,7 +14,7 @@
     "noUnusedLocals": true,
     "target": "es2018",
     "noImplicitAny": true,
-    "watch": true,
+    "watch": false,
     "strictNullChecks": true
   },
   // "typedocOptions": {

@@ -1,95 +1,94 @@
 import * as moment from 'moment'
 
-export interface IDictObj{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface DictObj{
   [key: string]: any
 }
 
-export interface IOptions{
-  options: IDictObj
+export interface Options{
+  options: DictObj
 }
 
-export interface ICardId{
+export interface CardId{
   cardId: string
 }
-export interface ICardFieldType extends ICardId{
+export interface CardFieldType extends CardId{
   fieldId: string
 }
 
-export interface ICustomFieldType{
-  cardFieldObj: ICardFieldType
+export interface CustomFieldType{
+  cardFieldObj: CardFieldType
   type: string
   value: string
 }
 
-export interface IKeyTokenType{
+export interface KeyTokenType{
   key: string
   token: string
 }
 
-export interface IPathOptionsType extends IOptions{
+export interface PathOptionsType extends Options{
   path: string
 }
 
-export interface IPathBodyType {
+export interface PathBodyType {
   path: string
-  body: IDictObj
+  body: DictObj
 }
 
-export type IOptionsOrBodyType = IPathOptionsType | IPathBodyType
+export type OptionsOrBodyType = PathOptionsType | PathBodyType
 
-export interface ICardOptionsType extends IOptions{
+export interface CardOptionsType extends Options{
   cardId: string
 }
 
-export interface ITrelloAction {
+export interface TrelloAction {
   type: string
 }
-export interface IActionFilterType {
-  actions: ITrelloAction[]
+export interface ActionFilterType {
+  actions: TrelloAction[]
   filterType: string
 }
 
-export interface IActionFilterListType{
+export interface ActionFilterListType{
   actions: {data: {listBefore: string}}[]
   filterList: string
 }
 
-export interface IHttpCommandType {
+export interface HttpCommandType {
   cmd: string
   options: string
 }
 
-export interface IOptionsBodyType{
+export interface OptionsBodyType{
   options: string
   body: string
 }
-export interface IBoardOptions extends IOptions, IDictObj{
+export interface BoardOptions extends Options, DictObj{
   boardId: string
 }
 
-export interface IListId{
+export interface ListId{
   listId: string
 }
 
-export type IListOptions =IListId & IOptions & IDictObj
+export type ListOptions =ListId & Options & DictObj
 
-export interface IValidateType{
+export interface ValidateType{
   obj: object
   reqKeys: string[]
 }
-export type IListOrBoardType = IBoardOptions | IListOptions
+export type ListOrBoardType = BoardOptions | ListOptions
 
-export interface IDefaultRestOption{
+export interface DefaultRestOption{
   uri: string
-  qs: IKeyTokenType
+  qs: KeyTokenType
   json: boolean
   resolveWithFullResponse: boolean
-  options?: IDictObj
-  body?: IDictObj
+  options?: DictObj
+  body?: DictObj
 }
 
-export interface IArchiveOffset{
+export interface ArchiveOffset{
   listId: string,
   offset: {
     count: moment.DurationInputArg1,
@@ -97,7 +96,7 @@ export interface IArchiveOffset{
   }
 }
 
-export interface ICardDueDateOffset{
+export interface CardDueDateOffset{
   cardId: string
   offset: {
     count: moment.DurationInputArg1
@@ -105,23 +104,23 @@ export interface ICardDueDateOffset{
   }
 }
 
-export interface ICardMemberType{
+export interface CardMemberType{
   cardId: string
   memberId: string
 }
 
-export interface ITrelloMemberData{
+export interface TrelloMemberData{
   id: string,
   fullName: string,
   username: string,
 }
 
-export interface IListBefore{
+export interface ListBefore{
   data: {
     listBefore: string
   }
 }
-export interface ITrelloListBefore {
+export interface TrelloListBefore {
   actions:
   {
     data: {
@@ -131,6 +130,6 @@ export interface ITrelloListBefore {
   ,
   filterList: string
 }
-export type ITrelloPromise = Promise<IDictObj[]>
+export type TrelloPromise = Promise<DictObj[]>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type IRestPromise = Promise<any>
+export type RestPromise = Promise<any>

@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable prefer-arrow-callback */
-// @ts-check
 import * as chai from 'chai'
 const should = chai.should()
 import Trello from './Trello'
 import  {logger} from './util/logger'
-// @ts-ignore
 import  {trelloTestIds}  from './test-data/integration'
 import * as I from './Interfaces'
 import * as Enum  from './enums'
@@ -39,7 +37,7 @@ describe('trello module INTEGRATION', function () {
 
   it('getMoveCardToBoardActions() should find any action indicating card was moved to board', async () => {
     const actions = await trello.getActionsOnCard({cardId: CARD_ID, options: {filter: 'moveCardToBoard'}})
-    const result = await Trello.getMoveCardToBoardActions(actions as I.ITrelloAction[])
+    const result = await Trello.getMoveCardToBoardActions(actions as I.TrelloAction[])
     result.length.should.be.gt(0)
   })
 
@@ -53,6 +51,7 @@ describe('trello module INTEGRATION', function () {
           limit: 1,
         },
       })
+      console.log(result)
       result.length.should.equal(1)
       Object.keys(result[0]).length.should.equal(2)
     })
@@ -79,24 +78,8 @@ describe('trello module INTEGRATION', function () {
     })
   })
 
-  // NOTE: getArchivedCards() has been deprecated
-  // describe('getArchivedCards()', () => { // FRAGILE - test list must have one  archived card
-  //   let archiveResult
-  //   beforeEach(async () => {
-  //     archiveResult = await trello.getArchivedCards({
-  //       boardId: BOARD_ID, listId: LIST_ID,
-  //     })
-  //   })
-  //   it('should return at least one archived card (make sure one exists)', () => {
-  //     archiveResult.length.should.be.gt(0)
-  //   })
-  //   it('should show that every returned card is closed', () => {
-  //     archiveResult.every(e => e.closed).should.be.true
-  //   })
-  // })
-
   describe('getArchivedCardsOnBoard()', () => {
-    let archiveResult: I.IDictObj
+    let archiveResult: I.DictObj
     beforeEach(async () => {
       // FRAGILE - board must have one archived card
       archiveResult = await trello.getArchivedCardsOnBoard({
@@ -128,7 +111,7 @@ describe('trello module INTEGRATION', function () {
     }
 
     describe('addCard()', () => {
-      let result: I.IDictObj
+      let result: I.DictObj
       before(async () => {
         result = await trello.addCard(param)
       })

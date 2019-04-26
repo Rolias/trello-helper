@@ -29,11 +29,6 @@ const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idLis
 let putStub: sinon.SinonStub
 
 describe('Trello class UNIT TESTS', () => {
-  it('enableFullResponse() should change request to full', () => {
-    trello.enableFullResponse(true)
-    trello.isInFullResponseMode().should.be.true
-  })
-
   it('getRateLimitError() should return 429', () => {
     Trello.getRateLimitError().should.equal(429)
   })

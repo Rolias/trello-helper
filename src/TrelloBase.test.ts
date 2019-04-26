@@ -53,8 +53,4 @@ describe('TrelloBase Unit Tests', () => {
         error.message.should.equal('Unexpected type for test operation:invalid')
       })
   })
-<<<<<<< HEAD:src/TrelloBase.test.js
-
-=======
->>>>>>> TS-Conversion:src/TrelloBase.test.ts
 })

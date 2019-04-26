@@ -7,6 +7,7 @@ import TrelloBase from './TrelloBase'
 import TrelloGet from './TrelloGet'
 import TrelloRequest from './TrelloRequest'
 import {pathToCreds} from './test-data/testDataConst'
+import {DictObj} from './Interfaces'
 const FAKE_ID = '12345'
 
 const {match} = sinon
@@ -94,7 +95,7 @@ describe('TrelloGet Unit Tests', () => {
   })
 
   describe('getArchivedCardsOnBoard() should', () => {
-    let result
+    let result: DictObj[]
     beforeEach(async () => {
       result = await trelloGet.getArchivedCardsOnBoard({boardId: FAKE_ID, options: {}})
     })
@@ -110,7 +111,7 @@ describe('TrelloGet Unit Tests', () => {
   })
 
   describe('getArchivedCardsOnList() should', () => {
-    let result
+    let result: DictObj[]
     beforeEach(async () => {
       result = await trelloGet.getArchivedCardsOnList({listId: FAKE_ID, options: {}})
     })

@@ -1,20 +1,17 @@
 {
   "name": "trello-helper",
-  "version": "2.4.0",
+  "version": "3.0.0-alpha.01",
   "engines": {
     "node": ">10.0.0"
   },
   "description": "Simpler interface for setting and retrieving data using the Trello API",
-  "main": "main.js",
+  "main": "build/main.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "start": "run-s start:build",
-    "start:all": "run-p security-check start:src lint:watch test:watch",
-    "start:build": "node build/main.js",
-    "start:loop": "nodemon src/main.js",
     "security-check": "npm audit",
     "lint": "esw src/**/*.ts  --color",
     "lint:watch": "npm run lint -- --watch",
-    "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/test-data/",
+    "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/src/test-data/",
     "test": "mocha --use_strict 'build/**/*.test.js' ",
     "test:int": "mocha  --no-opts --use_strict 'build/**/*.int.js' ",
     "test:watch": "npm run test  -- --watch --reporter min",

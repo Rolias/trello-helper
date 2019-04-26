@@ -4,7 +4,7 @@ import * as I from './Interfaces'
 /**
  * @param {validateType} param
  */
-export const validate = (param: I.IValidateType): void => {
+export const validate = (param: I.ValidateType): void => {
   const keysInObject = Object.keys(param.obj)
 
   for (const key of param.reqKeys) {
@@ -20,14 +20,14 @@ export const validate = (param: I.IValidateType): void => {
  * to specify the array of property names all the time
  * we
  */
-export const validatePathOptions = (param: I.IPathOptionsType): void  =>
+export const validatePathOptions = (param: I.PathOptionsType): void  =>
   validate({obj: param, reqKeys: ['path', 'options']})
 
 
 /**
  * Validate that object has either {path, options} or {path, body} properties
  */
-export const validateOptionsOrBody = (param: I.IOptionsOrBodyType, type: string): void =>
+export const validateOptionsOrBody = (param: I.OptionsOrBodyType, type: string): void =>
   validate({obj: param, reqKeys: ['path', type]})
 
 
@@ -35,7 +35,7 @@ export const validateOptionsOrBody = (param: I.IOptionsOrBodyType, type: string)
  * Just make sure object has an options property
  * @param {listOrBoardType} param
  */
-export const validateOptions = (param: I.IListOrBoardType): void => {
+export const validateOptions = (param: I.ListOrBoardType): void => {
   const pathOptions = {obj: param, reqKeys: ['options']}
   validate(pathOptions)
 }

@@ -1,6 +1,6 @@
 # Trello Helper - Simplifying the Trello API
 
-This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It uses ES6 features. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can often just set them to `{}`. The code is commented with `JSDoc 3` syntax so at least in Visual Studio Code the code assistance is very useful. If you use tslint or enable `// @ts-check` you will also get guidance from the editor if you don't create a correctly formatted object.
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It was written in TypeScript. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can often just set them to `{}`. Declaration files have been created so you should get full code assistance if your editor supports it.
 
 [![NPM version](https://img.shields.io/npm/v/trello-helper.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper)
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)

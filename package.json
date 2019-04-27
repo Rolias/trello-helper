@@ -1,30 +1,40 @@
 {
   "name": "trello-helper",
-  "version": "3.0.0-alpha-ts.01",
+  "version": "v3.0.0-alpha-ts.02",
   "engines": {
     "node": ">10.0.0"
   },
   "description": "Simpler interface for setting and retrieving data using the Trello API",
-  "main": "build/main.js",
-  "types": "build/index.d.ts",
+  "main": "build/Trello.js",
+  "types": "build/Trello.d.ts",
+  "files": [
+    "build/**/*.ts",
+    "build/**/*.js",
+    "build/*.js",
+    "LICENSE",
+    "CODE_OF_CONDUCT.md"
+  ],
   "scripts": {
+    "build": "tsc -p ./src ",
     "security-check": "npm audit",
     "lint": "esw src/**/*.ts  --color",
     "lint:watch": "npm run lint -- --watch",
-    "pretest": " cp -f ./src/test-data/unit-test-fake-credentials.json ./build/src/test-data/",
-    "test": "mocha -r ts-node/register  'src/**/*.test.ts' ",
-    "test:int": "mocha -r ts-node/register --no-opts --use_strict 'src/**/*.int.ts' ",
-    "test:watch": "npm run test  -- --watch --reporter min",
+    "copy:fakeCreds": "cp -f ./src/test-data/unit-test-fake-credentials.json ./build/test-data/",
+    "pretest": " run-s copy:fakeCreds ",
+    "test": "TS_NODE_PROJECT='src/tsconfig.json' mocha -r ts-node/register  'src/*.test.ts' 'src/**/*.test.ts'  --project src/tsconfig.json ",
+    "test:int": "TS_NODE_PROJECT='src/tsconfig.json' mocha -r ts-node/register --no-opts --use_strict 'src/**/*.int.ts' ",
+    "test:watch": "npm run test  -- --watch --watch-extensions ts --reporter min",
+    "test:build": "mocha './build/*.test.js' './build/**/*.test.js' ",
     "test:cov": "nyc mocha --use_strict 'build/**/*.test.js'",
     "test:unit": "mocha  --forbid-only 'src/**/*.test.ts'",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",
     "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
-    "build:ver": "npm version patch  ",
-    "build:pub": "npm publish ",
-    "build:commit": "git commit --all -m 'build commit'",
-    "build:push": "git push",
-    "build": "npm-run-all --parallel lint test:all doc  --serial build:commit build:ver build:pub "
+    "pub:ver": "npm version patch  ",
+    "pub": "npm publish ",
+    "pub:commit": "git commit --all -m 'npm build commit'",
+    "pub:push": "git push",
+    "pub:full": "npm-run-all --parallel lint test:all doc  --serial pub:commit pub:ver pub "
   },
   "repository": {
     "type": "git",
@@ -53,13 +63,13 @@
     "moment": "^2.24.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
+    "@types/request-promise-native": "^1.0.16",
     "winston": "x"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.13.0",
-    "@types/request-promise-native": "^1.0.16",
     "@types/sinon": "^7.0.11",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -73,6 +83,7 @@
     "nodemon": "^1.18.10",
     "npm-run-all": "x",
     "nyc": "x",
+    "prettier": "^1.17.0",
     "sinon": "^7.3.1",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"

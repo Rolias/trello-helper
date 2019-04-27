@@ -120,7 +120,7 @@ export default class TrelloGet extends TrelloBase {
   }
 
   /**
-   * Find the boardId for the given listID
+   * Find the boardId for the given listId
    */
   public async getBoardIdFromListId(param: {listId: string}): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['listId']})

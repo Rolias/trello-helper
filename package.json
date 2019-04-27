@@ -12,7 +12,8 @@
     "build/**/*.js",
     "build/*.js",
     "LICENSE",
-    "CODE_OF_CONDUCT.md"
+    "CODE_OF_CONDUCT.md",
+    "ReadMe.md"
   ],
   "scripts": {
     "build": "tsc -p ./src ",

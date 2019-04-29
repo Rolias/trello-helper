@@ -37,7 +37,7 @@ export default class TrelloRequest {
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
   public get(getOptions: I.PathOptionsType): rpn.RequestPromise<I.DictObj[]> {
-    tv.validateOptionsOrBody(getOptions, Enum.OptionsBody.options)
+    tv.validateOptionsOrBody(getOptions, Enum.OptionsBody.Options)
     const {path, options} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
     const auth = this.getAuthObj()
@@ -72,7 +72,7 @@ export default class TrelloRequest {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public delete(deleteOptions: I.PathOptionsType): rpn.RequestPromise<any> {
-    tv.validateOptionsOrBody(deleteOptions, Enum.OptionsBody.options)
+    tv.validateOptionsOrBody(deleteOptions, Enum.OptionsBody.Options)
     const {path, options} = deleteOptions
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.options = options
@@ -85,7 +85,7 @@ export default class TrelloRequest {
    * @example setupPutPostOptions({path:string, body:object})
    */
   private _setupPutPostOptions(options: I.PathBodyType): I.DefaultRestOption {
-    tv.validateOptionsOrBody(options, Enum.OptionsBody.body)
+    tv.validateOptionsOrBody(options, Enum.OptionsBody.Body)
     const {path, body} = options
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.body = body

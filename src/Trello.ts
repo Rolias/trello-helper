@@ -1,7 +1,7 @@
 /** @module trello */
 import * as moment from 'moment'
-import TrelloGet from './TrelloGet'
-import TrelloBase from './TrelloBase'
+import {TrelloGet} from './TrelloGet'
+import {TrelloBase} from './TrelloBase'
 import * as tv from './typeValidate'
 import * as I  from './Interfaces'
 import * as Enum from './enums'
@@ -10,7 +10,7 @@ import * as Enum from './enums'
 // to manage so I split it up into various classes which just extend each other
 // TrelloGet extends TrelloBase. As this library grows I made to add more layers. The goal
 // is to keep each layer to 20 functions or fewer for improved maintainability.
-export default class Trello extends TrelloGet {
+export  class Trello extends TrelloGet {
   /**
    *  🏗
    * Extends TrelloGet to do all the non-get() type Trello calls
@@ -29,10 +29,10 @@ export default class Trello extends TrelloGet {
     tv.validate({obj: customFieldObj.cardFieldObj, reqKeys: ['cardId', 'fieldId']})
 
     const path = TrelloBase.getCustomFieldUpdateCmd(customFieldObj.cardFieldObj)
-    const valueObj: {idValue?: string, value?: {[key: string]: string}} = {}
+    const valueObj: I.CustomFieldValueObject = {}
     const {type, value} = customFieldObj
     // a list takes a simple {idValue:'value'}
-    if (type === Enum.CustomFieldType.list) {
+    if (type === Enum.CustomFieldType.List) {
       valueObj.idValue = value
     } else { // the others take a {value: {'type':'value}} where type is something like text, number etc...
       valueObj.value = {}
@@ -223,3 +223,4 @@ export default class Trello extends TrelloGet {
     return Trello.filterActionsByType({actions, filterType: 'moveCardToBoard'})
   }
 }
+

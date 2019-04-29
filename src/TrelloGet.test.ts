@@ -3,8 +3,8 @@ import * as chai from 'chai'
 chai.should()
 import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
-import TrelloBase from './TrelloBase'
-import TrelloGet from './TrelloGet'
+import {TrelloBase} from './TrelloBase'
+import {TrelloGet} from './TrelloGet'
 import TrelloRequest from './TrelloRequest'
 import {pathToCreds} from './test-data/testDataConst'
 import {DictObj} from './Interfaces'

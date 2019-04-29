@@ -1,17 +1,17 @@
 export enum OptionsBody {
-  options = 'options',
-  body = 'body'
+  Options = 'options',
+  Body = 'body'
 }
 export enum RestCommands {
-  delete = 'delete',
-  get = 'get',
-  post = 'post',
-  put = 'put'
+  Delete = 'delete',
+  Get = 'get',
+  Post = 'post',
+  Put = 'put'
 }
 export enum CustomFieldType {
-  list = 'list',
-  text = 'text',
-  number = 'number',
-  date = 'date',
-  checkbox = 'checked'
+  List = 'list',
+  Text = 'text',
+  Number = 'number',
+  Date = 'date',
+  Checkbox = 'checked'
 }

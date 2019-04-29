@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 import * as chai from 'chai'
 const should = chai.should()
-import Trello from './Trello'
+import {Trello} from './Trello'
 import  {logger} from './util/logger'
 import  {trelloTestIds}  from './test-data/integration'
 import * as I from './Interfaces'
@@ -207,7 +207,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom text field', async () => {
     const fieldId = CUSTOM_FIELD_TEXT
     const cardId = CARD_ID
-    const type = Enum.CustomFieldType.text
+    const type = Enum.CustomFieldType.Text
     const value = 'Tod Gentille'
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })
@@ -215,7 +215,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom list field', async () => {
     const fieldId = CUSTOM_FIELD_LIST
     const cardId = CARD_ID
-    const type = Enum.CustomFieldType.list
+    const type = Enum.CustomFieldType.List
     const value = CUSTOM_FIELD_LIST_VALUE // low priority
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })

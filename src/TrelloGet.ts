@@ -1,11 +1,11 @@
-import TrelloBase from './TrelloBase'
+import {TrelloBase} from './TrelloBase'
 import {GetCommandString} from './functionTypes'
 import {hasListId} from './typeGuards'
 import * as I from './Interfaces'
 
 import * as  tv from './typeValidate'
 
-export default class TrelloGet extends TrelloBase {
+export class TrelloGet extends TrelloBase {
   //  🏗
   public constructor(pathString?: string) {
     super(pathString)

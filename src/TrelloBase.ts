@@ -8,7 +8,7 @@ import {logger} from './util/logger'
 import * as utils from './util/utils'
 
 
-export default class TrelloBase {
+export class TrelloBase {
   // 🔏
   private trelloRequest: TrelloRequest;
   private retryCounter: number;
@@ -92,10 +92,10 @@ export default class TrelloBase {
   public async putOrPost(pathOptions: I.PathOptionsType, op: Enum.RestCommands): I.RestPromise {
     const options = this.createBodyOptions(pathOptions)
     switch (op) {
-    case Enum.RestCommands.put:
+    case Enum.RestCommands.Put:
       return await this.trelloRequest.put(options)
 
-    case Enum.RestCommands.post:
+    case Enum.RestCommands.Post:
       return await this.trelloRequest.post(options)
 
     default:
@@ -106,7 +106,7 @@ export default class TrelloBase {
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   public async put(pathOptions: I.PathOptionsType): I.RestPromise {
-    return await this.putOrPost(pathOptions, Enum.RestCommands.put)
+    return await this.putOrPost(pathOptions, Enum.RestCommands.Put)
   }
 
   /**
@@ -114,7 +114,7 @@ export default class TrelloBase {
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   public async post(pathOptions: I.PathOptionsType): I.RestPromise {
-    return await this.putOrPost(pathOptions, Enum.RestCommands.post)
+    return await this.putOrPost(pathOptions, Enum.RestCommands.Post)
   }
 
   /**

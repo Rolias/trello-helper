@@ -15,10 +15,18 @@ export interface CardFieldType extends CardId{
   fieldId: string
 }
 
-export interface CustomFieldType{
-  cardFieldObj: CardFieldType
+export interface TypeValueType{
   type: string
   value: string
+}
+
+export interface CustomFieldType extends TypeValueType{
+  cardFieldObj: CardFieldType
+}
+
+export interface CustomFieldValueObject {
+  idValue?: string
+  value?: DictObj
 }
 
 export interface KeyTokenType{

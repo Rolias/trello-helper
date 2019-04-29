@@ -6,7 +6,7 @@ import TrelloRequest from './TrelloRequest'
 
 import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
-import Trello from './Trello'
+import {Trello} from './Trello'
 import {logger} from './util/logger'
 import * as Enum from './enums'
 import {pathToCreds} from './test-data/testDataConst'
@@ -124,7 +124,7 @@ describe('Trello class UNIT TESTS', () => {
             cardId: FAKE_ID,
             fieldId: FAKE_ID,
           },
-          type: Enum.CustomFieldType.text,
+          type: Enum.CustomFieldType.Text,
           value: 'A value for custom text field',
         }
         const resetObj = {...customFieldObj}
@@ -150,7 +150,7 @@ describe('Trello class UNIT TESTS', () => {
         })
 
         it(' should set an idValue for a list type field', async () => {
-          customFieldObj.type = Enum.CustomFieldType.list
+          customFieldObj.type = Enum.CustomFieldType.List
           customFieldObj.value = FAKE_ID
           await trello.setCustomFieldValueOnCard(customFieldObj)
           putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true

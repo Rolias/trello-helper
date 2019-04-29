@@ -37,8 +37,8 @@ export class TrelloRequest {
    * @example get(path:'/1/lists/123',options:{limit:10})
    */
   public get(getOptions: I.PathOptionsType): rpn.RequestPromise<I.DictObj[]> {
-    tv.validateOptionsOrBody(getOptions, Enum.OptionsBody.Options)
-    const {path, options} = getOptions
+    const options = getOptions.options || {}
+    const {path} = getOptions
     const rpnOptions = this.setupDefaultOption(path)
     const auth = this.getAuthObj()
     const fullQs = {...auth, ...options} // combine options with auth for query string
@@ -72,8 +72,9 @@ export class TrelloRequest {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public delete(deleteOptions: I.PathOptionsType): rpn.RequestPromise<any> {
-    tv.validateOptionsOrBody(deleteOptions, Enum.OptionsBody.Options)
-    const {path, options} = deleteOptions
+    tv.validatePath(deleteOptions)
+    const options = deleteOptions.options || {}
+    const {path} = deleteOptions
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.options = options
     return rpn.delete(rpnOptions)

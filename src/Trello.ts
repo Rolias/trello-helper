@@ -52,7 +52,7 @@ export class Trello extends TrelloGet {
     const cutoffDate = moment().subtract(count, units)
       .toISOString()
 
-    const allCards = await this.getCardsOnList({listId, options: {}})
+    const allCards = await this.getCardsOnList({listId,})
     const newerCards = await this.getCardsOnList({listId, options: {since: cutoffDate}})
     const olderCards: I.DictObj[] = allCards.filter((card): boolean => !newerCards.includes(card))
 
@@ -77,7 +77,7 @@ export class Trello extends TrelloGet {
   public async archiveAllCardsOnList(param: I.ListId): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['listId']})
     const path = `${TrelloBase.getListPrefixWithId(param.listId)}/archiveAllCards`
-    return this.post({path, options: {}})
+    return this.post({path})
   }
 
   /**
@@ -155,7 +155,7 @@ export class Trello extends TrelloGet {
   public deleteCard(param: {cardId: string}): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['cardId']})
     const path = TrelloBase.getCardPrefixWithId(param.cardId)
-    return this.delete({path, options: {}})
+    return this.delete({path})
   }
 
   /**
@@ -186,7 +186,7 @@ export class Trello extends TrelloGet {
     tv.validate({obj: param, reqKeys: ['cardId', 'memberId']})
     const {cardId, memberId} = param
     const path = `${TrelloBase.getCardPrefixWithId(cardId)}/idMembers/${memberId}`
-    return this.delete({path, options: {}})
+    return this.delete({path})
   }
 
   /**

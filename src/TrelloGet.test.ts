@@ -40,7 +40,7 @@ describe('TrelloGet Unit Tests', () => {
 
   describe('getActionsOnCard() with blank filter should', () => {
     beforeEach(async () => {
-      await trelloGet.getActionsOnCard({cardId: FAKE_ID, options: {}})
+      await trelloGet.getActionsOnCard({cardId: FAKE_ID, })
     })
 
     it('have the expected path', async () => {
@@ -83,7 +83,7 @@ describe('TrelloGet Unit Tests', () => {
 
   describe('getCardsOnList() with id and empty option properties', () => {
     beforeEach(async () => {
-      await trelloGet.getCardsOnList({listId: FAKE_ID, options: {}})
+      await trelloGet.getCardsOnList({listId: FAKE_ID})
     })
     it('should get a proper path ', async () => {
       const expected = TrelloBase.getListCardCmd(FAKE_ID)
@@ -97,7 +97,7 @@ describe('TrelloGet Unit Tests', () => {
   describe('getArchivedCardsOnBoard() should', () => {
     let result: DictObj[]
     beforeEach(async () => {
-      result = await trelloGet.getArchivedCardsOnBoard({boardId: FAKE_ID, options: {}})
+      result = await trelloGet.getArchivedCardsOnBoard({boardId: FAKE_ID})
     })
     it('have the expected path', () => {
       getStub.calledWith(sinon.match({path: '/1/board/12345/cards'})).should.be.true
@@ -113,7 +113,7 @@ describe('TrelloGet Unit Tests', () => {
   describe('getArchivedCardsOnList() should', () => {
     let result: DictObj[]
     beforeEach(async () => {
-      result = await trelloGet.getArchivedCardsOnList({listId: FAKE_ID, options: {}})
+      result = await trelloGet.getArchivedCardsOnList({listId: FAKE_ID})
     })
     it('have the expected path', () => {
       getStub.calledWith(sinon.match({path: '/1/lists/12345/cards'})).should.be.true
@@ -136,7 +136,6 @@ describe('TrelloGet Unit Tests', () => {
     await trelloGet.getMembersOnBoard({boardId: FAKE_ID})
     const expected = `${TrelloBase.getBoardPrefixWithId(FAKE_ID)}/members`
     getStub.calledWith(match({path: expected})).should.be.true
-    getStub.calledWith(match.has('options', {})).should.be.true
   })
 
   it('getBoardIdFromListId() ', async () => {

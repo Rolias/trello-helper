@@ -13,10 +13,10 @@ export class TrelloGet extends TrelloBase {
 
   private static validateAndGetId(param: I.ListOrBoardType): string {
     if (hasListId(param)) {
-      tv.validate({obj: param, reqKeys: ['listId', 'options']})
+      tv.validate({obj: param, reqKeys: ['listId']})
       return param.listId
     }
-    tv.validate({obj: param, reqKeys: ['boardId', 'options']})
+    tv.validate({obj: param, reqKeys: ['boardId']})
     return param.boardId
   }
 
@@ -29,7 +29,7 @@ export class TrelloGet extends TrelloBase {
    */
   private getCardsRecipe(param: I.ListOrBoardType,  commandFunc: GetCommandString): I.RestPromise {
     const id = TrelloGet.validateAndGetId(param)
-    const {options} = param
+    const options = param.options || {}
     const path: string = commandFunc(id)
     return this.get({path, options})
   }
@@ -65,7 +65,7 @@ export class TrelloGet extends TrelloBase {
    */
   public getCustomFieldItemsOnCard(param: {cardId: string}): I.TrelloPromise {
     const path = `${TrelloBase.getCardPrefixWithId(param.cardId)}/customFieldItems`
-    return this.get({path, options: {}})
+    return this.get({path})
   }
 
   /**
@@ -91,9 +91,8 @@ export class TrelloGet extends TrelloBase {
    * calls
    */
   private async getArchivedCardsRecipe(param: I.ListOrBoardType, func: GetCommandString): I.RestPromise {
-    tv.validateOptions(param)
-    const options = this.addFilterClosedToOptions(param.options)
-    param.options = options
+    const options = param.options || {}
+    param.options = this.addFilterClosedToOptions(options)
     return await this.getCardsRecipe(param, func)
   }
 
@@ -103,7 +102,7 @@ export class TrelloGet extends TrelloBase {
    * @param {string} param.listId
    * @param {object} param.options
    * @returns {Promise<Array.<Object>>} returns Promise to array of cards
-   * @example getArchivedCards({boardId:'123',listId'456'})
+   * @example getArchivedCardsOnList({listId'456'}) allows options? property
   */
   public async getArchivedCardsOnList(param: I.ListOptions): I.RestPromise {
     return await this.getArchivedCardsRecipe(param, TrelloBase.getListCardCmd)
@@ -111,7 +110,7 @@ export class TrelloGet extends TrelloBase {
 
   /**
  * Get all cards that are archived for the board
- * @example getArchivedCards({boardId:'123',listId'456'})
+ * @example getArchivedCardsOnBoard({boardId:'123'}) allows options? property
  */
   public async getArchivedCardsOnBoard(param: I.BoardOptions): I.RestPromise {
     return await this.getArchivedCardsRecipe(param, TrelloBase.getCardsOnBoardWithId)
@@ -138,6 +137,6 @@ export class TrelloGet extends TrelloBase {
     tv.validate({obj: param, reqKeys: ['boardId']})
     const {boardId} = param
     const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/members`
-    return this.get({path, options: {}}) as Promise<I.TrelloMemberData[]>
+    return this.get({path}) as Promise<I.TrelloMemberData[]>
   }
 }

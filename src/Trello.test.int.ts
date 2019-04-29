@@ -84,7 +84,6 @@ describe('trello module INTEGRATION', function () {
       // FRAGILE - board must have one archived card
       archiveResult = await trello.getArchivedCardsOnBoard({
         boardId: BOARD_ID,
-        options: {},
       })
     })
     it('should return at least one archived card (make sure on exists)', () => {
@@ -148,17 +147,17 @@ describe('trello module INTEGRATION', function () {
 
     it('unarchiveAllCardsOnList() should do that', async () => {
       await trello.unarchiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
-      const afterUnarchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
+      const afterUnarchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID})
       numCardsOnArchiveList = afterUnarchive.length
       numCardsOnArchiveList.should.be.gt(0)
     })
 
     it('archiveAllCardsOnList() should produce an empty list', async () => {
       await trello.unarchiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
-      const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
+      const result = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID})
       result.length.should.be.gt(0)
       await trello.archiveAllCardsOnList({listId: ARCHIVE_LIST_ID})
-      const afterArchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID, options: {}})
+      const afterArchive = await trello.getCardsOnList({listId: ARCHIVE_LIST_ID})
       afterArchive.length.should.equal(0)
     })
   })
@@ -187,7 +186,7 @@ describe('trello module INTEGRATION', function () {
 
   describe('getCardsOnBoard()', () => {
     it('should work with no options', async () => {
-      const result = await trello.getCardsOnBoard({boardId: BOARD_ID, options: {}})
+      const result = await trello.getCardsOnBoard({boardId: BOARD_ID})
       result.length.should.be.gt(0)
     })
 

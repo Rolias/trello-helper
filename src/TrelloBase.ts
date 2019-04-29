@@ -1,5 +1,4 @@
 import * as I from './Interfaces'
-import * as Enum from './enums'
 
 import * as tv  from  './typeValidate'
 import {TrelloRequest}  from './TrelloRequest'
@@ -59,7 +58,7 @@ export class TrelloBase {
   * @example get({path:this.getListCardCmd('123'),options: {limit:10}})
   */
   public async get(pathOptions: I.PathOptionsType): I.RestPromise {
-    tv.validatePathOptions(pathOptions)
+    tv.validatePath(pathOptions)
     const responseStr = await this.trelloRequest.get(pathOptions)
       .catch(async (error: I.DictObj): I.RestPromise => {
         if (error.statusCode === TrelloBase.getRateLimitError()) {
@@ -85,28 +84,16 @@ export class TrelloBase {
   * @example  delete(getCardPrefixWithId(<cardId>)})
   */
   public async delete(pathOptions: I.PathOptionsType): I.RestPromise {
-    tv.validatePathOptions(pathOptions)
+    tv.validatePath(pathOptions)
     return await this.trelloRequest.delete(pathOptions)
   }
 
-  public async putOrPost(pathOptions: I.PathOptionsType, op: Enum.RestCommands): I.RestPromise {
-    const options = this.createBodyOptions(pathOptions)
-    switch (op) {
-    case Enum.RestCommands.Put:
-      return await this.trelloRequest.put(options)
-
-    case Enum.RestCommands.Post:
-      return await this.trelloRequest.post(options)
-
-    default:
-      throw new TypeError(`Unexpected type for test operation:${op}`)
-    }
-  }
   /** wrap the underlying makeRequest for put
    * @example  put({path:getCardPrefixWithId(<cardId>), options:{dueComplete: true}})
    */
   public async put(pathOptions: I.PathOptionsType): I.RestPromise {
-    return await this.putOrPost(pathOptions, Enum.RestCommands.Put)
+    const options = this.createBodyOptions(pathOptions)
+    return await this.trelloRequest.put(options)
   }
 
   /**
@@ -114,15 +101,17 @@ export class TrelloBase {
   * @example post({path:this.getBaseCardCmd(), options:{name:'card name', description:'some desc., idList:<idOfList>}})
   */
   public async post(pathOptions: I.PathOptionsType): I.RestPromise {
-    return await this.putOrPost(pathOptions, Enum.RestCommands.Post)
+    const options = this.createBodyOptions(pathOptions)
+    return await this.trelloRequest.post(options)
   }
 
   /**
    *  turn {path, options} into {path, body}
    */
   private createBodyOptions(pathOptions: I.PathOptionsType): I.PathBodyType {
-    tv.validatePathOptions(pathOptions)
-    const {path, options} = pathOptions
+    tv.validatePath(pathOptions)
+    const options = pathOptions.options || {}
+    const {path} = pathOptions
     return {path, body: options}
   }
 

@@ -8,7 +8,7 @@ import * as  utils from './util/utils'
 import {logger} from './util/logger'
 import {pathToCreds} from './test-data/testDataConst'
 import {TrelloRequest} from './TrelloRequest'
-import * as Enum from './enums'
+
 
 const FAKE_ID = '12345'
 
@@ -35,7 +35,7 @@ describe('TrelloBase Unit Tests', () => {
     sandbox.restore()
   })
   it('get() should make multiple attempts when rate error returned', async () => {
-    await trelloBase.get({path: FAKE_ID, options: {}})
+    await trelloBase.get({path: FAKE_ID})
       .catch(error => {
         console.log('caught', error)
       })
@@ -44,13 +44,5 @@ describe('TrelloBase Unit Tests', () => {
     TrelloBase.getRateLimitError.called.should.be.true
     // @ts-ignore
     TrelloBase.getRateLimitDelayMs.called.should.be.true
-  })
-
-  it('putOrPost() should throw when invalid op passed', async () => {
-    const options = {path: FAKE_ID, options: {}}
-    await trelloBase.putOrPost(options, 'invalid' as Enum.RestCommands)
-      .catch(error => {
-        error.message.should.equal('Unexpected type for test operation:invalid')
-      })
   })
 })

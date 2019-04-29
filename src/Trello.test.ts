@@ -54,7 +54,7 @@ describe('Trello class UNIT TESTS', () => {
 
     it('get() should reject', async () => {
       try {
-        await trello.get({path: fakeCmd, options: {}})
+        await trello.get({path: fakeCmd})
         true.should.be.false('expected exception was not thrown')
       } catch (error) {
         error.name.should.equal(rejectMsg)
@@ -62,7 +62,7 @@ describe('Trello class UNIT TESTS', () => {
     })
 
     it('getCardsOnList() should reject', async () => {
-      await trello.getCardsOnList({listId: fakeCmd, options: {}})
+      await trello.getCardsOnList({listId: fakeCmd})
         .catch((error) => {
           error.name.should.equal(rejectMsg)
         })

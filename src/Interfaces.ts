@@ -1,6 +1,7 @@
 import * as moment from 'moment'
 
 export interface DictObj{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
 
@@ -38,7 +39,7 @@ export interface KeyTokenType{
   token: string
 }
 
-export interface PathOptionsType extends Options{
+export interface PathOptionsType extends OptionsMaybe{
   path: string
 }
 
@@ -75,7 +76,7 @@ export interface OptionsBodyType{
   options: string
   body: string
 }
-export interface BoardOptions extends Options, DictObj{
+export interface BoardOptions extends OptionsMaybe, DictObj{
   boardId: string
 }
 
@@ -83,7 +84,7 @@ export interface ListId{
   listId: string
 }
 
-export type ListOptions =ListId & Options & DictObj
+export type ListOptions =ListId & OptionsMaybe & DictObj
 
 export interface ValidateType{
   obj: object

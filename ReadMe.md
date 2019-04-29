@@ -13,7 +13,7 @@ This project is designed to make using the Trello API a lot easier and to provid
 ```javascript
 getCardsOnlist({ listId: "123", options: { limit: 10 } });
 // or
-getCardsOnList({ listId: "123", options: {} });
+getCardsOnList({ listId: "123" });
 ```
 
 ![](demo.gif)

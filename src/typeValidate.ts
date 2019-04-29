@@ -15,6 +15,9 @@ export const validate = (param: I.ValidateType): void => {
   }
 }
 
+export const validatePath = (param: I.PathOptionsType): void => {
+  validate({obj: param, reqKeys:['path']})
+}
 /**
  * Since we use this multiple times it gets a wrapper so we don't have
  * to specify the array of property names all the time

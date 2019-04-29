@@ -10,7 +10,7 @@ import * as Enum from './enums'
 // to manage so I split it up into various classes which just extend each other
 // TrelloGet extends TrelloBase. As this library grows I made to add more layers. The goal
 // is to keep each layer to 20 functions or fewer for improved maintainability.
-export  class Trello extends TrelloGet {
+export class Trello extends TrelloGet {
   /**
    *  🏗
    * Extends TrelloGet to do all the non-get() type Trello calls

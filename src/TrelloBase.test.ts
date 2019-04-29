@@ -7,7 +7,7 @@ import {TrelloBase} from './TrelloBase'
 import * as  utils from './util/utils'
 import {logger} from './util/logger'
 import {pathToCreds} from './test-data/testDataConst'
-import TrelloRequest from './TrelloRequest'
+import {TrelloRequest} from './TrelloRequest'
 import * as Enum from './enums'
 
 const FAKE_ID = '12345'

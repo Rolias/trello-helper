@@ -38,8 +38,9 @@ export class TrelloGet extends TrelloBase {
    * Get a card based on passed Id and options
    */
   public getCard(cardParam: I.CardOptionsType): I.TrelloPromise {
-    tv.validate({obj: cardParam, reqKeys: ['cardId', 'options']})
-    const {cardId, options} = cardParam
+    tv.validate({obj: cardParam, reqKeys: ['cardId']})
+    const options = cardParam.options || {}
+    const {cardId} = cardParam
     const path = TrelloBase.getBoardPrefixWithId(cardId)
     return this.get({path, options})
   }
@@ -49,8 +50,9 @@ export class TrelloGet extends TrelloBase {
    * https://developers.trello.com/reference/#action-types
    */
   public getActionsOnCard(param: I.CardOptionsType): I.TrelloPromise {
-    tv.validate({obj: param, reqKeys: ['cardId', 'options']})
-    const {cardId, options} = param
+    tv.validate({obj: param, reqKeys: ['cardId']})
+    const options = param.options || {}
+    const {cardId} = param
     const path = `${TrelloBase.getCardPrefixWithId(cardId)}/actions`
     options.filter = options.filter || 'all'
     options.limit = options.limit || 1000

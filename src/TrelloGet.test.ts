@@ -5,7 +5,7 @@ import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
 import {TrelloBase} from './TrelloBase'
 import {TrelloGet} from './TrelloGet'
-import TrelloRequest from './TrelloRequest'
+import {TrelloRequest} from './TrelloRequest'
 import {pathToCreds} from './test-data/testDataConst'
 import {DictObj} from './Interfaces'
 const FAKE_ID = '12345'

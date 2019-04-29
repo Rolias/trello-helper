@@ -8,6 +8,10 @@ export interface Options{
   options: DictObj
 }
 
+export interface OptionsMaybe{
+  options?: DictObj
+}
+
 export interface CardId{
   cardId: string
 }
@@ -45,7 +49,7 @@ export interface PathBodyType {
 
 export type OptionsOrBodyType = PathOptionsType | PathBodyType
 
-export interface CardOptionsType extends Options{
+export interface CardOptionsType extends OptionsMaybe{
   cardId: string
 }
 

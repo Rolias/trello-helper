@@ -5,7 +5,7 @@ import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()
 // const TrelloRequest = require('./trelloRequest')
 import * as rpn from 'request-promise-native'
-import TrelloRequest from './TrelloRequest'
+import {TrelloRequest} from './TrelloRequest'
 const fakeCreds = {key: '123', token: 'token'}
 const trelloRequest = new TrelloRequest(fakeCreds)
 

@@ -3,7 +3,7 @@ import * as rpn from 'request-promise-native'
 import * as tv from './typeValidate'
 import * as Enum from './enums'
 
-export default class TrelloRequest {
+export class TrelloRequest {
   // 🔏
   private key: string
   private token: string

@@ -2,7 +2,7 @@ import * as I from './Interfaces'
 import * as Enum from './enums'
 
 import * as tv  from  './typeValidate'
-import TrelloRequest  from './TrelloRequest'
+import {TrelloRequest}  from './TrelloRequest'
 import * as envCreate  from 'env-create'
 import {logger} from './util/logger'
 import * as utils from './util/utils'

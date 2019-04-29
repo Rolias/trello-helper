@@ -2,7 +2,7 @@
 import * as chai from 'chai'
 chai.should()
 import * as moment from 'moment'
-import TrelloRequest from './TrelloRequest'
+import {TrelloRequest} from './TrelloRequest'
 
 import * as sinon from 'sinon'
 const sandbox = sinon.createSandbox()

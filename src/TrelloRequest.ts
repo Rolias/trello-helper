@@ -1,7 +1,6 @@
 import * as I from './Interfaces'
 import * as rpn from 'request-promise-native'
 import * as tv from './typeValidate'
-import * as Enum from './enums'
 
 export class TrelloRequest {
   // 🔏
@@ -85,9 +84,9 @@ export class TrelloRequest {
    * based on the body property of the options.
    * @example setupPutPostOptions({path:string, body:object})
    */
-  private _setupPutPostOptions(options: I.PathBodyType): I.DefaultRestOption {
-    tv.validateOptionsOrBody(options, Enum.OptionsBody.Body)
-    const {path, body} = options
+  private _setupPutPostOptions(pathBody: I.PathBodyType): I.DefaultRestOption {
+    tv.validatePathBody(pathBody)
+    const {path, body} = pathBody
     const rpnOptions = this.setupDefaultOption(path)
     rpnOptions.body = body
     return rpnOptions

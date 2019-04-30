@@ -30,8 +30,8 @@ export const validatePathOptions = (param: I.PathOptionsType): void  =>
 /**
  * Validate that object has either {path, options} or {path, body} properties
  */
-export const validateOptionsOrBody = (param: I.OptionsOrBodyType, type: string): void =>
-  validate({obj: param, reqKeys: ['path', type]})
+export const validatePathBody = (param: I.PathBodyType): void =>
+  validate({obj: param, reqKeys: ['path', 'body']})
 
 
 /**

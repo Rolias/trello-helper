@@ -1,7 +1,3 @@
-export enum OptionsBody {
-  Options = 'options',
-  Body = 'body'
-}
 export enum RestCommands {
   Delete = 'delete',
   Get = 'get',

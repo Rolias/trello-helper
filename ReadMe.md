@@ -1,6 +1,6 @@
 # Trello Helper - Simplifying the Trello API
 
-This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It was written in TypeScript. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can often just set them to `{}`. Declaration files have been created so you should get full code assistance if your editor supports it.
+This project is designed to make using the Trello API a lot easier and to provide a lot of higher level functions to perform common tasks. It was written in TypeScript. Most of the functions take a single parameter with object property names that help describe the function. This means you can't get the parameters in the wrong order. If you don't need the options or body properties, you can leave the property off. Declaration files have been created so you should get full code assistance if your editor supports it.
 
 [![NPM version](https://img.shields.io/npm/v/trello-helper.svg?style=flat-square)](~https://www.npmjs.com/package/trello-helper)
 ![BuildStatus](https://img.shields.io/travis/Rolias/trello-helper.svg)
@@ -16,7 +16,7 @@ getCardsOnlist({ listId: "123", options: { limit: 10 } });
 getCardsOnList({ listId: "123" });
 ```
 
-![](demo.gif)
+![gif showing simple demo](demo.gif)
 
 Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands to the Trello API to take card of the authorization elements. But, it also exposes many higher-level commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
 

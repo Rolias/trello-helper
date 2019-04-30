@@ -18,6 +18,8 @@
   "scripts": {
     "prebuild": "rimraf build/* ",
     "build": "tsc -p ./src ",
+    "predoc": "rimraf docs/*",
+    "doc": "typedoc --out docs --tsconfig './src/tsconfig.json'  ./src",
     "security-check": "npm audit",
     "lint": "esw src/**/*.ts  --color",
     "lint:watch": "npm run lint -- --watch",
@@ -106,6 +108,7 @@
     "sinon": "^7.3.1",
     "source-map-support": "^0.5.12",
     "ts-node": "^8.1.0",
+    "typedoc": "^0.14.2",
     "typescript": "^3.4.5"
   }
 }

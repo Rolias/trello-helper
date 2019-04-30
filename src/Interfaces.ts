@@ -9,12 +9,31 @@ export interface Options{
   options: DictObj
 }
 
+export interface IdList{
+  idList: string
+}
+
+export interface ListAndName extends IdList {
+name: string
+}
+export interface ListAndMembers extends IdList{
+  idMembers: string
+ }
+
+export interface ListAndAnything extends IdList{
+ [key: string]: string|boolean
+ }
+
 export interface OptionsMaybe{
   options?: DictObj
 }
 
 export interface CardId{
   cardId: string
+}
+
+export interface CardIdAndText extends CardId{
+  text: string
 }
 export interface CardFieldType extends CardId{
   fieldId: string

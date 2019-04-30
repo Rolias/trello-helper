@@ -21,8 +21,10 @@ export class Trello extends TrelloGet {
   }
 
   /**
-   * Set the value of a custom Field object
-      * @returns Promise<{}> an empty object- oh well so much for testing
+   * Set the value of a custom Field object. One of the more complicated calls. takes a
+   * card field object (which is {cardId, fieldId}) and then properties for type and value
+   * Where type specifices the type of the custom field and value is the value to set.
+   * @example await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
    */
   public setCustomFieldValueOnCard(customFieldObj: I.CustomFieldType): I.RestPromise {
     tv.validate({obj: customFieldObj, reqKeys: ['cardFieldObj', 'type', 'value']})
@@ -122,7 +124,7 @@ export class Trello extends TrelloGet {
    * code used listId when referencing a top level list in Trello.
    * @example addCard({name:'my name',description:'test',idList:'12345"})
    */
-  public addCard(options: {idList: string, name: string}): I.RestPromise {
+  public addCard(options: I.ListAndName): I.RestPromise {
     tv.validate({obj: options, reqKeys: ['idList', 'name']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
@@ -130,7 +132,7 @@ export class Trello extends TrelloGet {
   /**
    * like addCard() but takes a comma separated list of memberIds
    */
-  public addCardWithMembers(options: {idList: string, idMembers: string}): I.RestPromise {
+  public addCardWithMembers(options: I.ListAndMembers): I.RestPromise {
     tv.validate({obj: options, reqKeys: ['idList', 'idMembers']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
@@ -144,7 +146,7 @@ export class Trello extends TrelloGet {
    * https://developers.trello.com/reference/#cardsid-1
    * @example addCardWithAnything({idList:123,name:'card name', idMembers:'1,2,3'})
    */
-  public addCardWithAnything(options: {idList: string, [key: string]: string|boolean}): I.RestPromise {
+  public addCardWithAnything(options: I.ListAndAnything): I.RestPromise {
     tv.validate({obj: options, reqKeys: ['idList']})
     return this.post({path: TrelloBase.getBaseCardCmd(), options})
   }
@@ -152,7 +154,7 @@ export class Trello extends TrelloGet {
   /**
    * Delete the card with the passed Id
    */
-  public deleteCard(param: {cardId: string}): I.RestPromise {
+  public deleteCard(param: I.CardId): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['cardId']})
     const path = TrelloBase.getCardPrefixWithId(param.cardId)
     return this.delete({path})
@@ -162,7 +164,7 @@ export class Trello extends TrelloGet {
    * Add a comment to the card
    * @example addCommentOnCard({cardId:'123',text:"message for comment"})
    */
-  public addCommentOnCard(param: {cardId: string, text: string}): I.RestPromise {
+  public addCommentOnCard(param: I.CardIdAndText): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'text']})
     const path = `${TrelloBase.getCardPrefixWithId(param.cardId)}/actions/comments`
     const {text} = param

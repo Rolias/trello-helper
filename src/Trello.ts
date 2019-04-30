@@ -52,7 +52,7 @@ export class Trello extends TrelloGet {
     const cutoffDate = moment().subtract(count, units)
       .toISOString()
 
-    const allCards = await this.getCardsOnList({listId,})
+    const allCards = await this.getCardsOnList({listId})
     const newerCards = await this.getCardsOnList({listId, options: {since: cutoffDate}})
     const olderCards: I.DictObj[] = allCards.filter((card): boolean => !newerCards.includes(card))
 

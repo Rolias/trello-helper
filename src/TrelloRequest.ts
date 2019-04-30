@@ -8,7 +8,6 @@ export class TrelloRequest {
   private token: string
   private uri: string
 
-
   //  🏗
   public constructor(keyTokenPair: I.KeyTokenType)  {
     tv.validate({obj: keyTokenPair, reqKeys: ['key', 'token']})

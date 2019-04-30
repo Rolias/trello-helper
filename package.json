@@ -47,7 +47,9 @@
     "helper",
     "custom fields",
     "easy",
-    "pluralsight"
+    "pluralsight",
+    "type safe",
+    "typescript"
   ],
   "author": "Tod Gentille",
   "license": "GPL-3.0-or-later",

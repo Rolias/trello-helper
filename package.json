@@ -16,7 +16,7 @@
     "ReadMe.md"
   ],
   "scripts": {
-    "prebuild": "rm -rf build "
+    "prebuild": "rimraf build/* ",
     "build": "tsc -p ./src ",
     "security-check": "npm audit",
     "lint": "esw src/**/*.ts  --color",
@@ -25,13 +25,13 @@
     "setEnv": "TS_NODE_PROJECT='src/tsconfig.json'",
     "test": "npm run setEnv mocha  ",
     "test:int": "npm run test -- -- -g INTEGRATION 'src/**/*.int.ts'   ",
-    "test:watch": "npm run test  -- --watch --watch-extensions ts --reporter min",
-    "test:build": "mocha './build/*.test.js' './build/**/*.test.js' ",
+    "test:watch": "npm run test  -- -- --watch --watch-extensions ts --reporter min",
+    "pretest:build": "npm run pretest",
+    "test:build": "mocha --no-config './build/*.test.js' './build/**/*.test.js' ",
     "test:cov": "nyc npm test --silent",
     "test:unit": "npm test --  --forbid-only ",
     "test:all": "nyc run-p  'test -- --forbid-only' 'test:int -- --forbid-only'",
     "watch": "run-p lint:watch test:watch",
-    "doc": "./node_modules/.bin/jsdoc -c ./jsdoc.config.json main.js src/**/*.js src/*.js ./ReadMe.md",
     "pub:ver": "npm version patch  ",
     "pub": "npm publish ",
     "pub:commit": "git commit --all -m 'npm build commit'",
@@ -102,6 +102,7 @@
     "npm-run-all": "x",
     "nyc": "x",
     "prettier": "^1.17.0",
+    "rimraf": "^2.6.3",
     "sinon": "^7.3.1",
     "source-map-support": "^0.5.12",
     "ts-node": "^8.1.0",

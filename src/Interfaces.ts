@@ -35,9 +35,18 @@ export interface CardId{
 export interface CardIdAndText extends CardId{
   text: string
 }
+
+export interface CardIdAndIsComplete extends CardId{
+  isComplete: boolean
+}
+
+export interface CardIdAndIsClosed extends CardId{
+  isClosed: boolean
+}
 export interface CardFieldType extends CardId{
   fieldId: string
 }
+
 
 export interface TypeValueType{
   type: string
@@ -95,9 +104,11 @@ export interface OptionsBodyType{
   options: string
   body: string
 }
-export interface BoardOptions extends OptionsMaybe, DictObj{
+export interface BoardId {
   boardId: string
 }
+
+export type BoardOptions = OptionsMaybe & DictObj& BoardId
 
 export interface ListId{
   listId: string

@@ -100,7 +100,7 @@ export class Trello extends TrelloGet {
    * isComplete:false
    * @example setDueComplete({id:'123', isComplete:true})
    */
-  public setDueComplete(param: {cardId: string, isComplete: boolean}): I.RestPromise {
+  public setDueComplete(param: I.CardIdAndIsComplete): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'isComplete']})
     const path = TrelloBase.getCardPrefixWithId(param.cardId)
     const options = {dueComplete: param.isComplete}
@@ -110,7 +110,7 @@ export class Trello extends TrelloGet {
   /**
    * Setting the closed state to true means the card is archived
    */
-  public setClosedState(param: {cardId: string, isClosed: boolean}): I.RestPromise {
+  public setClosedState(param: I.CardIdAndIsClosed): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['cardId', 'isClosed']})
     const {cardId, isClosed} = param
     const path = TrelloBase.getCardPrefixWithId(cardId)

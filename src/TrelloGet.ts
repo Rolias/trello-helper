@@ -63,7 +63,7 @@ export class TrelloGet extends TrelloBase {
   /**
    * Get the array of custom field items on the card.
    */
-  public getCustomFieldItemsOnCard(param: {cardId: string}): I.TrelloPromise {
+  public getCustomFieldItemsOnCard(param: I.CardId): I.TrelloPromise {
     const path = `${TrelloBase.getCardPrefixWithId(param.cardId)}/customFieldItems`
     return this.get({path})
   }
@@ -123,7 +123,7 @@ export class TrelloGet extends TrelloBase {
   /**
    * Find the boardId for the given listId
    */
-  public async getBoardIdFromListId(param: {listId: string}): I.RestPromise {
+  public async getBoardIdFromListId(param: I.ListId): I.RestPromise {
     tv.validate({obj: param, reqKeys: ['listId']})
     const {listId} = param
     const path = `${TrelloBase.getListPrefixWithId(listId)}/board`
@@ -133,7 +133,7 @@ export class TrelloGet extends TrelloBase {
   /**
    * Get all the members on the passed board
    */
-  public getMembersOnBoard(param: {boardId: string}): Promise<I.TrelloMemberData[]> {
+  public getMembersOnBoard(param: I.BoardId): Promise<I.TrelloMemberData[]> {
     tv.validate({obj: param, reqKeys: ['boardId']})
     const {boardId} = param
     const path = `${TrelloBase.getBoardPrefixWithId(boardId)}/members`

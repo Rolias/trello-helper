@@ -76,10 +76,12 @@
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.actionfilterlisttype.html" class="tsd-kind-icon">Action<wbr>Filter<wbr>List<wbr>Type</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.actionfiltertype.html" class="tsd-kind-icon">Action<wbr>Filter<wbr>Type</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.archiveoffset.html" class="tsd-kind-icon">Archive<wbr>Offset</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.boardoptions.html" class="tsd-kind-icon">Board<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.boardid.html" class="tsd-kind-icon">Board<wbr>Id</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardduedateoffset.html" class="tsd-kind-icon">Card<wbr>Due<wbr>Date<wbr>Offset</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardfieldtype.html" class="tsd-kind-icon">Card<wbr>Field<wbr>Type</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardid.html" class="tsd-kind-icon">Card<wbr>Id</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardidandisclosed.html" class="tsd-kind-icon">Card<wbr>IdAnd<wbr>IsClosed</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardidandiscomplete.html" class="tsd-kind-icon">Card<wbr>IdAnd<wbr>IsComplete</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardidandtext.html" class="tsd-kind-icon">Card<wbr>IdAnd<wbr>Text</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardmembertype.html" class="tsd-kind-icon">Card<wbr>Member<wbr>Type</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_interfaces_.cardoptionstype.html" class="tsd-kind-icon">Card<wbr>Options<wbr>Type</a></li>
@@ -110,6 +112,7 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_interfaces_.html#boardoptions" class="tsd-kind-icon">Board<wbr>Options</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_interfaces_.html#listoptions" class="tsd-kind-icon">List<wbr>Options</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_interfaces_.html#listorboardtype" class="tsd-kind-icon">List<wbr>OrBoard<wbr>Type</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_interfaces_.html#optionsorbodytype" class="tsd-kind-icon">Options<wbr>OrBody<wbr>Type</a></li>
@@ -123,22 +126,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="boardoptions" class="tsd-anchor"></a>
+					<h3>Board<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">Board<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_interfaces_.optionsmaybe.html" class="tsd-signature-type">OptionsMaybe</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/_interfaces_.dictobj.html" class="tsd-signature-type">DictObj</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/_interfaces_.boardid.html" class="tsd-signature-type">BoardId</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/7825968/src/Interfaces.ts#L111">Interfaces.ts:111</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="listoptions" class="tsd-anchor"></a>
 					<h3>List<wbr>Options</h3>
 					<div class="tsd-signature tsd-kind-icon">List<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_interfaces_.listid.html" class="tsd-signature-type">ListId</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/_interfaces_.optionsmaybe.html" class="tsd-signature-type">OptionsMaybe</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/_interfaces_.dictobj.html" class="tsd-signature-type">DictObj</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/e0f7395/src/Interfaces.ts#L106">Interfaces.ts:106</a></li>
+							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/7825968/src/Interfaces.ts#L117">Interfaces.ts:117</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="listorboardtype" class="tsd-anchor"></a>
 					<h3>List<wbr>OrBoard<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">List<wbr>OrBoard<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_interfaces_.boardoptions.html" class="tsd-signature-type">BoardOptions</a><span class="tsd-signature-symbol"> | </span><a href="_interfaces_.html#listoptions" class="tsd-signature-type">ListOptions</a></div>
+					<div class="tsd-signature tsd-kind-icon">List<wbr>OrBoard<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="_interfaces_.html#boardoptions" class="tsd-signature-type">BoardOptions</a><span class="tsd-signature-symbol"> | </span><a href="_interfaces_.html#listoptions" class="tsd-signature-type">ListOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/e0f7395/src/Interfaces.ts#L112">Interfaces.ts:112</a></li>
+							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/7825968/src/Interfaces.ts#L123">Interfaces.ts:123</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -148,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">Options<wbr>OrBody<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_interfaces_.pathoptionstype.html" class="tsd-signature-type">PathOptionsType</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_interfaces_.pathbodytype.html" class="tsd-signature-type">PathBodyType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/e0f7395/src/Interfaces.ts#L70">Interfaces.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/7825968/src/Interfaces.ts#L79">Interfaces.ts:79</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -158,7 +171,7 @@
 					<div class="tsd-signature tsd-kind-icon">Rest<wbr>Promise<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/e0f7395/src/Interfaces.ts#L167">Interfaces.ts:167</a></li>
+							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/7825968/src/Interfaces.ts#L178">Interfaces.ts:178</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -168,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">Trello<wbr>Promise<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_interfaces_.dictobj.html" class="tsd-signature-type">DictObj</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/e0f7395/src/Interfaces.ts#L165">Interfaces.ts:165</a></li>
+							<li>Defined in <a href="https://github.com/Rolias/trello-helper/blob/7825968/src/Interfaces.ts#L176">Interfaces.ts:176</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -257,7 +270,7 @@
 						<a href="../interfaces/_interfaces_.archiveoffset.html" class="tsd-kind-icon">Archive<wbr>Offset</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_interfaces_.boardoptions.html" class="tsd-kind-icon">Board<wbr>Options</a>
+						<a href="../interfaces/_interfaces_.boardid.html" class="tsd-kind-icon">Board<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_interfaces_.cardduedateoffset.html" class="tsd-kind-icon">Card<wbr>Due<wbr>Date<wbr>Offset</a>
@@ -267,6 +280,12 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_interfaces_.cardid.html" class="tsd-kind-icon">Card<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_interfaces_.cardidandisclosed.html" class="tsd-kind-icon">Card<wbr>IdAnd<wbr>IsClosed</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_interfaces_.cardidandiscomplete.html" class="tsd-kind-icon">Card<wbr>IdAnd<wbr>IsComplete</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_interfaces_.cardidandtext.html" class="tsd-kind-icon">Card<wbr>IdAnd<wbr>Text</a>
@@ -342,6 +361,9 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_interfaces_.validatetype.html" class="tsd-kind-icon">Validate<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_interfaces_.html#boardoptions" class="tsd-kind-icon">Board<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_interfaces_.html#listoptions" class="tsd-kind-icon">List<wbr>Options</a>

@@ -16,9 +16,5 @@
     // "experimentalDecorators": true,
     "strictNullChecks": true
   },
-  // "typedocOptions": {
-  //   "mode": "modules",
-  //   "out": "documentation"
-  // },
   "include": ["./**/*"]
 }

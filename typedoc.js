@@ -1,4 +1,6 @@
 module.exports = {
   out: 'docs',
-  tsconfig: './src/tsconfig.json'
+  tsconfig: './src/tsconfig.json',
+  theme: 'minimal',
+  mode: 'file'
 }

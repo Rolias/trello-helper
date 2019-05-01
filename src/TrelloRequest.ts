@@ -1,9 +1,16 @@
+/**
+ * TrelloRequest is the Wrapper class for using the request-promise-native
+ * REST calls. This class is used inside of the TrelloBase class.
+ */
 import * as I from './Interfaces'
 import * as rpn from 'request-promise-native'
 import * as tv from './typeValidate'
 
 export class TrelloRequest {
   // 🔏
+  /**
+   * private member data
+   */
   private key: string
   private token: string
   private uri: string

@@ -16,7 +16,7 @@ getCardsOnlist({ listId: "123", options: { limit: 10 } });
 getCardsOnList({ listId: "123" });
 ```
 
-![gif showing simple demo](demo.gif)
+![gif showing simple demo](trello-helper-demo.gif)
 
 Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands to the Trello API to take card of the authorization elements. But, it also exposes many higher-level commands needed for working with boards, lists, cards, actions, and custom fields. The wrappers all use Promises (no callback syntax support), and the code uses `async/await` syntax.
 

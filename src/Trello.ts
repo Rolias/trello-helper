@@ -16,14 +16,14 @@ export class Trello extends TrelloGet {
    * Extends TrelloGet to do all the non-get() type Trello calls
    * pathString path to the trello JSON credentials file
    */
-  public constructor(pathString?: string) {
-    super(pathString)
+  public constructor(param?:I.TrelloConstructorParam) {
+    super(param)
   }
 
   /**
    * Set the value of a custom Field object. One of the more complicated calls. takes a
    * card field object (which is {cardId, fieldId}) and then properties for type and value
-   * Where type specifices the type of the custom field and value is the value to set.
+   * Where type specifies the type of the custom field and value is the value to set.
    * @example await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
    */
   public setCustomFieldValueOnCard(customFieldObj: I.CustomFieldType): I.RestPromise {

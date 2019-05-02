@@ -11,7 +11,7 @@ import {DictObj} from './Interfaces'
 const FAKE_ID = '12345'
 
 const {match} = sinon
-const trelloGet = new TrelloGet(pathToCreds)
+const trelloGet = new TrelloGet({path:pathToCreds})
 
 const resolveArrayAsJson = [{id: '123', idList: `${FAKE_ID}`}, {id: '456', idList: '789'}]
 // let getStub

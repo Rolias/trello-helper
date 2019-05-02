@@ -18,7 +18,7 @@ const CUSTOM_FIELD_LIST_VALUE = trelloTestIds.ids.customFieldListValue
 
 const CARD_ID = trelloTestIds.ids.card
 const MEMBER_ID = trelloTestIds.ids.member
-const trello = new Trello('/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json')
+const trello = new Trello({path:'/Users/tod-gentille/dev/node/ENV_VARS/trello.env.json'})
 
 
 describe('trello module INTEGRATION', function () {

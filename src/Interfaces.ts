@@ -173,6 +173,11 @@ export interface TrelloListBefore {
   ,
   filterList: string
 }
+
+export interface TrelloConstructorParam{
+  path?: string
+  useExistingEnvVar?: boolean
+}
 export type TrelloPromise = Promise<DictObj[]>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RestPromise = Promise<any>

@@ -7,8 +7,8 @@ import * as  tv from './typeValidate'
 
 export class TrelloGet extends TrelloBase {
   //  🏗
-  public constructor(pathString?: string) {
-    super(pathString)
+  public constructor(param?:I.TrelloConstructorParam) {
+    super(param)
   }
 
   private static validateAndGetId(param: I.ListOrBoardType): string {

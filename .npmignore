@@ -1,0 +1,10 @@
+/.nycoutput/
+/.npmignore
+/.eslintrc.js
+/.eslintignore
+/.gitignore
+/.publishrc
+/.travis.yml
+/.prettier.config.json
+/.jsdoc.config.json
+.DS_Store

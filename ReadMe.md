@@ -42,7 +42,7 @@ Additionally, this package wraps the `get`, `put`, `post`, and `delete` commands
 
 ```javascript
 const { Trello } = require("trello-helper");
-const trello = new Trello("/Users/ENV_VARS/trello.env.json");
+const trello = new Trello({ path: "/Users/ENV_VARS/trello.env.json" });
 const demo = async () => {
   // get all the cards on the specified list
   const cardsOnList = await trello.getCardsOnList({
@@ -85,6 +85,18 @@ If you pass an empty string to the `Trello` constructor, it will look for your c
 ```
 
 You can have other items in this file, but `trelloHelper` must be a top-level object in the file with the 'appKey' and 'token' property names. Of course, you must put in a valid app key and token strings for both properties.
+
+If you want to create an environment variable with the proper string and don't want to use any file you can do that with two steps.
+
+**STEP 1:** You need to create an environment variable named `trelloHelper` and then store a string in it that looks like this:  
+`{"appKey":"your app key","token":"your token value"}`  
+**NOTE:** Don't create a JSON object, you want a string. The trello helper constructor will JSON.parse() the contents of that variable to create the needed JSON object.
+
+**STEP 2:** Call the trello helper constructor and tell it the environment variable already exists
+
+```javascript
+const trello = new Trello({ useExistingEnvVar: true });
+```
 
 ---
 

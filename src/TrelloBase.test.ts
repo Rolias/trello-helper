@@ -13,7 +13,7 @@ import {TrelloRequest} from './TrelloRequest'
 const FAKE_ID = '12345'
 
 
-const trelloBase = new TrelloBase(pathToCreds)
+const trelloBase = new TrelloBase({path:pathToCreds})
 const status429 = {
 
   statusCode: 429,

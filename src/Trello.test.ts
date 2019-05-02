@@ -15,7 +15,7 @@ const FAKE_MEMBER_ID = '5678'
 const FAKE_COMMENT = 'Message for Comment'
 
 const {match} = sinon
-const trello = new Trello(pathToCreds)
+const trello = new Trello({path:pathToCreds})
 
 const fakeCmd = 'fake command'
 const rejectMsg = 'rejected'

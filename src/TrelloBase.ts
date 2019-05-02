@@ -1,11 +1,9 @@
 import * as I from './Interfaces'
-
 import * as tv  from  './typeValidate'
 import {TrelloRequest}  from './TrelloRequest'
-import * as envCreate  from 'env-create'
+import {EnvVarCreator}  from './EnvCreator'
 import {logger} from './util/logger'
 import * as utils from './util/utils'
-
 
 export class TrelloBase {
   // 🔏
@@ -13,17 +11,8 @@ export class TrelloBase {
   private retryCounter: number;
 
   // 🏗
-  public constructor(pathString?: string) {
-    const param = {path:''}
-    if (pathString !== undefined) {
-      param.path = pathString
-    }
-    const result = envCreate.load(param)
-    if (result.status === false) {
-      const errorMsg = `FATAL ERROR reading credentials. ${JSON.stringify(result, null, 2)}`
-      logger.error(errorMsg)
-      throw (errorMsg)
-    }
+  public constructor(param?:I.TrelloConstructorParam) {
+    EnvVarCreator.create(param)
     const trelloAuth: {appKey: string, token: string} = JSON.parse(process.env.trelloHelper as string)
     const {appKey: key, token} = trelloAuth
     this.trelloRequest = new TrelloRequest({key, token})

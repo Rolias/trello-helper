@@ -4,6 +4,10 @@ node_modules
 _local/
 coverage
 /build/*
-!.eslintrc
+!.eslintignore
+!.eslintrc.js
+!.prettier.config.js
+!.npmignore
+!.mocharc.js
 !.travis.yml
 !.gitignore

@@ -26,7 +26,6 @@ export class EnvVarCreator {
 
   private static createFromFile(param:{path:string}):void {
     const result = envCreate.load(param)
-    console.log('>>>', process.env.trelloHelper)
     if (result.status === false) {
       const errorMsg = `FATAL ERROR reading credentials. ${JSON.stringify(result, null, 2)}`
       logger.error(errorMsg)

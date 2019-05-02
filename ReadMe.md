@@ -90,7 +90,7 @@ If you want to create an environment variable with the proper string and don't w
 
 **STEP 1:** You need to create an environment variable named `trelloHelper` and then store a string in it that looks like this:  
 `{"appKey":"your app key","token":"your token value"}`  
-**NOTE:** Don't create a JSON object, you want a string. The trello helper constructor will JSON.parse() the contents of that variable to create the needed JSON object.
+**NOTE:** Don't create a JSON object, you want a string. (The `JSON.stringify()` version of the JSON Object) The trello helper constructor will JSON.parse() the contents of that variable to create the needed JSON object.
 
 **STEP 2:** Call the trello helper constructor and tell it the environment variable already exists
 
@@ -118,7 +118,7 @@ See the [Contributing](./CONTRIBUTING.md) file.
 
 ## Available Functions
 
-See the [GitHub documentation](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/docs/classes/_trello_.trello.html) for the list of available functions and signatures.
+See the [GitHub documentation](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Rolias/trello-helper/master/docs/classes/trello.html) for the list of available functions and signatures.
 
 ---
 

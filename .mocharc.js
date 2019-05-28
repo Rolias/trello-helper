@@ -1,5 +1,7 @@
 module.exports = {
   "bail":true,
+  "verbose": true,
+  "reporter": "spec",
   "spec":[
     'src/**/*.test.ts',
   ],

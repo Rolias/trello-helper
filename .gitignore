@@ -4,6 +4,7 @@ node_modules
 _local/
 coverage
 /build/*
+out
 !.eslintignore
 !.eslintrc.js
 !.prettier.config.js

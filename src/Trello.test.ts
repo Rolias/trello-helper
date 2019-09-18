@@ -124,7 +124,7 @@ describe('Trello class UNIT TESTS', () => {
             cardId: FAKE_ID,
             fieldId: FAKE_ID,
           },
-          type: Enum.CustomFieldType.Text,
+          type: Enum.CustomFieldTypes.Text,
           value: 'A value for custom text field',
         }
         const resetObj = {...customFieldObj}
@@ -150,7 +150,7 @@ describe('Trello class UNIT TESTS', () => {
         })
 
         it(' should set an idValue for a list type field', async () => {
-          customFieldObj.type = Enum.CustomFieldType.List
+          customFieldObj.type = Enum.CustomFieldTypes.List
           customFieldObj.value = FAKE_ID
           await trello.setCustomFieldValueOnCard(customFieldObj)
           putStub.calledWith(match.hasNested('body.idValue', FAKE_ID)).should.be.true

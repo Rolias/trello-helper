@@ -206,7 +206,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom text field', async () => {
     const fieldId = CUSTOM_FIELD_TEXT
     const cardId = CARD_ID
-    const type = Enum.CustomFieldType.Text
+    const type = Enum.CustomFieldTypes.Text
     const value = 'Tod Gentille'
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })
@@ -214,7 +214,7 @@ describe('trello module INTEGRATION', function () {
   it('setCustomFieldValueOnCard() should set a custom list field', async () => {
     const fieldId = CUSTOM_FIELD_LIST
     const cardId = CARD_ID
-    const type = Enum.CustomFieldType.List
+    const type = Enum.CustomFieldTypes.List
     const value = CUSTOM_FIELD_LIST_VALUE // low priority
     await trello.setCustomFieldValueOnCard({cardFieldObj: {cardId, fieldId}, type, value})
   })

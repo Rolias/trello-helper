@@ -4,7 +4,7 @@ export enum RestCommands {
   Post = 'post',
   Put = 'put'
 }
-export enum CustomFieldType {
+export enum CustomFieldTypes {
   List = 'list',
   Text = 'text',
   Number = 'number',

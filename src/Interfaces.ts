@@ -12,11 +12,16 @@ export interface Options{
 export interface IdList{
   idList: string
 }
+export interface ListNameDesc extends IdList{
+  name: string
+desc: string
+}
 
 export interface ListAndName extends IdList {
 name: string
+desc?: string
 }
-export interface ListAndMembers extends IdList{
+export interface ListAndMembers extends ListNameDesc{
   idMembers: string
  }
 

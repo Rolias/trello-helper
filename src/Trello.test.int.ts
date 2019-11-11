@@ -25,6 +25,9 @@ describe('trello module INTEGRATION', function () {
   this.timeout(20000)
   before(() => {
     logger.level = 'info'
+    if (logger.level == 'info') {
+
+    }
   })
   after(() => {
     logger.level = 'debug'
